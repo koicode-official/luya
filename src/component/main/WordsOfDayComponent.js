@@ -22,9 +22,7 @@ function WordOfDayComponent() {
 
   useQuery("getAdvice", getAdvice, {
     onSuccess: response => {
-      console.log("response", response)
       if (response.data.message === "success") {
-        console.log('response.data.words', response.data.words)
         setWordsOfToday(response.data.words);
       }
     },
@@ -32,12 +30,6 @@ function WordOfDayComponent() {
       console.log("Error Occured : ", error);
     }
   });
-
-
-
-  useEffect(() => {
-    console.log('wordsOfToday', wordsOfToday)
-  }, [wordsOfToday])
 
   return (
     <WordOfDayWrapper>

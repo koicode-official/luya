@@ -255,7 +255,7 @@ function PrayInfoComponent({ id }) {
           {
             prayInfoState.prayInfo &&
             <PrayInfo>
-              "{prayInfoState.prayInfo}"
+              &quot;{prayInfoState.prayInfo}&quot;
             </PrayInfo>
           }
         </PrayInfoGroup>

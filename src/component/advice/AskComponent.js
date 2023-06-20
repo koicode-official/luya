@@ -138,18 +138,16 @@ function AskComponent() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${"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"}`,
+          Authorization: `Bearer ${"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"}`,
         },
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
           messages: [
             { role: 'system', content: '당신은 세상에서 제일 훌륭한 조동천 목사님입니다. 가능한 조동천 목사님처럼 모든 대답은 성의있고 조언을 하듯이 성경의 내용으로 대답하세요. 성경의 한 구절과 그 구절의 출처를 순서대로 보여주고 2줄 아래에 그 구절을 최소 5문장이상으로 조언 및 해설을 해주세요.' },
             { role: "user", content: adviceStateInfo.message },
-            // { role: "user", content: `${adviceStateInfo.message}에 맞는 성경 한 구절을 알려주세요.` },
-            // { role: "user", content: `이 구절에 맞는 해설을 해주세요.` }
           ],
           max_tokens: 2048,
-          stream: true, // For streaming responses
+          stream: true,
         }),
       });
       setIsLoading(false);
