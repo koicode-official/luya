@@ -138,7 +138,7 @@ function AskComponent() {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${"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"}`,
+          Authorization: `Bearer ${process.env.NEXT_PUBLIC_GPT_API_KEY}`,
         },
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
