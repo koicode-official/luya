@@ -72,6 +72,17 @@ const AskInput = styled.textarea`
     font-size: 14px;
     color:#777777;
   }
+  ::-webkit-input-placeholder {
+    position: absolute;
+    top: 50%;
+    left:50%;
+    transform: translate(-50%,-50%);
+    display: flex;
+    justify-content: center;
+    align-items: center ;
+    font-size: 14px;
+    color:#777777;
+}
 `
 const AskButton = styled(CommonButton)`
   color:#fefefe;
