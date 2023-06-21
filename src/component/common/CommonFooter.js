@@ -14,8 +14,6 @@ const CommonFooterContainer = styled.div`
   border-top: 1px solid #e5e5e5;
   /* border-top: 1px solid #e2a26a; */
 
-  border-top-right-radius: 10px;
-  border-top-left-radius: 10px;
   padding: 20px 30px;
 `
 

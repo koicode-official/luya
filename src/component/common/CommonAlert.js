@@ -29,6 +29,8 @@ const CommonAlertContainer = styled.div`
     border: 1px solid #e2a26a;
     border-radius: 5px;
     padding: 30px 0;
+    box-shadow: 0px 5px 10px rgba(0,0,0,0.15);
+
   
 `
 const CommonAlertText = styled.p`

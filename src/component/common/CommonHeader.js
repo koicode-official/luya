@@ -4,6 +4,7 @@ import Image from "next/image"
 import Link from "next/link"
 const HeaderWrapper = styled.div`
   width: 100%;
+
 `
 
 const HeaderContainer = styled.div`
@@ -11,13 +12,11 @@ const HeaderContainer = styled.div`
   justify-content: flex-end;
   align-items: center;
   position: relative;
-  min-height: 56px;
-  padding: 0 30px;
+  height: 56px;
   border-bottom: 1px solid #e5e5e5;
-  border-bottom-right-radius: 10px;
-  border-bottom-left-radius: 10px;
   background-color: #fefefe;
-  margin-bottom: -10px;
+  padding: 10px 20px;
+
 `
 
 const HeaderTitle = styled.div`

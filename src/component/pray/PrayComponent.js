@@ -11,7 +11,7 @@ const PrayContainer = styled.div`
   display: flex;
   align-items: center;
   flex-direction: column;
-  margin-bottom: 50px;
+  margin: 30px 0 60px;
   width: 100%;
 `
 

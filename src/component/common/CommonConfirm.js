@@ -29,6 +29,7 @@ const CommonConfirmContainer = styled.div`
     border: 1px solid #e2a26a;
     border-radius: 5px;
     padding: 30px 10px;
+    box-shadow: 5px 5px 10px rgba(0,0,0,0,3);
   
 `
 const CommonConfirmText = styled.p`

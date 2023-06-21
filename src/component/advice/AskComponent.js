@@ -22,7 +22,7 @@ const AskContainer = styled.div`
 
 const AskTitleContainer = styled.div`
   text-align: center;
-  margin-bottom: 60px;
+  margin: 30px 0 60px;
 `
 const AskTitle = styled.h1`
   font-size: 22px;

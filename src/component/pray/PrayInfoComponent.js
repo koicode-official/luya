@@ -19,7 +19,7 @@ const PrayInfoWrapper = styled(CommonWrapper)`
 `
 const PrayInfoContainer = styled.div`
   width: 100%;
-  padding: 0px 20px ;
+  padding: 30px 20px;
 `
 const PrayInfoTitle = styled.div`
   display: flex;
@@ -46,7 +46,7 @@ const ParyInfoSubTitle = styled.div`
     margin-top: 20px;
 
 `
-const PrayInfoGroup = styled.div`
+const PrayInfoGroup = styled.textarea`
   display: flex;
   justify-content: center;
   align-items: center;
@@ -54,19 +54,25 @@ const PrayInfoGroup = styled.div`
   text-align: center;
   border:  1px solid #e5e5e5;
   border-radius: 10px;
-  padding: 0px 10px;
+  padding: 20px;
   margin-bottom: 30px;
   min-height: 150px;
+  width: 100%;
+  resize: none;
+  font-size: 16px;
+  ::placeholder{
+    font-size: 14px;
+  }
 
 `
 
-const PrayInfo = styled.div`
-  
-  white-space: pre-wrap;
-  font-weight: 500;
-  font-size: 20px;
+// const PrayInfo = styled.textarea`
+//   white-space: pre-wrap;
+//   font-weight: 500;
+//   font-size: 20px;
+//   resize: none;
 
-`
+// `
 const PrayButtonContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -111,13 +117,14 @@ function PrayInfoComponent({ id }) {
     })
   }
 
-  useQuery(['getPrayInfo', id], getPrayInfo, {
+  const { refetch: getPrayInfoRefetch } = useQuery(['getPrayInfo', id], getPrayInfo, {
     onSuccess: res => {
       if (res.data.message === "success") {
         setPrayInfoState((prevState) => {
           return {
             ...prevState,
-            prayInfo: res.data.prayInfo
+            prayInfo: res.data.prayInfo,
+            initialInfo: res.data.prayInfo
           }
         })
       }
@@ -151,6 +158,42 @@ function PrayInfoComponent({ id }) {
       console.error("Error Occured : ", error)
     }
   })
+
+  //기도제목 수정
+  const updatePray = async () => {
+    return await axios({
+      method: "POST",
+      data: { prayNo: id, text: prayInfoState.prayInfo },
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/pray/update`,
+    })
+  }
+
+  const { refetch: updatePrayRefetch } = useQuery(['updatePray', id], updatePray, {
+    refetchOnMount: false,
+    refetchOnWindowFocus: false,
+    refetchOnReconnect: false,
+    enabled: false,
+    onSuccess: res => {
+      if (res.data.message === "success") {
+        setAlertState(
+          {
+            active: true,
+            text: "기도제목이 수정되었습니다.",
+            callback: function () {
+              getPrayInfoRefetch();
+              router.replace(`/pray/${id}`);
+            },
+          }
+        )
+
+      }
+    },
+    onError: error => {
+      console.error("Error Occured : ", error)
+    }
+  })
+
+
 
 
   //기도제목 삭제처리
@@ -220,12 +263,28 @@ function PrayInfoComponent({ id }) {
   }
 
   const handleUpdatePray = () => {
-    setAlertState(
-      {
-        active: true,
-        text: "수정하기는 개발중입니다.",
+    if (prayInfoState.prayInfo === prayInfoState.initialInfo) {
+      setAlertState(
+        {
+          active: true,
+          text: "이전 기도제목과 동일합니다.",
+        }
+      )
+      return false;
+    }
+    updatePrayRefetch();
+
+
+  }
+
+  const handleTextarea = (e) => {
+    const text = e.currentTarget.value;
+    setPrayInfoState((prevState) => {
+      return {
+        ...prevState,
+        prayInfo: text
       }
-    )
+    })
   }
 
   useEffect(() => {
@@ -251,13 +310,7 @@ function PrayInfoComponent({ id }) {
             주님께서 여러분과 함께하실 것입니다
           </p>
         </PrayInfoTitle>
-        <PrayInfoGroup>
-          {
-            prayInfoState.prayInfo &&
-            <PrayInfo>
-              &quot;{prayInfoState.prayInfo}&quot;
-            </PrayInfo>
-          }
+        <PrayInfoGroup value={prayInfoState.prayInfo} placeholder="기도제목을 작성해주세요." onChange={(e) => handleTextarea(e)}>
         </PrayInfoGroup>
         <PrayButtonContainer>
           <PrayButton onClick={handleDonePray}>

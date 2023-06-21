@@ -10,7 +10,6 @@ export const CommonWrapper = styled.div`
   flex-direction: column;
   width:100%;
   height:100%;
-  padding: 20px 0px 30px;
 `
 
 export const CommonInput = styled.input`
