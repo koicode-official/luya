@@ -40,8 +40,12 @@
   --card-border-rgb: 131, 134, 135;
 }
 
-/* @media (prefers-color-scheme: dark) {
-  :root {
+@media (prefers-color-scheme: dark) {
+  :root  {
+    color-scheme: light only;
+  }
+
+  /* :root {
     --foreground-rgb: 255, 255, 255;
     --background-start-rgb: 0, 0, 0;
     --background-end-rgb: 0, 0, 0;
@@ -70,8 +74,8 @@
     --callout-border-rgb: 108, 108, 108;
     --card-rgb: 100, 100, 100;
     --card-border-rgb: 200, 200, 200;
-  }
-} */
+  } */
+}
 
 * {
   box-sizing: border-box;
@@ -85,7 +89,6 @@ body {
   overflow-x: hidden;
   min-height: 100vh;
   color-scheme: light only;
-
 }
 
 body {
@@ -110,11 +113,10 @@ a {
   }
 }
 
-
-ul{
+ul {
   list-style: none;
 }
 
-li{
-  margin:0;
+li {
+  margin: 0;
 }

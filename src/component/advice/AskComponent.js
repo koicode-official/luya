@@ -79,23 +79,35 @@ const AskButton = styled(CommonButton)`
 `
 
 const ResultWrapper = styled.div`
-  
+  width: 100%;
 
 `
 
 const ResultContainer = styled.div`
+  padding: 0 20px;
+`
+const ResultText = styled.div`
   font-size: 16px;
   font-weight: 400;
   line-height: 25px;
-  padding: 30px;
   white-space: pre-wrap;
+  padding: 16px 0;
+`
+
+const ConcernText = styled.p`
+ font-size: 16px;
+  font-weight: 500;
+  line-height: 25px;
+  white-space: pre-wrap;
+  padding: 16px 0;
+
 `
 
 const ResultTitle = styled.div`
   font-size: 22px;
   font-weight: 600;
   color:#e2a26a;
-  text-align: center;
+  /* text-align: center; */
   margin-top: 30px;
 `
 
@@ -231,9 +243,17 @@ function AskComponent() {
       }
       {isLoading === false && adviceStateInfo && adviceStateInfo.advice &&
         <ResultWrapper>
-          <ResultTitle>성경 말씀</ResultTitle>
           <ResultContainer>
-            {adviceStateInfo.advice}
+            <ResultTitle>고민</ResultTitle>
+            <ConcernText>
+              {adviceStateInfo.message}
+            </ConcernText>
+          </ResultContainer>
+          <ResultContainer>
+            <ResultTitle>성경 말씀</ResultTitle>
+            <ResultText>
+              {adviceStateInfo.advice}
+            </ResultText>
           </ResultContainer>
         </ResultWrapper>
       }
