@@ -62,6 +62,9 @@ const PrayInfoGroup = styled.textarea`
   font-size: 16px;
   ::placeholder{
     font-size: 14px;
+    position: relative;
+    top: 50%;
+    transform: translateY(-50%);
   }
 
 `
