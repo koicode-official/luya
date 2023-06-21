@@ -14,13 +14,13 @@ const CommonFooterContainer = styled.div`
   border-top: 1px solid #e5e5e5;
   /* border-top: 1px solid #e2a26a; */
 
-  padding: 20px 30px;
+  padding: 30px 20px;
 `
 
 const MenuList = styled.ul`
   display: flex;
   justify-content: space-between;
-  margin-bottom: 10px;
+  /* margin-bottom: 10px; */
 `
 const Menu = styled.li`
   
