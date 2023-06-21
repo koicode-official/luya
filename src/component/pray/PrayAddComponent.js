@@ -40,27 +40,26 @@ const PrayAddHead = styled.h2`
 
 
 const PrayAddTextArea = styled.textarea`
-    position:relative;
     resize : none;
     border: 1px solid #e5e5e5;
     border-radius: 10px;
     min-height: 150px;
+    height: 150px;
     width: 100%;
     padding: 20px;
     font-weight: 500;
     font-size: 20px;
     overflow-y: auto;
     ::placeholder{
-    position: absolute;
-    top: 50%;
-    left:50%;
-    transform: translate(-50%,-50%);
-    display: flex;
-    justify-content: center;
-    align-items: center ;
-    font-size: 14px;
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align: center;
+      font-size: 14px;
     color:#777777;
+
   }
+   
 `
 
 const PrayButtonContainer = styled.div`

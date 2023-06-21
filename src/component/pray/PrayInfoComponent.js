@@ -57,14 +57,18 @@ const PrayInfoGroup = styled.textarea`
   padding: 20px;
   margin-bottom: 30px;
   min-height: 150px;
+  height: 150px;
   width: 100%;
   resize: none;
   font-size: 16px;
   ::placeholder{
-    font-size: 14px;
-    position: relative;
-    top: 50%;
-    transform: translateY(-50%);
+      position: relative;
+      top: 50%;
+      transform: translateY(-50%);
+      text-align: center;
+      font-size: 14px;
+    color:#777777;
+
   }
 
 `
