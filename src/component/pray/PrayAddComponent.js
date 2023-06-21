@@ -12,7 +12,7 @@ import { useRecoilValue, useSetRecoilState } from "recoil"
 const PrayAddWrapper = styled(CommonWrapper)``
 const PrayAddContainer = styled.div`
   width: 100%;
-  padding: 0px 20px ;
+  padding:30px 20px ;
   margin-bottom: 40px;
 `
 

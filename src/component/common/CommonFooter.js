@@ -14,7 +14,7 @@ const CommonFooterContainer = styled.div`
   border-top: 1px solid #e5e5e5;
   /* border-top: 1px solid #e2a26a; */
 
-  padding: 30px 20px;
+  padding: 20px;
 `
 
 const MenuList = styled.ul`
