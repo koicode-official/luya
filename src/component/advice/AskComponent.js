@@ -8,7 +8,9 @@ import { adviceState } from "@/state/adviceState";
 import { useQuery } from "react-query"
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../common/LoadingSpinner";
+import { useRouter } from "next/navigation";
 
+import { commonAlertState } from "@/state/common"
 
 const AskWrapper = styled(CommonWrapper)``
 const AskContainer = styled.div`
@@ -39,14 +41,7 @@ const AskInputGroup = styled.div`
   flex-direction : column;
   width:100%;
 `
-// const AskInput = styled(CommonInput)`
-//   width: 100%;
-//   height: 50px;
-//   margin-bottom : 32px;
-//   ::placeholder{
-//     text-align: center;
-//   }
-// `
+
 
 
 const AskInput = styled.textarea`
@@ -74,12 +69,15 @@ const AskInput = styled.textarea`
 `
 const AskButton = styled(CommonButton)`
   color:#fefefe;
+`
 
+const SaveAdviceButton = styled(AskButton)`
+  
 `
 
 const ResultWrapper = styled.div`
   width: 100%;
-
+  margin-bottom: 20px;
 `
 
 const ResultContainer = styled.div`
@@ -126,10 +124,42 @@ const LoadingContianer = styled.div`
 `
 
 function AskComponent() {
+  const router = useRouter();
   const adviceStateInfo = useRecoilValue(adviceState);
   const setAdviceState = useSetRecoilState(adviceState);
   const [isLoading, setIsLoading] = useState(false);
+  const [resultAdvice, setResultAdvice] = useState({ advice: null, question: null });
+  const setAddAlertState = useSetRecoilState(commonAlertState)
 
+  const saveAdvice = async () => {
+    return await axios({
+      method: "POST",
+      data: resultAdvice,
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/advice/save`,
+    })
+  }
+
+  const { refetch: saveAdviceRefetch } = useQuery("saveAdvice", saveAdvice, {
+    enabled: false,
+    onSuccess: response => {
+      console.log("response", response)
+      if (response.data.message === "success") {
+        setAddAlertState(prev => {
+          return {
+            active: true,
+            text: "저장되었습니다.",
+            callback: function () {
+              initializeAdviceState();
+              router.push("/advice");
+            }
+          }
+        })
+      }
+    },
+    onError: error => {
+      console.log("Error Occured : ", error);
+    }
+  });
 
 
 
@@ -164,7 +194,7 @@ function AskComponent() {
       setIsLoading(false);
 
       const reader = response.body.getReader();
-
+      let resultText = "";
       while (true) {
         const { done, value } = await reader.read();
         if (done) {
@@ -185,6 +215,7 @@ function AskComponent() {
           const delta = obj.choices[0]?.delta;
           const content = delta.content;
           if (content) {
+            resultText += content;
             setAdviceState(prev => {
               return {
                 ...prev,
@@ -194,8 +225,10 @@ function AskComponent() {
           }
         }
       }
-
-
+      setResultAdvice({
+        advice: resultText,
+        question: adviceStateInfo.message
+      })
     } catch (error) {
       setIsLoading(false);
       console.error("Error:", error);
@@ -204,7 +237,13 @@ function AskComponent() {
   }
 
 
-  useEffect(() => {
+
+  const handleSaveAdvice = () => {
+    saveAdviceRefetch();
+  }
+
+
+  const initializeAdviceState = () => {
     setAdviceState(prev => {
       return {
         ...prev,
@@ -212,7 +251,21 @@ function AskComponent() {
         advice: ""
       }
     })
+    setResultAdvice({
+      advice: null,
+      question: null
+    })
+  }
+
+
+  useEffect(() => {
+    initializeAdviceState();
   }, [])
+
+
+  useEffect(() => {
+    console.log('resultAdvice', resultAdvice)
+  }, [resultAdvice])
 
 
 
@@ -256,7 +309,10 @@ function AskComponent() {
           </ResultContainer>
         </ResultWrapper>
       }
-    </AskWrapper>
+      {resultAdvice && resultAdvice.advice &&
+        <SaveAdviceButton SaveAdviceButton onClick={handleSaveAdvice}>저장하기</SaveAdviceButton>
+      }
+    </AskWrapper >
   );
 }
 

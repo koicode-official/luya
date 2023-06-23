@@ -12,7 +12,7 @@ function MypageComponent() {
   return (
     <MypageWrapper>
       <MypageContainer>
-        마이페이지
+        <h3>마이페이지 개발예정</h3>
       </MypageContainer>
     </MypageWrapper>
   );
