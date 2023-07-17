@@ -2,15 +2,15 @@
 import styled from "styled-components"
 import WordsOfDay from "./WordsOfDay";
 import WordsOfDayContents from "./WordsOfDayContents";
-import axios from "axios";
+import useCustomAxios from "../../utils/UseCustomAxios";
 import { CommonWrapper } from "../common/CommonComponent";
-
 import { useQuery } from "react-query"
-import { useEffect, useState } from "react";
+import { useState } from "react";
 const WordOfDayWrapper = styled(CommonWrapper)``
 
 
 function WordOfDayComponent() {
+  const axios = useCustomAxios();
   const [wordsOfToday, setWordsOfToday] = useState(null);
 
   const getAdvice = async () => {

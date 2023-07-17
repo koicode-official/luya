@@ -5,30 +5,34 @@ import Link from "next/link"
 import { useQuery } from "react-query"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { prayStateFamily } from "@/state/prayState"
-import axios from "axios"
+import useCustomAxios from "../../utils/UseCustomAxios"
 import { useSearchParams } from 'next/navigation'
 
 
 const PrayListContainer = styled.div`
   width: 100%;
-  padding: 0px 20px;
+  margin-bottom: 40px;
 `
 const PrayContentList = styled.ul`
-  border-top: 3px solid #e5e5e5;
 
 `
 
 const PrayContent = styled.li`
-
-  padding: 16px 5px;
-  border-bottom: 1px dashed #e5e5e5;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 19px;
   width: 100%;
+  /* height: 100px; */
+  box-shadow: 0px 2px 5px rgba(120, 120, 120, 0.2);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 24px;
+  
   a{
     display: flex;
     justify-content: space-between;
+    align-items: center;
+    height: 60px;
   }
   img{
     opacity: 0.2;
@@ -44,23 +48,40 @@ const NoPrayList = styled.div`
   border-radius: 10px;
   min-height: 150px;
   font-size: 14px;
-  font-weight: 400px;
-  background-color: #f7f7f7;
+  font-weight: 400;
+  background-color: #e5e5e5;
+  /* box-shadow: 0px 2px 2px rgba(120, 120, 120, 0.2); */
+
+`
+
+const ContentsContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+  p{
+    font-size: 18px;
+  }
+  span{
+    font-size: 14px;
+    font-weight: 300;
+  }
 `
 
 function PrayList() {
+  const axios = useCustomAxios();
   const prayState = useRecoilValue(prayStateFamily(0))
   const setPrayState = useSetRecoilState(prayStateFamily(0))
 
   const searchParams = useSearchParams()
   const completed = searchParams.get("completed")
-  console.log('completed', completed)
 
 
   const getPrayList = async () => {
     return await axios({
       method: "GET",
       params: { userNo: 0, completed: completed ? parseInt(completed) : null },
+      withCredentials: true,
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/pray/list`,
     })
   }
@@ -69,7 +90,7 @@ function PrayList() {
   useQuery('getPrayList', getPrayList, {
     onSuccess: res => {
       if (res.data.message === "success") {
-        console.log('res.data', res.data.prayList)
+        console.log('res.data', res.data)
         setPrayState((prevState) => {
           return {
             ...prevState,
@@ -83,16 +104,22 @@ function PrayList() {
     }
   })
 
+
   return (
     <PrayListContainer>
       <PrayContentList>
         {
           prayState.prayList && prayState.prayList.map(pray => {
             const text = pray.PRAY_TEXT.length >= 20 ? pray.PRAY_TEXT.slice(0, 20) + "..." : pray.PRAY_TEXT;
+            const date = pray.CREATED_AT ? pray.CREATED_AT.split(" ")[0].replace(/\-/g, ".") : ""
+            console.log('date ', date)
             return (
               <PrayContent key={`pray${pray.PRAY_NO}`}>
                 <Link href={`/pray/${pray.PRAY_NO}`}>
-                  {text}
+                  <ContentsContainer>
+                    <p>{text}</p>
+                    <span>{date}</span>
+                  </ContentsContainer>
                   <Image
                     src="/img/right-arrow.png"
                     width={20}

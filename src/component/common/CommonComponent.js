@@ -36,4 +36,6 @@ export const CommonButton = styled.button`
     font-size: 16px;
     color:#fefefe;
     cursor : pointer;
+    box-shadow: 0px 2px 5px rgba(120, 120, 120, 0.2);
+
   `

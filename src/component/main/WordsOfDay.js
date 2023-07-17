@@ -1,9 +1,5 @@
 "use client"
 import styled from "styled-components"
-import axios from "axios";
-
-import { useQuery } from "react-query"
-import { useEffect, useState } from "react";
 
 
 const WordsOfDayWrapper = styled.div`
@@ -14,7 +10,8 @@ const WordsOfDayContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background-image: url('/img/wordOfDayBackground.jpg');
+  background: rgb(222,94,94);
+background: linear-gradient(355deg, rgba(222,94,94,1) 0%, rgba(255,200,101,1) 100%);
   background-size: cover;
   border-bottom: 1px solid #e5e5e5;
   filter: blur(30%);
@@ -34,19 +31,19 @@ const TextFrom = styled.span`
  
 `
 
-function WordsOfDay({wordsOfToday , label}) {
+function WordsOfDay({ wordsOfToday, label }) {
 
 
   return (
     <WordsOfDayWrapper>
-        <WordsOfDayContainer>
-            <WordsOfDayText>
-              {wordsOfToday}
-            </WordsOfDayText>
-          <TextFrom>
-            {label}
-          </TextFrom>
-        </WordsOfDayContainer>
+      <WordsOfDayContainer>
+        <WordsOfDayText>
+          {wordsOfToday}
+        </WordsOfDayText>
+        <TextFrom>
+          {label}
+        </TextFrom>
+      </WordsOfDayContainer>
     </WordsOfDayWrapper>
   );
 }

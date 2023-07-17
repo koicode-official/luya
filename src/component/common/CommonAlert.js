@@ -1,9 +1,10 @@
 "use client"
 import styled from "styled-components"
-import { useRecoilValue, useSetRecoilState } from "recoil"
-import { commonAlertState } from "@/state/common"
+import { alertState } from "@/utils/useAlert/alertState"
 import { CommonButton } from "./CommonComponent"
-
+import useAlert from "@/utils/useAlert/UseAlert"
+import { useEffect } from "react"
+import { useRecoilValue } from "recoil"
 const CommonAlertWrapper = styled.div`
     display: flex;
     justify-content: center;
@@ -24,12 +25,12 @@ const CommonAlertContainer = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 280px;
+    width: 320px;
     min-height: 150px;
     background-color: #fefefe;
     border: 1px solid #e2a26a;
     border-radius: 5px;
-    padding: 30px 0;
+    padding: 30px 20px;
     box-shadow: 0px 5px 10px rgba(0,0,0,0.15);
 
   
@@ -42,29 +43,22 @@ const CommonAlertText = styled.p`
 const CommonAlertButton = styled(CommonButton)``
 
 function CommonAlert() {
-  const addAlertState = useRecoilValue(commonAlertState)
-  const setAddAlertState = useSetRecoilState(commonAlertState)
+  const { closeAlert, alertStateInfo } = useAlert();
 
   const handleAlertConfirm = () => {
-    const callBack = addAlertState?.callback;
-    setAddAlertState(prev => {
-      return {
-        active: false,
-        text: "",
-        callback: null,
-      }
-    });
-    if (addAlertState.callback) {
-
+    const callBack = alertStateInfo?.callback;
+    if (callBack) {
       callBack();
     }
-
+    closeAlert();
   }
+
+
   return (
     <CommonAlertWrapper>
       <CommonAlertContainer>
         <CommonAlertText>
-          {addAlertState.text}
+          {alertStateInfo.text}
         </CommonAlertText>
         <CommonAlertButton
           onClick={handleAlertConfirm}

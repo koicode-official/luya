@@ -5,8 +5,12 @@ import CommonFooter from "./CommonFooter";
 import CommonAlert from "./CommonAlert";
 import CommonConfirm from "./CommonConfirm";
 import { useRecoilValue, useSetRecoilState } from "recoil"
-import { commonAlertState } from "@/state/common"
 import { commonConfirmState } from "@/state/common";
+import { Suspense } from "react";
+import LoadingSpinner from '@/component/common/LoadingSpinner';
+import NavigationEvents from '@/utils/NavigationEvent';
+import useAlert from "@/utils/useAlert/UseAlert";
+import useConfirm from "@/utils/useConfirm/UseConfirm";
 
 const Layout = styled.div`
   display : flex;
@@ -29,20 +33,24 @@ const ChildrenContainer = styled.div`
 
 
 function CommonLayout({ children }) {
-  const alertState = useRecoilValue(commonAlertState)
-  const confirmState = useRecoilValue(commonConfirmState)
+  const { alertStateInfo } = useAlert();
+  const { confirmStateInfo } = useConfirm();
   return (
     <Layout>
       <CommonHeader></CommonHeader>
-      <ChildrenContainer>
-      {alertState.active === true &&
-        <CommonAlert></CommonAlert>
-      }
-      {confirmState.active === true &&
-        <CommonConfirm></CommonConfirm>
-      }
-        {children}
-      </ChildrenContainer>
+      <Suspense fallback={<LoadingSpinner />}>
+        <NavigationEvents>
+          <ChildrenContainer>
+            {alertStateInfo.active === true &&
+              <CommonAlert></CommonAlert>
+            }
+            {confirmStateInfo.active === true &&
+              <CommonConfirm></CommonConfirm>
+            }
+            {children}
+          </ChildrenContainer>
+        </NavigationEvents>
+      </Suspense>
       <CommonFooter></CommonFooter>
     </Layout>
   );

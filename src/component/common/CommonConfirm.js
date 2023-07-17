@@ -3,6 +3,7 @@ import styled from "styled-components"
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { commonConfirmState } from "@/state/common"
 import { CommonButton } from "./CommonComponent"
+import useConfirm from "@/utils/useConfirm/UseConfirm"
 
 const CommonConfirmWrapper = styled.div`
     display: flex;
@@ -23,12 +24,12 @@ const CommonConfirmContainer = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    width: 280px;
+    width: 320px;
     min-height: 150px;
     background-color: #fefefe;
     border: 1px solid #e2a26a;
     border-radius: 5px;
-    padding: 30px 10px;
+    padding: 30px 20px;
     box-shadow: 5px 5px 10px rgba(0,0,0,0,3);
   
 `
@@ -57,45 +58,35 @@ const CommonConfirmCancelButton = styled(CommonConfirmButton)`
 `
 
 function CommonConfirm() {
-  const confirmState = useRecoilValue(commonConfirmState)
-  const setConfirmState = useSetRecoilState(commonConfirmState)
+
+  const { closeConfirm, confirmStateInfo } = useConfirm();
 
   const handleConfirmConfirm = () => {
-    const callBack = confirmState.callback;
-    setConfirmState(prev => {
-      return {
-        active: false,
-        text: "",
-        callback: null,
-      }
-    });
-    callBack();
+    const callBack = confirmStateInfo?.callback;
+    closeConfirm();
+    if (callBack) {
+      callBack();
+    }
   }
   const handleCancelConfirm = () => {
-    setConfirmState(prev => {
-      return {
-        active: false,
-        text: "",
-        callback: null,
-      }
-    });
+    closeConfirm();
   }
   return (
     <CommonConfirmWrapper>
       <CommonConfirmContainer>
         <CommonConfirmText>
-          {confirmState.text}
+          {confirmStateInfo.text}
         </CommonConfirmText>
         <CommonConfirmButtonGroup>
           <CommonConfirmCancelButton
             onClick={handleCancelConfirm}
           >
-            {confirmState.cancelText && confirmState.cancelText.length !== 0 ? confirmState.cancelText : "취소"}
+            {confirmStateInfo.cancelText && confirmStateInfo.cancelText.length !== 0 ? confirmStateInfo.cancelText : "취소"}
           </CommonConfirmCancelButton>
           <CommonConfirmButton
             onClick={handleConfirmConfirm}
           >
-            {confirmState.confirmText && confirmState.confirmText.length !== 0 ? confirmState.confirmText : "확인"}
+            {confirmStateInfo.confirmText && confirmStateInfo.confirmText.length !== 0 ? confirmStateInfo.confirmText : "확인"}
           </CommonConfirmButton>
 
         </CommonConfirmButtonGroup>

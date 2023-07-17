@@ -1,7 +1,8 @@
 "use client"
 import styled from "styled-components"
 import Image from "next/image"
-import axios from "axios"
+import useCustomAxios from "../../utils/UseCustomAxios";
+import useAlert from "@/utils/useAlert/UseAlert";
 import BackWard from "../common/Backward"
 import { CommonWrapper, CommonButton } from "../common/CommonComponent"
 import { useQuery } from "react-query"
@@ -11,6 +12,7 @@ import { useEffect } from "react"
 import { commonAlertState } from "@/state/common"
 import { commonConfirmState } from "@/state/common"
 import { useRouter } from "next/navigation"
+import useConfirm from "@/utils/useConfirm/UseConfirm";
 
 const PrayInfoWrapper = styled(CommonWrapper)`
   position: relative;
@@ -107,7 +109,10 @@ const PrayButton = styled(CommonButton)`
 
 
 function PrayInfoComponent({ id }) {
+  const axios = useCustomAxios();
   const router = useRouter();
+  const alertHook = useAlert();
+  const confirmHook = useConfirm();
   const prayInfoState = useRecoilValue(prayInfoStateFamily(id))
   const setPrayInfoState = useSetRecoilState(prayInfoStateFamily(id))
   const setConfirmState = useSetRecoilState(commonConfirmState)
@@ -120,6 +125,7 @@ function PrayInfoComponent({ id }) {
     return await axios({
       method: "GET",
       params: { prayNo: id },
+      withCredentials: true,
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/pray/info`,
     })
   }
@@ -147,6 +153,7 @@ function PrayInfoComponent({ id }) {
     return await axios({
       method: "POST",
       data: { prayNo: id },
+      withCredentials: true,
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/pray/done`,
     })
   }
@@ -171,6 +178,7 @@ function PrayInfoComponent({ id }) {
     return await axios({
       method: "POST",
       data: { prayNo: id, text: prayInfoState.prayInfo },
+      withCredentials: true,
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/pray/update`,
     })
   }
@@ -182,17 +190,10 @@ function PrayInfoComponent({ id }) {
     enabled: false,
     onSuccess: res => {
       if (res.data.message === "success") {
-        setAlertState(
-          {
-            active: true,
-            text: "기도제목이 수정되었습니다.",
-            callback: function () {
-              getPrayInfoRefetch();
-              router.replace(`/pray/${id}`);
-            },
-          }
-        )
-
+        alertHook.alert("기도제목이 수정되었습니다.", () => {
+          getPrayInfoRefetch();
+          router.replace("/pray?completed=0");
+        })
       }
     },
     onError: error => {
@@ -208,6 +209,7 @@ function PrayInfoComponent({ id }) {
     return await axios({
       method: "POST",
       data: { prayNo: id },
+      withCredentials: true,
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/pray/delete`,
     })
   }
@@ -219,69 +221,34 @@ function PrayInfoComponent({ id }) {
     enabled: false,
     onSuccess: res => {
       if (res.data.message === "success") {
-        setAlertState(
-          {
-            active: true,
-            text: "기도제목이 삭제되었습니다.",
-            callback: function () {
-              router.replace("/pray");
-            },
-          }
-        )
+        alertHook.alert("기도제목이 삭제되었습니다.", () => {
+          router.replace("/pray");
+        })
       }
     },
     onError: error => {
       console.error("Error Occured : ", error)
-      setAlertState(
-        {
-          active: true,
-          text: "기도제목 삭제가 실패했습니다.",
-          callback: function () {
-            router.replace("/pray");
-          },
-        }
-      )
+      alertHook.alert("기도제목 삭제가 실패했습니다.", () => {
+        router.replace("/pray");
+      })
     }
   })
 
 
   const handleDonePray = () => {
-    setConfirmState(
-      {
-        active: true,
-        text: "기도제목이 응답되었습니까?",
-        confirmText: "예",
-        cancelText: "아니오",
-        callback: donePrayRefetch,
-      }
-    )
+    confirmHook.confirm("기도제목이 응답되었습니까?", donePrayRefetch, "예", "아니오")
   }
 
   const handleDeletePray = () => {
-    setConfirmState(
-      {
-        active: true,
-        text: "기도제목을 삭제하시겠습니까?",
-        confirmText: "예",
-        cancelText: "아니오",
-        callback: deletePrayRefetch,
-      }
-    )
+    confirmHook.confirm("기도제목을 삭제하시겠습니까?", deletePrayRefetch, "예", "아니오")
   }
 
   const handleUpdatePray = () => {
     if (prayInfoState.prayInfo === prayInfoState.initialInfo) {
-      setAlertState(
-        {
-          active: true,
-          text: "이전 기도제목과 동일합니다.",
-        }
-      )
+      alertHook.alert("이전 기도제목과 동일합니다.");
       return false;
     }
     updatePrayRefetch();
-
-
   }
 
   const handleTextarea = (e) => {
@@ -317,7 +284,7 @@ function PrayInfoComponent({ id }) {
             주님께서 여러분과 함께하실 것입니다
           </p>
         </PrayInfoTitle>
-        <PrayInfoGroup value={prayInfoState.prayInfo} placeholder="기도제목을 작성해주세요." onChange={(e) => handleTextarea(e)}>
+        <PrayInfoGroup value={prayInfoState.prayInfo ?? ""} placeholder="기도제목을 작성해주세요." onChange={(e) => handleTextarea(e)}>
         </PrayInfoGroup>
         <PrayButtonContainer>
           <PrayButton onClick={handleDonePray}>

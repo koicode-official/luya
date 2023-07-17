@@ -1,13 +1,15 @@
 "use client"
 import styled from "styled-components"
 import BackWard from "../common/Backward"
-import axios from "axios"
+import useCustomAxios from "../../utils/UseCustomAxios";
+
 import { CommonButton, CommonWrapper } from "../common/CommonComponent"
 import { useQuery } from "react-query"
 import { useEffect, useState } from "react"
 import { useRouter } from "next/navigation"
 import { commonAlertState } from "@/state/common"
 import { useRecoilValue, useSetRecoilState } from "recoil"
+import useAlert from "@/utils/useAlert/UseAlert";
 
 const PrayAddWrapper = styled(CommonWrapper)``
 const PrayAddContainer = styled.div`
@@ -70,16 +72,16 @@ const PrayButtonContainer = styled.div`
 const PrayAddButton = styled(CommonButton)``
 
 function PrayAddComponent() {
+  const axios = useCustomAxios();
   const router = useRouter();
+  const alertHook = useAlert();
   const [prayText, setPrayText] = useState("");
-  const addAlertState = useRecoilValue(commonAlertState)
-  const setAddAlertState = useSetRecoilState(commonAlertState)
-
 
   const addPray = async () => {
     return await axios({
       method: "POST",
       data: { text: prayText },
+      withCredentials: true,
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/pray/add`,
     })
   }
@@ -87,7 +89,6 @@ function PrayAddComponent() {
   const { refetch: addPrayRefetch } = useQuery(["addPray", prayText], addPray, {
     enabled: false && prayText.length !== 0,
     onSuccess: response => {
-      console.log("response", response)
       if (response.data.message === "success") {
         router.replace("/pray?completed=0");
       }
@@ -98,33 +99,18 @@ function PrayAddComponent() {
   });
 
   const handlePrayText = (e) => {
-    console.log(e.currentTarget.value)
     setPrayText(e.currentTarget.value);
   }
 
   const handleAddPray = () => {
     if (!prayText || prayText.length === 0) {
-      setAddAlertState(prev => {
-        return {
-          active: true,
-          text: "기도제목을 입력해주세요.",
-        }
-      })
+      console.log('dddd')
+      alertHook.alert("기도제목을 입력해주세요.")
     } else {
-      console.log("here")
-      setAddAlertState(prev => {
-        return {
-          active: true,
-          text: "기도제목이 등록되었습니다.",
-          callback: addPrayRefetch,
-        }
-      })
+      alertHook.alert("기도제목이 등록되었습니다.", addPrayRefetch)
     }
   }
 
-  useEffect(() => {
-    console.log('addAlertState', addAlertState)
-  }, [addAlertState])
 
   return (
     <PrayAddWrapper>

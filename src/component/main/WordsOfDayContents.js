@@ -18,7 +18,7 @@ const WordsOfDayTitle = styled.h1`
 const Text = styled.p`
   margin-bottom: 12px;
   font-size: 16px;
-  font-weight: 300;
+  font-weight: 400;
   line-height: 25px;
   white-space: pre-wrap;
 `

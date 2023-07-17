@@ -3,11 +3,19 @@ import styled from "styled-components"
 import Link from "next/link"
 import Image from "next/image"
 
+import { FaRobot } from "react-icons/fa";
+import { PiHandsPrayingDuotone } from "react-icons/pi";
+import { AiFillHome } from "react-icons/ai";
+import { FiSettings } from "react-icons/fi";
+
+
+
 const CommonFooterWrpper = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
-  background-color: #fefefe;
+  background-color: #fafafa;
+
 `
 
 const CommonFooterContainer = styled.div`
@@ -23,7 +31,7 @@ const MenuList = styled.ul`
   /* margin-bottom: 10px; */
 `
 const Menu = styled.li`
-  
+  width:20%;
   font-size: 14px;
   cursor: pointer;
   img{
@@ -37,6 +45,12 @@ const Menu = styled.li`
     flex-direction: column;
   }
 `
+const IconContainer = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 6px;
+`
 
 function CommonFooter() {
 
@@ -46,25 +60,33 @@ function CommonFooter() {
         <MenuList>
           <Menu>
             <Link href="/home">
-              <Image src="/img/home.png" width={26} height={26} alt="home menu icon"></Image>
+              <IconContainer>
+                <AiFillHome size={26}></AiFillHome>
+              </IconContainer>
               홈
             </Link>
           </Menu>
           <Menu>
             <Link href="/advice">
-              <Image src="/img/question.png" width={26} height={26} alt="advice menu icon"></Image>
+              <IconContainer>
+                <FaRobot size={26}></FaRobot>
+              </IconContainer>
               루야AI
             </Link>
           </Menu>
           <Menu>
             <Link href="/pray?completed=0">
-              <Image src="/img/praying.png" width={26} height={26} alt="pray menu icon"></Image>
+              <IconContainer>
+                <PiHandsPrayingDuotone size={26}></PiHandsPrayingDuotone>
+              </IconContainer>
               기도제목
             </Link>
           </Menu>
           <Menu>
             <Link href="/mypage">
-              <Image src="/img/settings.png" width={26} height={26} alt="mypage menu icon"></Image>
+              <IconContainer>
+                <FiSettings size={26}></FiSettings>
+              </IconContainer>
               마이페이지
             </Link>
           </Menu>

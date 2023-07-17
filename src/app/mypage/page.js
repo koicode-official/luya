@@ -2,7 +2,9 @@
 import styled from "styled-components"
 import MypageComponent from "@/component/mypage/MypageComponent";
 
-const MypageMainWrapper = styled.div``
+const MypageMainWrapper = styled.div`
+  width: 100%;
+`
 
 
 function MypageMain() {
