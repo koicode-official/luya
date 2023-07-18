@@ -52,6 +52,7 @@ const PrayAddTextArea = styled.textarea`
     font-weight: 500;
     font-size: 20px;
     overflow-y: auto;
+    outline :  var(--color-set02);
     ::placeholder{
       position: relative;
       top: 50%;

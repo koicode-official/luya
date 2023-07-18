@@ -19,7 +19,7 @@ const PrayWrapper = styled(CommonWrapper)`
 
 const PrayContainer = styled.div`
   position: absolute;
-  top: 60%;
+  top: 55%;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -40,7 +40,7 @@ const PrayContainer = styled.div`
         overflow-y: scroll;
       ` :
         css` 
-      top: 60%;
+      top: 55%;
         overflow-y: hidden;
       `
     } else {
@@ -59,7 +59,7 @@ const PrayContainer = styled.div`
 `
 const PrayDoneContainer = styled.div`
 position: absolute;
-  top: 50%;
+  top: 45%;
   display: flex;
   flex-direction: column;
   width: 100%;
@@ -76,7 +76,7 @@ position: absolute;
       overflow-y: scroll;
     ` :
     css` 
-      top: 50%;
+      top: 45%;
       overflow-y: hidden;
     `
   }
