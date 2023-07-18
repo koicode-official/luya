@@ -15,7 +15,7 @@ export const CommonWrapper = styled.div`
 export const CommonInput = styled.input`
   width: 100%;
   height: 50px;
-  border: 1px solid #e5e5e5;
+  border: 1px solid var(--color-set01);
   border-radius: 10px;
   font-size : 16px;
   padding: 10px 10px;
@@ -28,7 +28,7 @@ export const CommonInput = styled.input`
 export const CommonButton = styled.button`
     width: 230px;
     height: 45px;
-    background-color :  #e2a26a;
+    background-color :  var(--color-set05);
     border: none;
     border-radius : 10px;
     outline:none;

@@ -10,14 +10,12 @@ const WordsOfDayContainer = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  background: rgb(222,94,94);
-background: linear-gradient(355deg, rgba(222,94,94,1) 0%, rgba(255,200,101,1) 100%);
+  background-color: var(--color-set05);
   background-size: cover;
-  border-bottom: 1px solid #e5e5e5;
   filter: blur(30%);
   color: #fefefe;
   padding:20px;
-  min-height: 240px;
+  min-height: 190px;
 
 `
 
@@ -25,6 +23,7 @@ const WordsOfDayText = styled.p`
   font-size: 16px;
   margin-bottom: 24px;
   white-space: pre-wrap;
+  text-align: center;
 `
 
 const TextFrom = styled.span`

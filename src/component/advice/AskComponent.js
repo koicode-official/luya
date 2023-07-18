@@ -12,26 +12,40 @@ import { useRouter } from "next/navigation";
 
 import { commonAlertState } from "@/state/common"
 
-const AskWrapper = styled(CommonWrapper)``
+const AskWrapper = styled(CommonWrapper)`
+  background-color: var(--color-set05);
+  height: 100%;
+`
 const AskContainer = styled.div`
   display:  flex;
   justify-content: center;
   align-items: center;
   flex-direction : column;
   width: 100%;
-  padding:30px;
+  padding: 60px 30px 0;
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+  background-color: #fefefe;
 `
 
 const AskTitleContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
   text-align: center;
-  margin: 30px 0 60px;
+  /* margin: 30px 0 60px; */
+  min-height: 190px;
 `
 const AskTitle = styled.h1`
-  font-size: 22px;
+  font-size: 18px;
+  font-weight: 400;
   margin-bottom: 8px;
+  color:#fefefe;
 `
 const AskSubiitle = styled.p`
-  
+  font-size: 13px;
+  color: #fefefe;
 `
 
 const AskInputGroup = styled.div`
@@ -46,7 +60,7 @@ const AskInputGroup = styled.div`
 
 const AskInput = styled.textarea`
     resize : none;
-    border: 1px solid #e5e5e5;
+    border: 1px solid var(--color-set01);
     border-radius: 10px;
     min-height: 150px;
     height: 150px;
@@ -72,15 +86,19 @@ const AskButton = styled(CommonButton)`
 `
 
 const SaveAdviceButton = styled(AskButton)`
-  
+  margin: 0 auto;
 `
 
 const ResultWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: center;
   width: 100%;
-  margin-bottom: 20px;
+  background-color: #fefefe;
 `
 
 const ResultContainer = styled.div`
+  width: 100%;
   padding: 0 20px;
 `
 const ResultText = styled.div`
@@ -88,7 +106,7 @@ const ResultText = styled.div`
   font-weight: 400;
   line-height: 25px;
   white-space: pre-wrap;
-  padding: 16px 0;
+  padding: 16px 0 40px;
 `
 
 const ConcernText = styled.p`
@@ -274,19 +292,21 @@ function AskComponent() {
   return (
     <AskWrapper>
       {isLoading === false && adviceStateInfo.advice.length == 0 &&
-        <AskContainer>
+        <>
           <AskTitleContainer>
             <AskTitle>마음 속 이야기를 털어놓아 보세요</AskTitle>
             <AskSubiitle>고민이나 질문을 자세히 적어주세요</AskSubiitle>
           </AskTitleContainer>
-          <AskInputGroup>
-            <AskInput
-              placeholder="고민을 입력해주세요"
-              onChange={(e) => handleAdviceInput(e)}
-            ></AskInput>
-            <AskButton onClick={handleSubmit}>질문하기</AskButton>
-          </AskInputGroup>
-        </AskContainer>
+          <AskContainer>
+            <AskInputGroup>
+              <AskInput
+                placeholder="고민을 입력해주세요"
+                onChange={(e) => handleAdviceInput(e)}
+              ></AskInput>
+              <AskButton onClick={handleSubmit}>질문하기</AskButton>
+            </AskInputGroup>
+          </AskContainer>
+        </>
       }
       {
         isLoading === true &&
@@ -309,11 +329,12 @@ function AskComponent() {
               {adviceStateInfo.advice}
             </ResultText>
           </ResultContainer>
+          {resultAdvice && resultAdvice.advice &&
+            <SaveAdviceButton SaveAdviceButton onClick={handleSaveAdvice}>저장하기</SaveAdviceButton>
+          }
         </ResultWrapper>
       }
-      {resultAdvice && resultAdvice.advice &&
-        <SaveAdviceButton SaveAdviceButton onClick={handleSaveAdvice}>저장하기</SaveAdviceButton>
-      }
+
     </AskWrapper >
   );
 }

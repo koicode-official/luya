@@ -1,5 +1,5 @@
 "use client"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import Image from "next/image"
 import Link from "next/link"
 import { useQuery } from "react-query"
@@ -7,13 +7,15 @@ import { useRecoilValue, useSetRecoilState } from "recoil"
 import { prayStateFamily } from "@/state/prayState"
 import useCustomAxios from "../../utils/UseCustomAxios"
 import { useSearchParams } from 'next/navigation'
+import { BiPencil } from "react-icons/bi";
 
 
 const PrayListContainer = styled.div`
   width: 100%;
-  margin-bottom: 40px;
+  margin-bottom: 24px;
 `
 const PrayContentList = styled.ul`
+  padding: 10px 0px;
 
 `
 
@@ -22,17 +24,32 @@ const PrayContent = styled.li`
   font-weight: 400;
   line-height: 19px;
   width: 100%;
-  /* height: 100px; */
-  box-shadow: 0px 2px 5px rgba(120, 120, 120, 0.2);
-  border-radius: 10px;
-  padding: 20px;
+  ${props => {
+    return props.done === true ?
+      css`
+       background-color: var(--color-set02);
+      border-bottom: 1px solid var(--color-set01);
+       
+       `
+      :
+      css` 
+      background-color: #fefefe;
+     border-bottom: 1px solid var(--color-set02);
+      
+      `
+  }};
   margin-bottom: 24px;
+  padding-bottom: 10px;
+  p{
+    color:var(--color-set04);
+    font-size: 16px;
+    font-weight: 700;
+  }
   
   a{
     display: flex;
     justify-content: space-between;
-    align-items: center;
-    height: 60px;
+    height: 50px;
   }
   img{
     opacity: 0.2;
@@ -50,25 +67,29 @@ const NoPrayList = styled.div`
   font-size: 14px;
   font-weight: 400;
   background-color: #e5e5e5;
-  /* box-shadow: 0px 2px 2px rgba(120, 120, 120, 0.2); */
 
 `
 
 const ContentsContainer = styled.div`
   display: flex;
   flex-direction: column;
+  align-items: flex-end;
   justify-content: space-between;
   height: 100%;
-  p{
-    font-size: 18px;
-  }
+  
   span{
+    color:var(--color-set07);
     font-size: 14px;
     font-weight: 300;
-  }
+  } 
 `
 
-function PrayList() {
+const WriteIcon = styled(BiPencil)`
+    color: var(--color-set07);
+
+`
+
+function PrayList({ done = false }) {
   const axios = useCustomAxios();
   const prayState = useRecoilValue(prayStateFamily(0))
   const setPrayState = useSetRecoilState(prayStateFamily(0))
@@ -112,21 +133,16 @@ function PrayList() {
           prayState.prayList && prayState.prayList.map(pray => {
             const text = pray.PRAY_TEXT.length >= 20 ? pray.PRAY_TEXT.slice(0, 20) + "..." : pray.PRAY_TEXT;
             const date = pray.CREATED_AT ? pray.CREATED_AT.split(" ")[0].replace(/\-/g, ".") : ""
-            console.log('date ', date)
             return (
-              <PrayContent key={`pray${pray.PRAY_NO}`}>
+              <PrayContent key={`pray${pray.PRAY_NO}`} done={done}>
                 <Link href={`/pray/${pray.PRAY_NO}`}>
+                  <p>{text}</p>
                   <ContentsContainer>
-                    <p>{text}</p>
+                    {done === false &&
+                      <WriteIcon size={24}></WriteIcon>
+                    }
                     <span>{date}</span>
                   </ContentsContainer>
-                  <Image
-                    src="/img/right-arrow.png"
-                    width={20}
-                    height={20}
-                    alt="right arrow icon"
-                  >
-                  </Image>
                 </Link>
               </PrayContent>
             )

@@ -2,11 +2,13 @@
 import styled from "styled-components"
 import Link from "next/link"
 import Image from "next/image"
-
+import { useRouter, usePathname } from "next/navigation"
 import { FaRobot } from "react-icons/fa";
 import { PiHandsPrayingDuotone } from "react-icons/pi";
 import { AiFillHome } from "react-icons/ai";
 import { FiSettings } from "react-icons/fi";
+import { useEffect, useState } from "react"
+
 
 
 
@@ -44,50 +46,59 @@ const Menu = styled.li`
     align-items: center;
     flex-direction: column;
   }
+  p{
+  ${props => props.active === true ? "color:var(--color-set04);" : "color:var(--color-set07);"}
+  }
 `
 const IconContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
   margin-bottom: 6px;
+  ${props => props.active === true ? "color:var(--color-set04);" : "color:var(--color-set07);"}
 `
 
 function CommonFooter() {
+  const [activePath, setActivePath] = useState(null);
+  const router = useRouter();
+  const pathname = usePathname();
+  console.log('pathname', pathname)
+
 
   return (
     <CommonFooterWrpper>
       <CommonFooterContainer>
         <MenuList>
-          <Menu>
+          <Menu active={pathname === "/home"}>
             <Link href="/home">
-              <IconContainer>
+              <IconContainer active={pathname === "/home"}>
                 <AiFillHome size={26}></AiFillHome>
               </IconContainer>
-              홈
+              <p>홈</p>
             </Link>
           </Menu>
-          <Menu>
+          <Menu active={pathname === "/advice"}>
             <Link href="/advice">
-              <IconContainer>
+              <IconContainer active={pathname === "/advice"}>
                 <FaRobot size={26}></FaRobot>
               </IconContainer>
-              루야AI
+              <p>루야AI</p>
             </Link>
           </Menu>
-          <Menu>
+          <Menu active={pathname === "/pray"}>
             <Link href="/pray?completed=0">
-              <IconContainer>
+              <IconContainer active={pathname === "/pray"}>
                 <PiHandsPrayingDuotone size={26}></PiHandsPrayingDuotone>
               </IconContainer>
-              기도제목
+              <p>기도제목</p>
             </Link>
           </Menu>
-          <Menu>
+          <Menu active={pathname === "/mypage"}>
             <Link href="/mypage">
-              <IconContainer>
+              <IconContainer active={pathname === "/mypage"} >
                 <FiSettings size={26}></FiSettings>
               </IconContainer>
-              마이페이지
+              <p>마이페이지</p>
             </Link>
           </Menu>
         </MenuList>

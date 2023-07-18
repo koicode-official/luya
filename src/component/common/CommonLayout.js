@@ -25,9 +25,10 @@ const ChildrenContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
+  /* height: 100%; */
   height: calc(100% - 146px);
   min-height: calc(100vh - 146px);
-  margin-bottom: 140px;
+  margin-bottom: 90px;
 
 `
 

@@ -4,7 +4,9 @@ import styled from "styled-components"
 
 const WordsOfDayContentsWrapper = styled.div`
   padding: 30px;
-
+  border-top-right-radius: 30px;
+  border-top-left-radius: 30px;
+  background-color: #fefefe;
 `
 const WordsOfDayContentsContainer = styled.div`
 `
@@ -12,7 +14,7 @@ const WordsOfDayTitle = styled.h1`
   font-size  : 18px;
   font-weight: 500;
   margin-bottom: 18px;
-  color:#e2a26a;
+  color:var(--color-set03);
 `
 
 const Text = styled.p`

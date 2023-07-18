@@ -2,6 +2,8 @@
 import styled from "styled-components"
 import Image from "next/image"
 import Link from "next/link"
+import { BiUserCircle } from "react-icons/bi";
+
 const HeaderWrapper = styled.div`
   width: 100%;
 
@@ -13,11 +15,8 @@ const HeaderContainer = styled.div`
   align-items: center;
   position: relative;
   height: 56px;
-  border-bottom: 1px solid #e5e5e5;
-  background-color: #fafafa;
-
+  background-color: var(--color-set05);
   padding: 10px 20px;
-
 `
 
 const HeaderTitle = styled.div`
@@ -27,7 +26,7 @@ const HeaderTitle = styled.div`
   transform: translate(-50%,-50%);
   font-size: 24px;
   font-weight: 800;
-  color:#e2a26a;
+  color: #fefefe;
 `
 
 const Backward = styled.div`
@@ -44,9 +43,14 @@ const ProfileContainer = styled.div`
 
 `
 const Profile = styled.div`
-    border-radius: 50%;
-    width: 40px;
-    height: 40px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  color: #fefefe;
+  font-weight: 300;
 `
 
 function CommonHeader() {
@@ -67,13 +71,7 @@ function CommonHeader() {
         <HeaderTitle>LUYA</HeaderTitle>
         <ProfileContainer>
           <Profile>
-            <Image
-              src="/img/profile.png"
-              width={40}
-              height={40}
-              alt="header profile"
-            >
-            </Image>
+           <BiUserCircle size={32}></BiUserCircle>
           </Profile>
         </ProfileContainer>
       </HeaderContainer>
