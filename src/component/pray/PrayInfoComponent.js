@@ -261,11 +261,6 @@ function PrayInfoComponent({ id }) {
     })
   }
 
-  useEffect(() => {
-    console.log('prayInfoState.prayInfo', prayInfoState.prayInfo)
-  }, [prayInfoState.prayInfo])
-
-
   return (
     <PrayInfoWrapper>
       <PrayInfoContainer>

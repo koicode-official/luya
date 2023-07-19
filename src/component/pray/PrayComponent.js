@@ -4,7 +4,9 @@ import PrayList from "./PrayList"
 import Image from "next/image"
 import Link from "next/link"
 import { CommonWrapper } from "../common/CommonComponent"
+import { useQuery } from "react-query"
 import { FaPen } from "react-icons/fa";
+import useCustomAxios from "@/utils/UseCustomAxios"
 import { useEffect, useState } from "react"
 
 
@@ -44,7 +46,6 @@ const PrayContainer = styled.div`
         overflow-y: hidden;
       `
     } else {
-      console.log('props', props)
       if (props.active) {
         return css` 
         top: 90%;
@@ -188,11 +189,48 @@ const Tab = styled.div`
 
 
 function PrayComponent() {
+  const axios = useCustomAxios();
+
+  const [prayListForCount, setPrayListForCount] = useState(null);
+  const [prayCount, setPrayCount] = useState({
+    done: 0,
+    wait: 0,
+  })
+
+  const getPrayList = async () => {
+    return await axios({
+      method: "GET",
+      withCredentials: true,
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/pray/list`,
+    })
+  }
+
+  useQuery(`getPrayList`, getPrayList, {
+    retry: false,
+    onSuccess: res => {
+
+      setPrayCount({
+        done: 0,
+        wait: 0,
+      })
+      if (res.data.message === "success") {
+        setPrayListForCount((prevState) => {
+          return {
+            ...prevState,
+            prayList: res.data.prayList
+          }
+        })
+      }
+    },
+    onError: error => {
+      console.error("Error Occured : ", error)
+    }
+  })
+
 
   const [containerState, setContainerState] = useState({ active: null, index: null })
 
   const handleTab = (index) => {
-    console.log('index', index)
 
     setContainerState(prev => {
       return {
@@ -204,23 +242,40 @@ function PrayComponent() {
 
   }
 
-  useEffect(() => {
-    console.log('containerState', containerState)
-  }, [containerState])
+  const countPrayList = () => {
+    if (prayListForCount) {
+      prayListForCount.prayList.map(pray => {
+        setPrayCount(prev => {
+          return {
+            "done": pray.PRAY_COMPLETED === 1 ? parseInt(prev.done) + 1 : prev.done,
+            "wait": pray.PRAY_COMPLETED === 0 ? parseInt(prev.done) + 1 : prev.wait,
+          }
+        })
+      })
+    }
+  }
 
+  useEffect(() => {
+    console.log('prayCount', prayCount)
+  }, [prayCount])
+
+
+  useEffect(() => {
+    countPrayList();
+  }, [prayListForCount])
   return (
     <PrayWrapper>
       <CountPrayContainer>
         <CountPray>
           <span>기다리는 기도</span>
           <Count>
-            4
+            {prayCount.wait}
           </Count>
         </CountPray>
         <CountPray>
           <span>응답된 기도</span>
           <Count>
-            2
+            {prayCount.done}
           </Count>
         </CountPray>
       </CountPrayContainer>
@@ -250,7 +305,7 @@ function PrayComponent() {
           </Tab>
           <p>기도에 응답된...</p>
         </PrayHeader>
-        <PrayList done={true}></PrayList>
+        <PrayList done={true} stateKey={"done"}></PrayList>
       </PrayDoneContainer>
       <PrayContainer active={containerState.active == true ? true : false} index={containerState.index}>
         <PrayHeader>
@@ -260,7 +315,7 @@ function PrayComponent() {
           <p>기도 응답을 기다리며...</p>
         </PrayHeader>
         {/* <PrayTitle></PrayTitle> */}
-        <PrayList></PrayList>
+        <PrayList stateKey={"wait"}></PrayList>
 
       </PrayContainer>
 

@@ -69,11 +69,11 @@ function CommonHeader() {
           </Link>
         </Backward> */}
         <HeaderTitle>LUYA</HeaderTitle>
-        <ProfileContainer>
+        {/* <ProfileContainer>
           <Profile>
            <BiUserCircle size={32}></BiUserCircle>
           </Profile>
-        </ProfileContainer>
+        </ProfileContainer> */}
       </HeaderContainer>
     </HeaderWrapper>
   );

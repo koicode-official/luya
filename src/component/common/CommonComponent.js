@@ -27,7 +27,7 @@ export const CommonInput = styled.input`
 
 export const CommonButton = styled.button`
     width: 230px;
-    height: 45px;
+    height: 50px;
     background-color :  var(--color-set05);
     border: none;
     border-radius : 10px;

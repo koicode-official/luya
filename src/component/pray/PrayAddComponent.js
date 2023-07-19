@@ -105,7 +105,6 @@ function PrayAddComponent() {
 
   const handleAddPray = () => {
     if (!prayText || prayText.length === 0) {
-      console.log('dddd')
       alertHook.alert("기도제목을 입력해주세요.")
     } else {
       alertHook.alert("기도제목이 등록되었습니다.", addPrayRefetch)

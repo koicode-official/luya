@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import useCustomAxios from "../../utils/UseCustomAxios";
 import useAlert from '@/utils/useAlert/UseAlert';
 import { common } from '../../../public/js/common';
+
 const LoginContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -21,7 +22,7 @@ const LoginTitle = styled.h2`
   margin-bottom: 24px;
 `
 
-const LoginForm = styled.form`
+const LoginForm = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -33,6 +34,9 @@ const Input = styled(CommonInput)`
 `;
 
 const LoginButton = styled(CommonButton)`
+`;
+const SignUpButton = styled(CommonButton)`
+  background-color: var(--color-set03);
 `;
 
 
@@ -86,7 +90,7 @@ const Login = () => {
   return (
     <LoginContainer>
       <LoginTitle>로그인</LoginTitle>
-      <LoginForm onSubmit={handleSubmit}>
+      <LoginForm>
         <Input
           type="text"
           placeholder="사용자명"
@@ -99,7 +103,8 @@ const Login = () => {
           value={password}
           onChange={(e) => setPassword(e.target.value)}
         />
-        <LoginButton type="submit">로그인</LoginButton>
+        <LoginButton onClick={handleSubmit}>로그인</LoginButton>
+        <SignUpButton onClick={() => { router.push("/signup") }}>회원가입</SignUpButton>
       </LoginForm>
     </LoginContainer>
   );

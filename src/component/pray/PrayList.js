@@ -89,29 +89,29 @@ const WriteIcon = styled(BiPencil)`
 
 `
 
-function PrayList({ done = false }) {
+function PrayList({ done = false, stateKey }) {
   const axios = useCustomAxios();
-  const prayState = useRecoilValue(prayStateFamily(0))
-  const setPrayState = useSetRecoilState(prayStateFamily(0))
+  const prayState = useRecoilValue(prayStateFamily(stateKey))
+  const setPrayState = useSetRecoilState(prayStateFamily(stateKey))
 
   const searchParams = useSearchParams()
-  const completed = searchParams.get("completed")
+  // const completed = searchParams.get("completed")
 
 
   const getPrayList = async () => {
     return await axios({
       method: "GET",
-      params: { userNo: 0, completed: completed ? parseInt(completed) : null },
+      // params: { userNo: 0, completed: completed ? parseInt(completed) : null },
+      params: { userNo: 0, done: done, stateKey },
       withCredentials: true,
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/pray/list`,
     })
   }
 
 
-  useQuery('getPrayList', getPrayList, {
+  useQuery(`getPrayList${stateKey}`, getPrayList, {
     onSuccess: res => {
       if (res.data.message === "success") {
-        console.log('res.data', res.data)
         setPrayState((prevState) => {
           return {
             ...prevState,

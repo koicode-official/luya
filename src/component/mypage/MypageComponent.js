@@ -7,13 +7,17 @@ const MypageWrapper = styled(CommonWrapper)`
 const MypageContainer = styled.div`
   width: 100%;
   margin: 30px 0 60px;
+  h2{
+    text-align: center;
+  }
 `
 
 function MypageComponent() {
   return (
     <MypageWrapper>
       <MypageContainer>
-        <MypageMenuList></MypageMenuList>
+        <h2>개발 예정</h2>
+        {/* <MypageMenuList></MypageMenuList> */}
       </MypageContainer>
     </MypageWrapper>
   );

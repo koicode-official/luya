@@ -59,10 +59,7 @@ const IconContainer = styled.div`
 `
 
 function CommonFooter() {
-  const [activePath, setActivePath] = useState(null);
-  const router = useRouter();
   const pathname = usePathname();
-  console.log('pathname', pathname)
 
 
   return (
