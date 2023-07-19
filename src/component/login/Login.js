@@ -20,9 +20,9 @@ const LoginTitle = styled.h2`
   font-size: 24px;
   font-weight: bold;
   margin-bottom: 24px;
-`
+`;
 
-const LoginForm = styled.div`
+const LoginForm = styled.form`
   display: flex;
   flex-direction: column;
   gap: 1rem;
@@ -30,54 +30,51 @@ const LoginForm = styled.div`
   width: 100%;
 `;
 
-const Input = styled(CommonInput)`
-`;
+const Input = styled(CommonInput)``;
 
-const LoginButton = styled(CommonButton)`
-`;
+const LoginButton = styled(CommonButton)``;
 const SignUpButton = styled(CommonButton)`
   background-color: var(--color-set03);
 `;
-
 
 const Login = () => {
   const axios = useCustomAxios();
   const router = useRouter();
   const alertHook = useAlert();
-  const [username, setUsername] = useState('');
+  const [useremail, setuseremail] = useState('');
   const [password, setPassword] = useState('');
-
 
   const login = async () => {
     return await axios({
       method: "POST",
       withCredentials: true,
-      data: { USER_EMAIL: username, USER_PASSWORD: password },
+      data: { USER_EMAIL: useremail, USER_PASSWORD: password },
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/login`,
-    })
-  }
-
+    });
+  };
 
   const { refetch: loginRefetch } = useQuery('login', login, {
     enabled: false,
     onSuccess: (res) => {
       const data = res.data;
       if (data.status === "not found") {
-        alertHook.alert("아이디가 존재하지 않습니다.", () => router.replace('/login'));
-      } else if (
-        data.status === "fail" &&
-        data.error === "Wrong password"
-      ) {
-        alertHook.alert("비밀번호가 일치하지 않습니다.", () => router.replace('/login'));
+        alertHook.alert("아이디가 존재하지 않습니다.", () =>
+          router.replace('/login')
+        );
+      } else if (data.status === "fail" && data.error === "Wrong password") {
+        alertHook.alert("비밀번호가 일치하지 않습니다.", () =>
+          router.replace('/login')
+        );
       } else {
-        common.setItemWithExpireTime("loggedIn", true, 12960000)
+        common.setItemWithExpireTime("loggedIn", true, 12960000);
         router.replace('/');
       }
-
     },
     onError: (error) => {
       // 로그인 실패 시 에러 처리
-      alertHook.alert("로그인에 실패했습니다. 다시 시도해주세요.", () => router.replace('/login'));
+      alertHook.alert("로그인에 실패했습니다. 다시 시도해주세요.", () =>
+        router.replace('/login')
+      );
       console.error('로그인 실패:', error);
     },
   });
@@ -87,24 +84,33 @@ const Login = () => {
     loginRefetch();
   };
 
+  const handlePasswordKeyPress = (e) => {
+    if (e.key === 'Enter') {
+      handleSubmit(e);
+    }
+  };
+
   return (
     <LoginContainer>
       <LoginTitle>로그인</LoginTitle>
-      <LoginForm>
+      <LoginForm onSubmit={handleSubmit}>
         <Input
-          type="text"
+          type="email"
           placeholder="사용자명"
-          value={username}
-          onChange={(e) => setUsername(e.target.value)}
+          value={useremail}
+          onChange={(e) => setuseremail(e.target.value)}
         />
         <Input
           type="password"
           placeholder="비밀번호"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
+          onKeyPress={handlePasswordKeyPress}
         />
-        <LoginButton onClick={handleSubmit}>로그인</LoginButton>
-        <SignUpButton onClick={() => { router.push("/signup") }}>회원가입</SignUpButton>
+        <LoginButton type="submit">로그인</LoginButton>
+        <SignUpButton onClick={() => router.push("/signup")}>
+          회원가입
+        </SignUpButton>
       </LoginForm>
     </LoginContainer>
   );

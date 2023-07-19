@@ -19,6 +19,10 @@ export const CommonInput = styled.input`
   border-radius: 10px;
   font-size : 16px;
   padding: 10px 10px;
+  outline: none;
+  :focus {
+    border: 1px solid var(--color-set03);
+  }
   ::placeholder{
     font-size: 14px;
     color:#777777;
