@@ -326,9 +326,9 @@ function AskComponent() {
               {adviceStateInfo.advice}
             </ResultText>
           </ResultContainer>
-          {resultAdvice && resultAdvice.advice &&
+          {/* {resultAdvice && resultAdvice.advice &&
             <SaveAdviceButton SaveAdviceButton onClick={handleSaveAdvice}>저장하기</SaveAdviceButton>
-          }
+          } */}
         </ResultWrapper>
       }
 

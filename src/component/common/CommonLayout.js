@@ -16,6 +16,8 @@ const Layout = styled.div`
   display : flex;
   flex-direction : column;
   /* min-height:100vh; */
+  max-width: 750px;
+  margin: 0 auto;
   height: 100%;
 
 `
@@ -38,16 +40,16 @@ function CommonLayout({ children }) {
   const { confirmStateInfo } = useConfirm();
   return (
     <Layout>
+      {alertStateInfo.active === true &&
+        <CommonAlert></CommonAlert>
+      }
+      {confirmStateInfo.active === true &&
+        <CommonConfirm></CommonConfirm>
+      }
       <CommonHeader></CommonHeader>
       <Suspense fallback={<LoadingSpinner />}>
         <NavigationEvents>
           <ChildrenContainer>
-            {alertStateInfo.active === true &&
-              <CommonAlert></CommonAlert>
-            }
-            {confirmStateInfo.active === true &&
-              <CommonConfirm></CommonConfirm>
-            }
             {children}
           </ChildrenContainer>
         </NavigationEvents>

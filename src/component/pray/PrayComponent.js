@@ -8,6 +8,7 @@ import { useQuery } from "react-query"
 import { FaPen } from "react-icons/fa";
 import useCustomAxios from "@/utils/UseCustomAxios"
 import { useEffect, useState } from "react"
+import useAlert from "@/utils/useAlert/UseAlert"
 
 
 
@@ -101,7 +102,7 @@ const PrayRegButton = styled(Link)`
 
 `
 
-const KaKaoShareButtonContainer = styled.div`
+const KaKaoShareButton = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -136,7 +137,8 @@ const PrayHeader = styled.div`
 
 const ButtonGroup = styled.div`
   display: flex;
-  justify-content: space-between;
+  /* justify-content: space-between; */
+  justify-content: center;
   width: 100%;
   padding: 0 20px;
 `
@@ -179,6 +181,7 @@ const Tab = styled.div`
   align-items: center;
   width: 80px;
   height: 40px;
+  cursor: pointer;
   div{
     width: 40px;
     height: 5px;
@@ -190,6 +193,7 @@ const Tab = styled.div`
 
 function PrayComponent() {
   const axios = useCustomAxios();
+  const alertHook = useAlert();
 
   const [prayListForCount, setPrayListForCount] = useState(null);
   const [prayCount, setPrayCount] = useState({
@@ -214,6 +218,7 @@ function PrayComponent() {
         wait: 0,
       })
       if (res.data.message === "success") {
+        console.log('res.data', res.data)
         setPrayListForCount((prevState) => {
           return {
             ...prevState,
@@ -245,6 +250,7 @@ function PrayComponent() {
   const countPrayList = () => {
     if (prayListForCount) {
       prayListForCount.prayList.map(pray => {
+        console.log('pray', pray)
         setPrayCount(prev => {
           return {
             "done": pray.PRAY_COMPLETED === 1 ? parseInt(prev.done) + 1 : prev.done,
@@ -253,6 +259,10 @@ function PrayComponent() {
         })
       })
     }
+  }
+
+  const handlekakaoShare = () => {
+    alertHook.alert("아직 지원하지 않는 기능입니다.");
   }
 
   useEffect(() => {
@@ -286,7 +296,7 @@ function PrayComponent() {
           <FaPen size={24}></FaPen>
           작성하기
         </PrayRegButton>
-        <KaKaoShareButtonContainer>
+        {/* <KaKaoShareButton onClick={handlekakaoShare}>
           <Image
             src="/img/kakaotalkIcons.png"
             width={24}
@@ -296,7 +306,7 @@ function PrayComponent() {
           <p>
             공유하기
           </p>
-        </KaKaoShareButtonContainer>
+        </KaKaoShareButton> */}
       </ButtonGroup>
       <PrayDoneContainer active={containerState.index === 1 && containerState.active == true ? true : false} >
         <PrayHeader>

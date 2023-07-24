@@ -16,6 +16,7 @@ const CommonFooterWrpper = styled.div`
   position: fixed;
   bottom: 0;
   width: 100%;
+  max-width: 750px;
   background-color: #fafafa;
 
 `
@@ -90,14 +91,14 @@ function CommonFooter() {
               <p>기도제목</p>
             </Link>
           </Menu>
-          <Menu active={pathname === "/mypage"}>
+          {/* <Menu active={pathname === "/mypage"}>
             <Link href="/mypage">
               <IconContainer active={pathname === "/mypage"} >
                 <FiSettings size={26}></FiSettings>
               </IconContainer>
               <p>마이페이지</p>
             </Link>
-          </Menu>
+          </Menu> */}
         </MenuList>
       </CommonFooterContainer>
     </CommonFooterWrpper>
