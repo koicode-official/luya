@@ -21,7 +21,7 @@ const PrayInfoWrapper = styled(CommonWrapper)`
 `
 const PrayInfoContainer = styled.div`
   width: 100%;
-  padding: 30px 20px;
+  padding: 30px 20px 60px;
 `
 const PrayInfoTitle = styled.div`
   display: flex;
@@ -64,6 +64,9 @@ const PrayInfoGroup = styled.textarea`
   width: 100%;
   resize: none;
   font-size: 16px;
+  :focus {
+    border: 1px solid var(--color-set05);
+  }
   ::placeholder{
       position: relative;
       top: 50%;

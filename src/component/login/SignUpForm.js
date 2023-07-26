@@ -318,108 +318,110 @@ const SignUpForm = () => {
     }));
   }, [authPhoneStateInfo])
 
-  
+
   return (
     <SignUpFormContainer>
-      <SignUpLabel>
-        <p>성함</p>
-        <SignUpInput
-          type="text"
-          name="name"
-          value={formData.name.value}
-          onChange={handleChange}
-          placeholder="성함을 입력해주세요"
-
-        />
-      </SignUpLabel>
-      <SignUpLabel>
-        <p>아이디(이메일)</p>
-        <IdInputContainer>
+      <form onSubmit={handleSubmit}>
+        <SignUpLabel>
+          <p>성함</p>
           <SignUpInput
-            type="email"
-            name="email"
-            value={formData.email.value}
+            type="text"
+            name="name"
+            value={formData.name.value}
             onChange={handleChange}
-            placeholder="이메일을 입력해주세요"
+            placeholder="성함을 입력해주세요"
+
           />
-          <IdDuplicationButton onClick={handleIdCheck}>중복 확인</IdDuplicationButton>
-        </IdInputContainer>
-        {idCheckMessage && <Notice>{idCheckMessage}</Notice>}
-      </SignUpLabel>
-      <SignUpLabel>
-        <p>비밀번호</p>
-        <SignUpInput
-          type="password"
-          name="password"
-          value={formData.password.value}
-          onChange={handleChange}
-          placeholder="비밀번호을 입력해주세요"
-        />
-        {passwordAlert && <Notice>{passwordAlert}</Notice>}
-      </SignUpLabel>
-      <SignUpLabel>
-        <p>비밀번호 확인</p>
-        <SignUpInput
-          type="password"
-          name="passwordConfirm"
-          value={formData.passwordConfirm.value}
-          onChange={handleChange}
-          placeholder="비밀번호을 다시 입력해주세요"
-        />
-        {passwordConfirmAlert && <Notice>{passwordConfirmAlert}</Notice>}
-      </SignUpLabel>
-      <SignUpLabel>
-        <p>생년월일</p>
-        <SignUpInput
-          type="date"
-          name="birthday"
-          value={formData.birthday.value}
-          onChange={handleChange}
-          placeholder="생년월일을 입력해주세요"
-        />
-      </SignUpLabel>
-      <SignUpLabel>
-        <p>핸드폰 번호</p>
-        <AuthPhoneNumber></AuthPhoneNumber>
-      </SignUpLabel>
-      <SignUpLabel>
-        <p>성별</p>
-      </SignUpLabel>
-      <GenderContainer>
-        <SignUpLabel>
-          <input
-            type="radio"
-            name="gender"
-            value="male"
-            checked={formData.gender.value === 'male'}
-            onChange={handleChange}
-          />
-          남성
         </SignUpLabel>
         <SignUpLabel>
-          <input
-            type="radio"
-            name="gender"
-            value="female"
-            checked={formData.gender.value === 'female'}
-            onChange={handleChange}
-          />
-          여성
+          <p>아이디(이메일)</p>
+          <IdInputContainer>
+            <SignUpInput
+              type="email"
+              name="email"
+              value={formData.email.value}
+              onChange={handleChange}
+              placeholder="이메일을 입력해주세요"
+            />
+            <IdDuplicationButton onClick={handleIdCheck}>중복 확인</IdDuplicationButton>
+          </IdInputContainer>
+          {idCheckMessage && <Notice>{idCheckMessage}</Notice>}
         </SignUpLabel>
         <SignUpLabel>
-          <input
-            type="radio"
-            name="gender"
-            value="other"
-            checked={formData.gender.value === 'other'}
+          <p>비밀번호</p>
+          <SignUpInput
+            type="password"
+            name="password"
+            value={formData.password.value}
             onChange={handleChange}
+            placeholder="비밀번호을 입력해주세요"
           />
-          기타
+          {passwordAlert && <Notice>{passwordAlert}</Notice>}
         </SignUpLabel>
-      </GenderContainer>
-      <SingUpButtonContainer>
-        <CommonButton onClick={handleSubmit}>가입하기</CommonButton>
-      </SingUpButtonContainer>
+        <SignUpLabel>
+          <p>비밀번호 확인</p>
+          <SignUpInput
+            type="password"
+            name="passwordConfirm"
+            value={formData.passwordConfirm.value}
+            onChange={handleChange}
+            placeholder="비밀번호을 다시 입력해주세요"
+          />
+          {passwordConfirmAlert && <Notice>{passwordConfirmAlert}</Notice>}
+        </SignUpLabel>
+        <SignUpLabel>
+          <p>생년월일</p>
+          <SignUpInput
+            type="date"
+            name="birthday"
+            value={formData.birthday.value}
+            onChange={handleChange}
+            placeholder="생년월일을 입력해주세요"
+          />
+        </SignUpLabel>
+        <SignUpLabel>
+          <p>핸드폰 번호</p>
+          <AuthPhoneNumber></AuthPhoneNumber>
+        </SignUpLabel>
+        <SignUpLabel>
+          <p>성별</p>
+        </SignUpLabel>
+        <GenderContainer>
+          <SignUpLabel>
+            <input
+              type="radio"
+              name="gender"
+              value="male"
+              checked={formData.gender.value === 'male'}
+              onChange={handleChange}
+            />
+            남성
+          </SignUpLabel>
+          <SignUpLabel>
+            <input
+              type="radio"
+              name="gender"
+              value="female"
+              checked={formData.gender.value === 'female'}
+              onChange={handleChange}
+            />
+            여성
+          </SignUpLabel>
+          <SignUpLabel>
+            <input
+              type="radio"
+              name="gender"
+              value="other"
+              checked={formData.gender.value === 'other'}
+              onChange={handleChange}
+            />
+            기타
+          </SignUpLabel>
+        </GenderContainer>
+        <SingUpButtonContainer>
+          <CommonButton type="submit">가입하기</CommonButton>
+        </SingUpButtonContainer>
+      </form>
     </SignUpFormContainer>
   );
 };

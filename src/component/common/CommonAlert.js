@@ -10,12 +10,12 @@ const CommonAlertWrapper = styled.div`
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    position: absolute;
-    top:0;
-    left:0;
+    position: fixed;  // 변경된 부분
+    top: 0;
+    right: 0;  // 추가된 부분
+    bottom: 0;
+    left: 0;  // 추가된 부분
     width: 100%;
-    /* height: calc(100% - 146px); */
-    height: 100%;
     z-index: 99999;
     background-color: rgba(255,255,255,0.8);
   
@@ -28,7 +28,7 @@ const CommonAlertContainer = styled.div`
     width: 320px;
     min-height: 150px;
     background-color: #fefefe;
-    border: 1px solid #e2a26a;
+    border: 1px solid var(--color-set05);
     border-radius: 5px;
     padding: 30px 20px;
     box-shadow: 0px 5px 10px rgba(0,0,0,0.15);

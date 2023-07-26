@@ -71,7 +71,7 @@ const AskInput = styled.textarea`
     margin-bottom : 32px;
     overflow-y: auto;
     :focus {
-    border: 1px solid var(--color-set03);
+    border: 1px solid var(--color-set05);
   }
     ::placeholder{
     font-size: 14px;

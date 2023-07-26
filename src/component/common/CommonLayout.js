@@ -13,6 +13,7 @@ import useAlert from "@/utils/useAlert/UseAlert";
 import useConfirm from "@/utils/useConfirm/UseConfirm";
 
 const Layout = styled.div`
+  position: relative;
   display : flex;
   flex-direction : column;
   /* min-height:100vh; */
