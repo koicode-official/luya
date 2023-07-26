@@ -218,7 +218,6 @@ function PrayComponent() {
         wait: 0,
       })
       if (res.data.message === "success") {
-        console.log('res.data', res.data)
         setPrayListForCount((prevState) => {
           return {
             ...prevState,
@@ -249,15 +248,24 @@ function PrayComponent() {
 
   const countPrayList = () => {
     if (prayListForCount) {
-      prayListForCount.prayList.map(pray => {
-        console.log('pray', pray)
-        setPrayCount(prev => {
-          return {
-            "done": pray.PRAY_COMPLETED === 1 ? parseInt(prev.done) + 1 : prev.done,
-            "wait": pray.PRAY_COMPLETED === 0 ? parseInt(prev.done) + 1 : prev.wait,
+
+      const prayList = prayListForCount.prayList
+      const prayCount = {
+        done: 0,
+        wait: 0,
+      };
+
+      for (const key in prayList) {
+        if (prayList.hasOwnProperty(key)) {
+          const prayItem = prayList[key];
+          if (prayItem.PRAY_COMPLETED === 1) {
+            prayCount.done++;
+          } else if (prayItem.PRAY_COMPLETED === 0) {
+            prayCount.wait++;
           }
-        })
-      })
+        }
+      }
+      setPrayCount(prayCount);
     }
   }
 
@@ -265,9 +273,6 @@ function PrayComponent() {
     alertHook.alert("아직 지원하지 않는 기능입니다.");
   }
 
-  useEffect(() => {
-    console.log('prayCount', prayCount)
-  }, [prayCount])
 
 
   useEffect(() => {
