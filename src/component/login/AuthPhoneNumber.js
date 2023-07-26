@@ -72,7 +72,7 @@ const Button = styled(CommonButton)`
       case "outline":
         return css`
       background-color: #fefefe;
-      border:1px solid var(--color-set01);
+      border:1px solid var(--color-set05);
       color:var(--color-set05);
     `
       case "primary":
@@ -84,7 +84,7 @@ const Button = styled(CommonButton)`
       case "negative":
         return css`
       background-color: var(--color-set05);
-      border:1px solid var(--color-set01);
+      border:1px solid var(--color-set05);
       color:#fefefe;
     `
       default:

@@ -27,7 +27,7 @@ function LoadingSpinner() {
                     height="80"
                     width="80"
                     radius="9"
-                    color="#e2a26a"
+                    color="var(--color-set05)"
                     secondaryColor="#a9a9a8"
                     ariaLabel="loading"
                     strokeWidth="2"

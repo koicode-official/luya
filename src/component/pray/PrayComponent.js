@@ -94,7 +94,8 @@ const PrayRegButton = styled(Link)`
   height: 90px;
   background-color: #fefefe;
   border-radius: 10px;
-  color:var(--color-set03);
+  /* color:var(--color-set03); */
+  color:#232323;
   box-shadow: 0px 2px 5px rgba(120, 120, 120, 0.2);
   svg{
     margin-bottom: 7px;

@@ -41,7 +41,8 @@ const PrayContent = styled.li`
   margin-bottom: 24px;
   padding-bottom: 10px;
   p{
-    color:var(--color-set04);
+    /* color:var(--color-set04); */
+    color:#232323;
     font-size: 16px;
     font-weight: 700;
   }

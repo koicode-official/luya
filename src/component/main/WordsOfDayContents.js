@@ -14,7 +14,7 @@ const WordsOfDayTitle = styled.h1`
   font-size  : 18px;
   font-weight: 500;
   margin-bottom: 18px;
-  color:var(--color-set03);
+  color:var(--color-set05);
 `
 
 const Text = styled.p`

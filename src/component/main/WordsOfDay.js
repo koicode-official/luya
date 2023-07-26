@@ -15,7 +15,7 @@ const WordsOfDayContainer = styled.div`
   filter: blur(30%);
   color: #fefefe;
   padding:20px;
-  min-height: 190px;
+  min-height: 170px;
 
 `
 

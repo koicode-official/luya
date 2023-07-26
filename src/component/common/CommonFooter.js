@@ -17,7 +17,7 @@ const CommonFooterWrpper = styled.div`
   bottom: 0;
   width: 100%;
   max-width: 750px;
-  background-color: #fafafa;
+  background-color: #fefefe;
 
 `
 
@@ -48,7 +48,7 @@ const Menu = styled.li`
     flex-direction: column;
   }
   p{
-  ${props => props.active === true ? "color:var(--color-set04);" : "color:var(--color-set07);"}
+  ${props => props.active === true ? "color:var(--color-set05);" : "color:var(--color-set07);"}
   }
 `
 const IconContainer = styled.div`
@@ -56,7 +56,7 @@ const IconContainer = styled.div`
   justify-content: center;
   align-items: center;
   margin-bottom: 6px;
-  ${props => props.active === true ? "color:var(--color-set04);" : "color:var(--color-set07);"}
+  ${props => props.active === true ? "color:var(--color-set05);" : "color:var(--color-set07);"}
 `
 
 function CommonFooter() {

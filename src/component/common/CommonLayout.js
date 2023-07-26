@@ -28,8 +28,8 @@ const ChildrenContainer = styled.div`
   align-items: center;
   width: 100%;
   /* height: 100%; */
-  height: calc(100% - 146px);
-  min-height: calc(100vh - 146px);
+  height: calc(100% - 159px);
+  min-height: calc(100vh - 159px);
   margin-bottom: 90px;
 
 `

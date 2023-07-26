@@ -30,7 +30,6 @@ const ParyAddSubTitle = styled.div`
 const PrayAddTitle = styled.div`
   margin-bottom: 50px;
   font-size: 18px;
-  color:#e2a26a;
   font-weight: 400;
   text-align: center ;
 `
@@ -118,7 +117,7 @@ function PrayAddComponent() {
         <BackWard url={"/pray"}>
         </BackWard>
         <ParyAddSubTitle>기도제목</ParyAddSubTitle>
-        <PrayAddHead>기도제목을 작성해보세요</PrayAddHead>
+        {/* <PrayAddHead>기도제목을 작성해보세요</PrayAddHead> */}
         <PrayAddTitle>
           주님께서 여러분과 함께하실 것입니다
         </PrayAddTitle>

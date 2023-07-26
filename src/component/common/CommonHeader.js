@@ -14,7 +14,7 @@ const HeaderContainer = styled.div`
   justify-content: flex-end;
   align-items: center;
   position: relative;
-  height: 56px;
+  height: 69px;
   background-color: var(--color-set05);
   padding: 10px 20px;
 `
@@ -68,7 +68,9 @@ function CommonHeader() {
             ></Image>
           </Link>
         </Backward> */}
-        <HeaderTitle>LUYA</HeaderTitle>
+        <HeaderTitle>
+          <Image width={80} height={45} src="/img/logo/logo_text06.png" alt="Luya"></Image>
+        </HeaderTitle>
         {/* <ProfileContainer>
           <Profile>
            <BiUserCircle size={32}></BiUserCircle>

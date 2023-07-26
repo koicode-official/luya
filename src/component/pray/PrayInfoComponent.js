@@ -33,7 +33,8 @@ const PrayInfoTitle = styled.div`
   }
   p{
     font-size: 18px;
-    color:#e2a26a;
+    /* color: var(--color-set05);
+     */
     font-weight: 400;
     text-align: center ;
     }
@@ -268,13 +269,6 @@ function PrayInfoComponent({ id }) {
         </BackWard>
         <ParyInfoSubTitle>기도제목</ParyInfoSubTitle>
         <PrayInfoTitle>
-          <Image
-            src="/img/cross.png"
-            width={24}
-            height={24}
-            alt="cross icon"
-          >
-          </Image>
           <p>
             주님께서 여러분과 함께하실 것입니다
           </p>
