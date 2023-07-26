@@ -114,7 +114,7 @@ const SignUpForm = () => {
     })
   }
 
-  const { refetch: checkIdDuplicateRefetch } = useQuery(['checkIdDuplicate', formData.email.value], checkIdDuplicate, {
+  const { refetch: checkIdDuplicateRefetch } = useQuery('checkIdDuplicate', checkIdDuplicate, {
     enabled: false,
     onSuccess: (res) => {
       if (res.data.status === "Not exist") {

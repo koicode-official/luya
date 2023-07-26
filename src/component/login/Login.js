@@ -33,9 +33,14 @@ const LoginForm = styled.form`
 const Input = styled(CommonInput)``;
 
 const LoginButton = styled(CommonButton)``;
-const SignUpButton = styled(CommonButton)`
-  background-color: var(--color-set03);
+const SignUpButton = styled.div`
+text-decoration: underline;
+text-align: right;
+  /* background-color: var(--color-set03); */
 `;
+// const SignUpButton = styled(CommonButton)`
+//   background-color: var(--color-set03);
+// `;
 
 const Login = () => {
   const axios = useCustomAxios();
