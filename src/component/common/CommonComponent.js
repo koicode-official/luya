@@ -27,6 +27,17 @@ export const CommonInput = styled.input`
     font-size: 14px;
     color:#777777;
   }
+
+    &[type='date']::before {
+    content: attr(placeholder);
+    width: 100%;
+  }
+
+  &[type='date']:focus::before,
+  &[type='date']:valid::before {
+    display: none;
+  }
+
   `
 
 export const CommonButton = styled.button`

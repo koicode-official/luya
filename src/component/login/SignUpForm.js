@@ -25,6 +25,7 @@ const SignUpLabel = styled.label`
 `;
 
 const SignUpInput = styled(CommonInput)`
+ 
 `;
 
 const IdInputContainer = styled.div`
@@ -321,12 +322,14 @@ const SignUpForm = () => {
   return (
     <SignUpFormContainer>
       <SignUpLabel>
-        <p>이름</p>
+        <p>성함</p>
         <SignUpInput
           type="text"
           name="name"
           value={formData.name.value}
           onChange={handleChange}
+          placeholder="성함을 입력해주세요"
+
         />
       </SignUpLabel>
       <SignUpLabel>
@@ -337,6 +340,7 @@ const SignUpForm = () => {
             name="email"
             value={formData.email.value}
             onChange={handleChange}
+            placeholder="이메일을 입력해주세요"
           />
           <IdDuplicationButton onClick={handleIdCheck}>중복 확인</IdDuplicationButton>
         </IdInputContainer>
@@ -349,6 +353,7 @@ const SignUpForm = () => {
           name="password"
           value={formData.password.value}
           onChange={handleChange}
+          placeholder="비밀번호을 입력해주세요"
         />
         {passwordAlert && <Notice>{passwordAlert}</Notice>}
       </SignUpLabel>
@@ -359,6 +364,7 @@ const SignUpForm = () => {
           name="passwordConfirm"
           value={formData.passwordConfirm.value}
           onChange={handleChange}
+          placeholder="비밀번호을 다시 입력해주세요"
         />
         {passwordConfirmAlert && <Notice>{passwordConfirmAlert}</Notice>}
       </SignUpLabel>
@@ -369,6 +375,7 @@ const SignUpForm = () => {
           name="birthday"
           value={formData.birthday.value}
           onChange={handleChange}
+          placeholder="생년월일을 입력해주세요"
         />
       </SignUpLabel>
       <SignUpLabel>
