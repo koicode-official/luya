@@ -46,7 +46,6 @@ const ParyInfoSubTitle = styled.div`
     margin-bottom: 8px;
     color:#a9a9a9;
     text-align: center;
-    margin-top: 20px;
 
 `
 const PrayInfoGroup = styled.textarea`
@@ -169,7 +168,7 @@ function PrayInfoComponent({ id }) {
     enabled: false,
     onSuccess: res => {
       if (res.data.message === "success") {
-        router.replace("/pray?completed=0");
+        router.replace("/pray");
       }
     },
     onError: error => {
@@ -196,7 +195,7 @@ function PrayInfoComponent({ id }) {
       if (res.data.message === "success") {
         alertHook.alert("기도제목이 수정되었습니다.", () => {
           getPrayInfoRefetch();
-          router.replace("/pray?completed=0");
+          router.replace("/pray");
         })
       }
     },
@@ -268,7 +267,7 @@ function PrayInfoComponent({ id }) {
   return (
     <PrayInfoWrapper>
       <PrayInfoContainer>
-        <BackWard url={"/pray?completed=0"}>
+        <BackWard url={"/pray"}>
         </BackWard>
         <ParyInfoSubTitle>기도제목</ParyInfoSubTitle>
         <PrayInfoTitle>

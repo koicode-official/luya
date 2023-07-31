@@ -1,6 +1,6 @@
 "use client"
 import styled from "styled-components"
-
+import UseMotion from "@/utils/UseMotion"
 
 const WordsOfDayWrapper = styled.div`
   width: 100%;
@@ -19,7 +19,7 @@ const WordsOfDayContainer = styled.div`
 
 `
 
-const WordsOfDayText = styled.p`
+const WordsOfDayText = styled.div`
   font-size: 16px;
   margin-bottom: 24px;
   white-space: pre-wrap;
@@ -37,10 +37,14 @@ function WordsOfDay({ wordsOfToday, label }) {
     <WordsOfDayWrapper>
       <WordsOfDayContainer>
         <WordsOfDayText>
-          {wordsOfToday}
+          <UseMotion >
+            {wordsOfToday}
+          </UseMotion>
         </WordsOfDayText>
         <TextFrom>
-          {label}
+          <UseMotion delay={0.15}>
+            {label}
+          </UseMotion>
         </TextFrom>
       </WordsOfDayContainer>
     </WordsOfDayWrapper>

@@ -7,7 +7,6 @@ import CommonConfirm from "./CommonConfirm";
 import { useRecoilValue, useSetRecoilState } from "recoil"
 import { commonConfirmState } from "@/state/common";
 import { Suspense } from "react";
-import LoadingSpinner from '@/component/common/LoadingSpinner';
 import NavigationEvents from '@/utils/NavigationEvent';
 import useAlert from "@/utils/useAlert/UseAlert";
 import useConfirm from "@/utils/useConfirm/UseConfirm";
@@ -16,7 +15,7 @@ const Layout = styled.div`
   position: relative;
   display : flex;
   flex-direction : column;
-  /* min-height:100vh; */
+  min-height:100vh;
   max-width: 750px;
   margin: 0 auto;
   height: 100%;
@@ -39,6 +38,9 @@ const ChildrenContainer = styled.div`
 function CommonLayout({ children }) {
   const { alertStateInfo } = useAlert();
   const { confirmStateInfo } = useConfirm();
+
+
+
   return (
     <Layout>
       {alertStateInfo.active === true &&
@@ -48,13 +50,11 @@ function CommonLayout({ children }) {
         <CommonConfirm></CommonConfirm>
       }
       <CommonHeader></CommonHeader>
-      <Suspense fallback={<LoadingSpinner />}>
         <NavigationEvents>
           <ChildrenContainer>
             {children}
           </ChildrenContainer>
         </NavigationEvents>
-      </Suspense>
       <CommonFooter></CommonFooter>
     </Layout>
   );

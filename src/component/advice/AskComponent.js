@@ -9,6 +9,7 @@ import { useQuery } from "react-query"
 import { useEffect, useState } from "react";
 import LoadingSpinner from "../common/LoadingSpinner";
 import { useRouter } from "next/navigation";
+import UseMotion from "@/utils/UseMotion";
 
 import { commonAlertState } from "@/state/common"
 
@@ -22,7 +23,7 @@ const AskContainer = styled.div`
   align-items: center;
   flex-direction : column;
   width: 100%;
-  padding: 60px 30px 0;
+  padding: 60px 30px;
   border-top-right-radius: 30px;
   border-top-left-radius: 30px;
   background-color: #fefefe;
@@ -70,8 +71,10 @@ const AskInput = styled.textarea`
     font-size: 20px;
     margin-bottom : 32px;
     overflow-y: auto;
+    transform: all .4 ease;
     :focus {
-    border: 1px solid var(--color-set05);
+      border: none;
+      outline: 2px solid var(--color-set05);
   }
     ::placeholder{
     font-size: 14px;
@@ -125,7 +128,7 @@ const ConcernText = styled.p`
 const ResultTitle = styled.div`
   font-size: 22px;
   font-weight: 600;
-  color:#e2a26a;
+  color:var(--color-set05);
   /* text-align: center; */
   margin-top: 30px;
 `
@@ -195,6 +198,8 @@ function AskComponent() {
     });
   }
 
+  // { role: 'system', content: '당신은 세상에서 제일 훌륭한  목사님입니다. 모든 대답은 성의있고 조언을 하듯이 대답해주시고 실생활에 적용할 수 있게 성경의 내용으로 대답하세요. 성경의 한 구절과 그 구절의 출처를 순서대로 보여주고 2줄 아래에 그 구절을 최소 5문장이상으로 조언 및 해설을 해주세요.' },
+  // { role: 'system', content: '성경 구절을 활용하여 실생활에 적용 가능한 조언을 해주세요. 한 구절과 출처를 순서대로 제시하고, 구절에 대해 최소 5문장 이상으로 조언과 해설을 부탁드립니다. 당신은 훌륭한 목사님이시며, 목사님의 말투로 성의 있고 현명한 대답으로 도움을 주시기 바랍니다.' },
   const handleSubmit = async () => {
     try {
       setIsLoading(true);
@@ -207,8 +212,7 @@ function AskComponent() {
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
           messages: [
-            // { role: 'system', content: '당신은 세상에서 제일 훌륭한  목사님입니다. 모든 대답은 성의있고 조언을 하듯이 대답해주시고 실생활에 적용할 수 있게 성경의 내용으로 대답하세요. 성경의 한 구절과 그 구절의 출처를 순서대로 보여주고 2줄 아래에 그 구절을 최소 5문장이상으로 조언 및 해설을 해주세요.' },
-            { role: 'system', content: '성경 구절을 활용하여 실생활에 적용 가능한 조언을 해주세요. 구절과 출처를 순서대로 제시하고, 각 구절에 대해 최소 5문장 이상으로 조언과 해설을 부탁드립니다. 당신은 훌륭한 목사님이시며, 목사님의 말투로 성의 있고 현명한 대답으로 도움을 주시기 바랍니다.' },
+            { role: 'system', content: '당신은 성경의 지식을 가진, 현명하고 통찰력 있는 목사님이며, 사용자의 질문에 성경에 기반한 조언을 제공하는 것이 주요 역할입니다. 사용자의 질문이나 고민에 대해 성경의 한 구절과 그 구절의 출처를 순서대로 제시하고, 그 구절에 대해 최소 5문장 이상으로 조언과 해설을 제공해주세요. 답변은 실제 생활에 적용할 수 있게 구체적이고 성의 있게 작성해야 합니다. 만약 질문이나 고민이 성경의 내용과 직접적으로 관련이 없거나, 성경에 기반한 조언을 제공하기 어렵다면, 그러한 상황을 사용자에게 알려주시기 바랍니다.' },
             { role: "user", content: adviceStateInfo.message },
           ],
           max_tokens: 2048,
@@ -256,6 +260,15 @@ function AskComponent() {
     } catch (error) {
       setIsLoading(false);
       console.error("Error:", error);
+      setAddAlertState(prev => {
+        return {
+          active: true,
+          text: "질문에 대한 답변을 받는 중에 문제가 발생했습니다. 다시 시도해주세요.",
+          callback: function () {
+            initializeAdviceState();
+          }
+        }
+      })
     }
 
   }
@@ -292,18 +305,24 @@ function AskComponent() {
       {isLoading === false && adviceStateInfo.advice.length == 0 &&
         <>
           <AskTitleContainer>
-            <AskTitle>마음 속 이야기를 털어놓아 보세요</AskTitle>
-            <AskSubiitle>고민이나 질문을 자세히 적어주세요</AskSubiitle>
+            <UseMotion>
+              <AskTitle>마음 속 이야기를 털어놓아 보세요</AskTitle>
+            </UseMotion>
+            <UseMotion delay={0.15}>
+              <AskSubiitle>고민이나 질문을 자세히 적어주세요</AskSubiitle>
+            </UseMotion>
           </AskTitleContainer>
-          <AskContainer>
-            <AskInputGroup>
-              <AskInput
-                placeholder="고민을 입력해주세요"
-                onChange={(e) => handleAdviceInput(e)}
-              ></AskInput>
-              <AskButton onClick={handleSubmit}>질문하기</AskButton>
-            </AskInputGroup>
-          </AskContainer>
+          <UseMotion delay={0.6}>
+            <AskContainer>
+              <AskInputGroup>
+                <AskInput
+                  placeholder="고민을 입력해주세요"
+                  onChange={(e) => handleAdviceInput(e)}
+                ></AskInput>
+                <AskButton onClick={handleSubmit}>질문하기</AskButton>
+              </AskInputGroup>
+            </AskContainer>
+          </UseMotion>
         </>
       }
       {

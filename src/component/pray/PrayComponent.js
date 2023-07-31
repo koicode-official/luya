@@ -9,7 +9,7 @@ import { FaPen } from "react-icons/fa";
 import useCustomAxios from "@/utils/UseCustomAxios"
 import { useEffect, useState } from "react"
 import useAlert from "@/utils/useAlert/UseAlert"
-
+import UseMotion from "@/utils/UseMotion"
 
 
 const PrayWrapper = styled(CommonWrapper)`
@@ -18,6 +18,10 @@ const PrayWrapper = styled(CommonWrapper)`
   min-height: calc(100vh - 146px);
   overflow-y: hidden;
   justify-content: flex-start;
+`
+
+const PrayListContainer = styled.div`
+  width: 100%;
 `
 
 const PrayContainer = styled.div`
@@ -281,28 +285,31 @@ function PrayComponent() {
   }, [prayListForCount])
   return (
     <PrayWrapper>
-      <CountPrayContainer>
-        <CountPray>
-          <span>기다리는 기도</span>
-          <Count>
-            {prayCount.wait}
-          </Count>
-        </CountPray>
-        <CountPray>
-          <span>응답된 기도</span>
-          <Count>
-            {prayCount.done}
-          </Count>
-        </CountPray>
-      </CountPrayContainer>
-      <ButtonGroup>
-        <PrayRegButton
-          href="/pray/add"
-        >
-          <FaPen size={24}></FaPen>
-          작성하기
-        </PrayRegButton>
-        {/* <KaKaoShareButton onClick={handlekakaoShare}>
+      <UseMotion>
+        <CountPrayContainer>
+          <CountPray>
+            <span>기다리는 기도</span>
+            <Count>
+              {prayCount.wait}
+            </Count>
+          </CountPray>
+          <CountPray>
+            <span>응답된 기도</span>
+            <Count>
+              {prayCount.done}
+            </Count>
+          </CountPray>
+        </CountPrayContainer>
+      </UseMotion>
+      <UseMotion delay={0.15}>
+        <ButtonGroup>
+          <PrayRegButton
+            href="/pray/add"
+          >
+            <FaPen size={24}></FaPen>
+            작성하기
+          </PrayRegButton>
+          {/* <KaKaoShareButton onClick={handlekakaoShare}>
           <Image
             src="/img/kakaotalkIcons.png"
             width={24}
@@ -313,28 +320,31 @@ function PrayComponent() {
             공유하기
           </p>
         </KaKaoShareButton> */}
-      </ButtonGroup>
-      <PrayDoneContainer active={containerState.index === 1 && containerState.active == true ? true : false} >
-        <PrayHeader>
-          <Tab onClick={() => handleTab(1)}>
-            <div></div>
-          </Tab>
-          <p>기도에 응답된...</p>
-        </PrayHeader>
-        <PrayList done={true} stateKey={"done"}></PrayList>
-      </PrayDoneContainer>
-      <PrayContainer active={containerState.active == true ? true : false} index={containerState.index}>
-        <PrayHeader>
-          <Tab onClick={() => handleTab(0)}>
-            <div></div>
-          </Tab>
-          <p>기도 응답을 기다리며...</p>
-        </PrayHeader>
-        {/* <PrayTitle></PrayTitle> */}
-        <PrayList stateKey={"wait"}></PrayList>
-
-      </PrayContainer>
-
+        </ButtonGroup>
+      </UseMotion>
+      {/* <UseMotion delay={.6}> */}
+        <PrayListContainer>
+          <PrayDoneContainer active={containerState.index === 1 && containerState.active == true ? true : false} >
+            <PrayHeader>
+              <Tab onClick={() => handleTab(1)}>
+                <div></div>
+              </Tab>
+              <p>기도에 응답된...</p>
+            </PrayHeader>
+            <PrayList done={true} stateKey={"done"}></PrayList>
+          </PrayDoneContainer>
+          <PrayContainer active={containerState.active == true ? true : false} index={containerState.index}>
+            <PrayHeader>
+              <Tab onClick={() => handleTab(0)}>
+                <div></div>
+              </Tab>
+              <p>기도 응답을 기다리며...</p>
+            </PrayHeader>
+            {/* <PrayTitle></PrayTitle> */}
+            <PrayList stateKey={"wait"}></PrayList>
+          </PrayContainer>
+        </PrayListContainer>
+      {/* </UseMotion> */}
     </PrayWrapper>
   );
 }

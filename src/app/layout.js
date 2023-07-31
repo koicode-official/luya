@@ -5,7 +5,7 @@ import RecoilRootProvider from '@/utils/RecoilRootProvider'
 import StyledComponentsRegistry from '@/utils/StyleRegistry';
 import LoadingSpinner from '@/component/common/LoadingSpinner';
 import CommonLayout from '@/component/common/CommonLayout';
-import NavigationEvents from '@/utils/NavigationEvent';
+
 
 export default function RootLayout({ children }) {
 
@@ -39,15 +39,15 @@ export default function RootLayout({ children }) {
         <ReactQueryProvider>
           <RecoilRootProvider>
             <StyledComponentsRegistry>
-              <CommonLayout>
-                <Suspense fallback={<LoadingSpinner />}>
-                  {children}
-                </Suspense>
-              </CommonLayout>
+              <Suspense fallback={<LoadingSpinner />}>
+                <CommonLayout>
+                    {children}
+                </CommonLayout>
+              </Suspense>
             </StyledComponentsRegistry>
           </RecoilRootProvider>
         </ReactQueryProvider>
       </body>
-    </html>
+    </html >
   )
 }

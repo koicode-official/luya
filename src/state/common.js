@@ -6,6 +6,15 @@ export const loadingState = atom({
     active: false,
   }
 });
+export const menuState = atom({
+  key: `menuState`,
+  default: {
+    active: false,
+    prevIndex: 0,
+    activeIndex: 0,
+  }
+});
+
 
 
 export const commonAlertState = atom({

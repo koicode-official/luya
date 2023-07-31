@@ -93,7 +93,7 @@ function PrayAddComponent() {
     enabled: false && prayText.length !== 0,
     onSuccess: response => {
       if (response.data.message === "success") {
-        router.replace("/pray?completed=0");
+        router.replace("/pray");
       }
     },
     onError: error => {
