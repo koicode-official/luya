@@ -1,12 +1,10 @@
 "use client"
 import styled from "styled-components"
 import CommonHeader from "./CommonHeader";
-import CommonFooter from "./CommonFooter";
+import CommonBottomMenu from "./CommonBottomMenu";
 import CommonAlert from "./CommonAlert";
 import CommonConfirm from "./CommonConfirm";
-import { useRecoilValue, useSetRecoilState } from "recoil"
-import { commonConfirmState } from "@/state/common";
-import { Suspense } from "react";
+import Footer from "./Footer";
 import NavigationEvents from '@/utils/NavigationEvent';
 import useAlert from "@/utils/useAlert/UseAlert";
 import useConfirm from "@/utils/useConfirm/UseConfirm";
@@ -19,6 +17,7 @@ const Layout = styled.div`
   max-width: 750px;
   margin: 0 auto;
   height: 100%;
+  padding-bottom: 60px;
 
 `
 const ChildrenContainer = styled.div`
@@ -30,7 +29,7 @@ const ChildrenContainer = styled.div`
   /* height: 100%; */
   height: calc(100% - 159px);
   min-height: calc(100vh - 159px);
-  margin-bottom: 90px;
+  /* margin-bottom: 90px; */
 
 `
 
@@ -50,12 +49,13 @@ function CommonLayout({ children }) {
         <CommonConfirm></CommonConfirm>
       }
       <CommonHeader></CommonHeader>
-        <NavigationEvents>
-          <ChildrenContainer>
-            {children}
-          </ChildrenContainer>
-        </NavigationEvents>
-      <CommonFooter></CommonFooter>
+      <NavigationEvents>
+        <ChildrenContainer>
+          {children}
+        </ChildrenContainer>
+        <Footer></Footer>
+      </NavigationEvents>
+      <CommonBottomMenu></CommonBottomMenu>
     </Layout>
   );
 }
