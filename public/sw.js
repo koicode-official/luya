@@ -1,38 +1,48 @@
 
-// Cache Google Fonts
-// registerRoute(
-//   /^https:\/\/fonts\.gstatic\.com/,
-//   new CacheFirst({
-//     cacheName: 'google-fonts-webfonts',
-//     plugins: [
-//       new CacheableResponsePlugin({
-//         statuses: [0, 200],
-//       }),
-//       new ExpirationPlugin({
-//         maxAgeSeconds: 60 * 60 * 24 * 365, // 365 Days
-//       }),
-//     ],
-//   }),
-// );
+// This is the "Offline page" service worker
 
-// // Cache JavaScript and CSS
-// registerRoute(/\.(?:js|css)$/, new StaleWhileRevalidate());
+importScripts('https://storage.googleapis.com/workbox-cdn/releases/5.1.2/workbox-sw.js');
 
-// registerRoute(
-//   /\.(?:png|gif|jpg|jpeg|svg)$/,
-//   new CacheFirst({
-//     cacheName: 'images',
-//     plugins: [
-//       new ExpirationPlugin({
-//         maxEntries: 10,
-//         maxAgeSeconds: 60 * 60 * 24 * 7, // 7 Days
-//       }),
-//     ],
-//   }),
-// );
+const CACHE = "pwabuilder-page";
 
+// TODO: replace the following with the correct offline fallback page i.e.: const offlineFallbackPage = "offline.html";
+const offlineFallbackPage = "ToDo-replace-this-name.html";
+
+self.addEventListener("message", (event) => {
+  if (event.data && event.data.type === "SKIP_WAITING") {
+    self.skipWaiting();
+  }
+});
+
+self.addEventListener('install', async (event) => {
+  event.waitUntil(
+    caches.open(CACHE)
+      .then((cache) => cache.add(offlineFallbackPage))
+  );
+});
+
+if (workbox.navigationPreload.isSupported()) {
+  workbox.navigationPreload.enable();
+}
 
 self.addEventListener('fetch', (event) => {
-  console.log("Start Service Worker");
-  // 서비스 워커 로직을 여기에 작성합니다.
+  if (event.request.mode === 'navigate') {
+    event.respondWith((async () => {
+      try {
+        const preloadResp = await event.preloadResponse;
+
+        if (preloadResp) {
+          return preloadResp;
+        }
+
+        const networkResp = await fetch(event.request);
+        return networkResp;
+      } catch (error) {
+
+        const cache = await caches.open(CACHE);
+        const cachedResp = await cache.match(offlineFallbackPage);
+        return cachedResp;
+      }
+    })());
+  }
 });

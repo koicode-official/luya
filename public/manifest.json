@@ -1,7 +1,7 @@
 
 {
-  "name": "신앙 도우미 루야",
-  "short_name": "루야",
+  "name": "신앙도우미 루야",
+  "short_name": "신앙도우미 루야",
   "description": "Luya는 성경 AI와 다양한 기도제목을 활용하여 신앙 생활을 돕는 서비스입니다.",
   "start_url": "/",
   "display": "standalone",
