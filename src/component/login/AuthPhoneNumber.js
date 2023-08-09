@@ -1,5 +1,5 @@
 "use client";
-import { useState, useRef } from "react";
+import { useState, useRef, useEffect } from "react";
 import styled, { css } from "styled-components";
 import useCustomAxios from "@/utils/UseCustomAxios.js";
 import { useSetRecoilState, useRecoilValue } from 'recoil'
@@ -195,6 +195,20 @@ function AuthPhoneNumber({ duplicate, text }) {
     // const phoneRegex = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/
     setPhoneNumber(e.target.value)
   });
+  
+
+  useEffect(() => {
+    setAuthPhone((oldAuth) => {
+      return {
+        inAuth: false,
+        authDone: false,
+        authNumber: null,
+        phoneNumber:null,
+        isExistPhoneNumber: null,
+      }
+    })
+  }, [])
+  
 
   return (
     <AuthPhoneWrapper>

@@ -8,6 +8,7 @@ import Footer from "./Footer";
 import NavigationEvents from '@/utils/NavigationEvent';
 import useAlert from "@/utils/useAlert/UseAlert";
 import useConfirm from "@/utils/useConfirm/UseConfirm";
+import { useEffect } from "react";
 
 const Layout = styled.div`
   position: relative;
@@ -38,7 +39,16 @@ function CommonLayout({ children }) {
   const { alertStateInfo } = useAlert();
   const { confirmStateInfo } = useConfirm();
 
-
+  useEffect(()=>{
+      if('serviceWorker' in navigator){
+        const registInit = async ()=>{
+          const registration = await navigator.serviceWorker.register("/sw.js");
+          registration.waiting?.postMessage("SKIP_WAITING");
+        }
+        registInit();
+        // const registration = 
+      }
+  },[])
 
   return (
     <Layout>

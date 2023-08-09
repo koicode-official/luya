@@ -7,6 +7,7 @@ import { useRouter } from 'next/navigation';
 import useCustomAxios from "../../utils/UseCustomAxios";
 import useAlert from '@/utils/useAlert/UseAlert';
 import { common } from '../../../public/js/common';
+import Image from 'next/image';
 
 const LoginContainer = styled.div`
   display: flex;
@@ -36,12 +37,20 @@ const LoginButton = styled(CommonButton)``;
 const SignUpButton = styled.div`
 text-decoration: underline;
 text-align: right;
-  /* background-color: var(--color-set03); */
+  
 `;
-// const SignUpButton = styled(CommonButton)`
-//   background-color: var(--color-set03);
-// `;
 
+const KakaoLogin = styled(CommonButton)`
+ display:flex;
+ justify-content: center;
+ align-items: center;
+ color : #000000;
+ background : #FEE500;
+ border : none;
+ img{
+  margin-right: 12px;
+ }
+`
 const Login = () => {
   const axios = useCustomAxios();
   const router = useRouter();
@@ -95,6 +104,13 @@ const Login = () => {
     }
   };
 
+
+  const handleKakaoLogin = () => {
+    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_DOMAIN + "/login/kakaologin"}`
+    location.href = KAKAO_AUTH_URL;
+  }
+
+
   return (
     <LoginContainer>
       <LoginTitle>로그인</LoginTitle>
@@ -113,6 +129,13 @@ const Login = () => {
           onKeyPress={handlePasswordKeyPress}
         />
         <LoginButton type="submit">로그인</LoginButton>
+        {/* <KakaoLogin
+          onClick={handleKakaoLogin}
+        >
+          <Image width={20} height={20} src="/img/kakaoLogin.png" alt="카카오 로그인"></Image>
+          카카오로 시작하기
+
+        </KakaoLogin> */}
         <SignUpButton onClick={() => router.push("/signup")}>
           회원가입
         </SignUpButton>

@@ -20,6 +20,10 @@ export default function RootLayout({ children }) {
         <meta name="description" content="Luya는 성경 AI와 다양한 기도제목을 활용하여 신앙 생활을 돕는 서비스입니다." />
 
         <meta name="keywords" content="Luya, 성경 AI, 기도제목, 신앙 생활, 루야" />
+        <link rel="manifest" href="/manifest.json" />
+        <link rel="apple-touch-icon" href="/img/logo/log.png"></link>
+        <meta name="theme-color" content="#000000" />
+
 
         <meta property="og:title" content="Luya - 성경 AI 및 기도제목으로 구성된 신앙생활 도우미" />
         <meta property="og:description" content="Luya는 성경 AI와 다양한 기도제목을 활용하여 신앙 생활을 돕는 서비스입니다." />
