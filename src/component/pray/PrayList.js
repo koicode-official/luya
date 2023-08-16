@@ -20,7 +20,7 @@ const PrayContentList = styled.ul`
 `
 
 const PrayContent = styled.li`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 19px;
   width: 100%;
@@ -38,12 +38,12 @@ const PrayContent = styled.li`
       
       `
   }};
-  margin-bottom: 24px;
+  margin-bottom: 16px;
   padding-bottom: 10px;
   p{
     /* color:var(--color-set04); */
     color:#232323;
-    font-size: 16px;
+    font-size: 14px;
     font-weight: 700;
   }
   
@@ -68,7 +68,8 @@ const NoPrayList = styled.div`
   font-size: 14px;
   font-weight: 400;
   background-color: #e5e5e5;
-
+  color: var(--color-set07);
+  
 `
 
 const ContentsContainer = styled.div`
@@ -103,7 +104,7 @@ function PrayList({ done = false, stateKey }) {
     return await axios({
       method: "GET",
       // params: { userNo: 0, completed: completed ? parseInt(completed) : null },
-      params: { userNo: 0, done: done, stateKey },
+      params: { done: done, stateKey },
       withCredentials: true,
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/pray/list`,
     })
@@ -132,7 +133,7 @@ function PrayList({ done = false, stateKey }) {
       <PrayContentList>
         {
           prayState.prayList && prayState.prayList.map(pray => {
-            const text = pray.PRAY_TEXT.length >= 20 ? pray.PRAY_TEXT.slice(0, 20) + "..." : pray.PRAY_TEXT;
+            const text = pray.PRAY_TEXT.length > 20 ? pray.PRAY_TEXT.slice(0, 20) + "..." : pray.PRAY_TEXT;
             const date = pray.CREATED_AT ? pray.CREATED_AT.split(" ")[0].replace(/\-/g, ".") : ""
             return (
               <PrayContent key={`pray${pray.PRAY_NO}`} done={done}>

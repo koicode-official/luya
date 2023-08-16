@@ -63,7 +63,7 @@ const GenderContainer = styled.div`
   }
 
   input[type='radio']:checked {
-    background-color: var(--color-set03);
+    background-color: var(--color-set05);
   }
   
 `;
@@ -111,7 +111,7 @@ const SignUpForm = () => {
       method: "GET",
       withCredentials: true,
       params: { email },
-      url: `${process.env.NEXT_PUBLIC_API_SERVER}/user/checkId`,
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/checkId`,
     })
   }
 

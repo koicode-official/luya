@@ -6,16 +6,17 @@ import Link from "next/link"
 import { CommonWrapper } from "../common/CommonComponent"
 import { useQuery } from "react-query"
 import { FaPen } from "react-icons/fa";
-import useCustomAxios from "@/utils/UseCustomAxios"
 import { useEffect, useState } from "react"
+import useCustomAxios from "@/utils/UseCustomAxios"
 import useAlert from "@/utils/useAlert/UseAlert"
 import UseMotion from "@/utils/UseMotion"
+import PrayKakaoShare from "./PrayKakaoShare"
 
 
 const PrayWrapper = styled(CommonWrapper)`
   position:relative;
   background-color: var(--color-set05);
-  min-height: calc(100vh - 146px);
+  /* min-height: calc(100vh - 166px); */
   overflow-y: hidden;
   justify-content: flex-start;
 `
@@ -94,7 +95,7 @@ const PrayRegButton = styled(Link)`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  width: 45%;
+  width: 100%;
   height: 90px;
   background-color: #fefefe;
   border-radius: 10px;
@@ -142,11 +143,17 @@ const PrayHeader = styled.div`
 
 const ButtonGroup = styled.div`
   display: flex;
-  /* justify-content: space-between; */
-  justify-content: center;
+  justify-content: space-between;
   width: 100%;
-  padding: 0 20px;
+  padding: 0 30px;
+
 `
+
+const ButtonContainer = styled.div`
+  width: 45%;
+  font-size: 14px;
+`
+
 
 const CountPrayContainer = styled.div`
     display: flex;
@@ -164,7 +171,7 @@ const CountPray = styled.div`
     display: flex;
     justify-content: center;
     flex-direction: column;
-  width: 49%;
+  width: 45%;
     height: 60px;
     border-radius: 15px;
     span{
@@ -198,7 +205,9 @@ const Tab = styled.div`
 
 function PrayComponent() {
   const axios = useCustomAxios();
-  const alertHook = useAlert();
+  const alertHook = useAlert([]);
+  const [shareList, setShareList] = useState([]);
+  const [userInfo, setUserInfo] = useState(null);
 
   const [prayListForCount, setPrayListForCount] = useState(null);
   const [prayCount, setPrayCount] = useState({
@@ -217,11 +226,33 @@ function PrayComponent() {
   useQuery(`getPrayList`, getPrayList, {
     retry: false,
     onSuccess: res => {
-
       setPrayCount({
         done: 0,
         wait: 0,
       })
+      if (res.data.message === "success") {
+        setShareList(res.data.prayList)
+      }
+    },
+    onError: error => {
+      console.error("Error Occured : ", error)
+    }
+  })
+
+
+  const getPrayShareList = async () => {
+    return await axios({
+      method: "GET",
+      withCredentials: true,
+      params: { done: 0 },
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/pray/list`,
+    })
+  }
+
+  const { refetch: getPrayShareListRefetch } = useQuery(`getPrayShareList`, getPrayShareList, {
+    retry: false,
+    onSuccess: res => {
+
       if (res.data.message === "success") {
         setPrayListForCount((prevState) => {
           return {
@@ -235,6 +266,27 @@ function PrayComponent() {
       console.error("Error Occured : ", error)
     }
   })
+  const getUserInfo = async () => {
+    return await axios({
+      method: "GET",
+      withCredentials: true,
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/user/info`,
+    })
+  }
+
+  const { refetch: getUserInfoRefetch } = useQuery(`getUserInfo`, getUserInfo, {
+    retry: false,
+    onSuccess: res => {
+      if (res.data.status === "success") {
+        const { userName, userToken } = res.data;
+        setUserInfo({ userName, userToken });
+      }
+    },
+    onError: error => {
+      console.error("Error Occured : ", error)
+    }
+  })
+
 
 
   const [containerState, setContainerState] = useState({ active: null, index: null })
@@ -278,6 +330,9 @@ function PrayComponent() {
     alertHook.alert("아직 지원하지 않는 기능입니다.");
   }
 
+  useEffect(() => {
+    console.log('shareList', shareList)
+  }, [shareList])
 
 
   useEffect(() => {
@@ -303,48 +358,39 @@ function PrayComponent() {
       </UseMotion>
       <UseMotion delay={0.15}>
         <ButtonGroup>
-          <PrayRegButton
-            href="/pray/add"
-          >
-            <FaPen size={24}></FaPen>
-            작성하기
-          </PrayRegButton>
-          {/* <KaKaoShareButton onClick={handlekakaoShare}>
-          <Image
-            src="/img/kakaotalkIcons.png"
-            width={24}
-            height={24}
-            alt="kakaotalk icon"
-          ></Image>
-          <p>
-            공유하기
-          </p>
-        </KaKaoShareButton> */}
+          <ButtonContainer>
+            <PrayRegButton
+              href="/pray/add"
+            >
+              <FaPen size={24}></FaPen>
+              작성하기
+            </PrayRegButton>
+          </ButtonContainer>
+          <ButtonContainer>
+            <PrayKakaoShare shareList={shareList} userInfo={userInfo}></PrayKakaoShare>
+          </ButtonContainer>
         </ButtonGroup>
       </UseMotion>
-      {/* <UseMotion delay={.6}> */}
-        <PrayListContainer>
-          <PrayDoneContainer active={containerState.index === 1 && containerState.active == true ? true : false} >
-            <PrayHeader>
-              <Tab onClick={() => handleTab(1)}>
-                <div></div>
-              </Tab>
-              <p>기도에 응답된...</p>
-            </PrayHeader>
-            <PrayList done={true} stateKey={"done"}></PrayList>
-          </PrayDoneContainer>
-          <PrayContainer active={containerState.active == true ? true : false} index={containerState.index}>
-            <PrayHeader>
-              <Tab onClick={() => handleTab(0)}>
-                <div></div>
-              </Tab>
-              <p>기도 응답을 기다리며...</p>
-            </PrayHeader>
-            {/* <PrayTitle></PrayTitle> */}
-            <PrayList stateKey={"wait"}></PrayList>
-          </PrayContainer>
-        </PrayListContainer>
-      {/* </UseMotion> */}
+      <PrayListContainer>
+        <PrayDoneContainer active={containerState.index === 1 && containerState.active == true ? true : false} >
+          <PrayHeader>
+            <Tab onClick={() => handleTab(1)}>
+              <div></div>
+            </Tab>
+            <p>기도에 응답된...</p>
+          </PrayHeader>
+          <PrayList done={true} stateKey={"done"}></PrayList>
+        </PrayDoneContainer>
+        <PrayContainer active={containerState.active == true ? true : false} index={containerState.index}>
+          <PrayHeader>
+            <Tab onClick={() => handleTab(0)}>
+              <div></div>
+            </Tab>
+            <p>기도 응답을 기다리며...</p>
+          </PrayHeader>
+          <PrayList stateKey={"wait"}></PrayList>
+        </PrayContainer>
+      </PrayListContainer>
     </PrayWrapper>
   );
 }

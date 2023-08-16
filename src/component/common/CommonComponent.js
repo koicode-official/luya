@@ -5,11 +5,12 @@ import styled from "styled-components"
 
 export const CommonWrapper = styled.div`
   display:flex;
-  justify-content : center;
+  /* justify-content : center; */
   align-items : center;
   flex-direction: column;
   width:100%;
   height:100%;
+  min-height: calc(100vh - 139px);
 `
 
 export const CommonInput = styled.input`
@@ -17,7 +18,7 @@ export const CommonInput = styled.input`
   height: 50px;
   border: 1px solid var(--color-set01);
   border-radius: 10px;
-  font-size : 16px;
+  font-size : 14px;
   padding: 10px 10px;
   outline: none;
   :focus {
@@ -48,7 +49,7 @@ export const CommonButton = styled.button`
     border-radius : 10px;
     outline:none;
     padding: 10px 20px;
-    font-size: 16px;
+    font-size: 14px;
     color:#fefefe;
     cursor : pointer;
     box-shadow: 0px 2px 5px rgba(120, 120, 120, 0.2);

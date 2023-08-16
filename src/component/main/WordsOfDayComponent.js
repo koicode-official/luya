@@ -7,6 +7,8 @@ import { CommonWrapper } from "../common/CommonComponent";
 import { useQuery } from "react-query"
 import { useState } from "react";
 import UseMotion from "@/utils/UseMotion";
+import Footer from "../common/Footer";
+
 const WordOfDayWrapper = styled(CommonWrapper)`
   border-bottom: 1px solid #e5e5e5;
   background-color: var(--color-set05);
@@ -42,6 +44,7 @@ function WordOfDayComponent() {
           <WordsOfDay wordsOfToday={wordsOfToday.WORDS_OF_TODAY} label={wordsOfToday.WORDS_OF_TODAY_LABEL}></WordsOfDay>
           <UseMotion delay={.6}>
             <WordsOfDayContents wordsOfTodayText={wordsOfToday.WORDS_OF_TODAY_TEXT} ></WordsOfDayContents>
+            <Footer></Footer>
           </UseMotion>
         </>
       }

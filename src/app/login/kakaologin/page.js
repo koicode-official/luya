@@ -11,19 +11,6 @@ const KakaologinRedirectWrapper = styled.div`
   
 `
 
-const Loading = styled.div`
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 1;
-    position: fixed;
-    top:0;
-    left:0;
-    height: 100vh;
-    width: 100vw;
-    background-color: #fcfcfc;
-    z-index: 99999;
-`
 
 
 
@@ -83,8 +70,7 @@ function KakaologinRedirect() {
         common.setItemWithExpireTime("loggedIn", true, 12960000)
         location.replace("/");
       } else if (res.data.status === "not exist") {
-        console.log("is not exist")
-        // location.href = "/signup/simple"
+        location.replace("/");
       }
     },
     onError: (error) => {
@@ -137,21 +123,6 @@ function KakaologinRedirect() {
   return (
     <KakaologinRedirectWrapper>
       <LoadingSpinner></LoadingSpinner>
-      {/* 카카오로그인 */}
-      {/* <Loading>
-        <Oval
-          height="80"
-          width="80"
-          radius="9"
-          color="#DC5F00"
-          secondaryColor="#a9a9a8"
-          ariaLabel="loading"
-          wrapperStyle
-          wrapperClass
-          strokeWidth="2"
-          strokeWidthSecondary="4"
-        />
-      </Loading> */}
     </KakaologinRedirectWrapper>
   );
 }

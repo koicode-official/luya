@@ -32,7 +32,7 @@ const PrayInfoTitle = styled.div`
     margin-right: 8px;
   }
   p{
-    font-size: 18px;
+    font-size: 16px;
     /* color: var(--color-set05);
      */
     font-weight: 400;
@@ -62,7 +62,7 @@ const PrayInfoGroup = styled.textarea`
   height: 150px;
   width: 100%;
   resize: none;
-  font-size: 16px;
+  font-size: 14px;
   :focus {
     border: 1px solid var(--color-set05);
   }

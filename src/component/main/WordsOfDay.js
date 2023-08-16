@@ -15,12 +15,12 @@ const WordsOfDayContainer = styled.div`
   filter: blur(30%);
   color: #fefefe;
   padding:20px;
-  min-height: 170px;
+  min-height: 160px;
 
 `
 
 const WordsOfDayText = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   margin-bottom: 24px;
   white-space: pre-wrap;
   text-align: center;

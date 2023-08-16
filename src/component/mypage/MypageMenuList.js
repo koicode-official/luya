@@ -23,7 +23,7 @@ const Menu = styled.li`
   background-color: #fefefe;
   color:#636363;
   padding: 20px;
-  font-size:18px;
+  font-size:16px;
   text-align: center;
 `
 

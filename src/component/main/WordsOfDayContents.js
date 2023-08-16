@@ -7,11 +7,12 @@ const WordsOfDayContentsWrapper = styled.div`
   border-top-right-radius: 30px;
   border-top-left-radius: 30px;
   background-color: #fefefe;
+  min-height: calc(100vh - 160px);
 `
 const WordsOfDayContentsContainer = styled.div`
 `
 const WordsOfDayTitle = styled.h1`
-  font-size  : 18px;
+  font-size  : 16px;
   font-weight: 500;
   margin-bottom: 18px;
   color:var(--color-set05);
@@ -19,7 +20,7 @@ const WordsOfDayTitle = styled.h1`
 
 const Text = styled.p`
   margin-bottom: 12px;
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 25px;
   white-space: pre-wrap;

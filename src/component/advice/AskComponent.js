@@ -19,10 +19,10 @@ const AskWrapper = styled(CommonWrapper)`
 `
 const AskContainer = styled.div`
   display:  flex;
-  justify-content: center;
   align-items: center;
   flex-direction : column;
   width: 100%;
+  height: calc(100vh - 160px);
   padding: 60px 30px;
   border-top-right-radius: 30px;
   border-top-left-radius: 30px;
@@ -36,10 +36,10 @@ const AskTitleContainer = styled.div`
   align-items: center;
   text-align: center;
   /* margin: 30px 0 60px; */
-  min-height: 190px;
+  min-height: 160px;
 `
 const AskTitle = styled.h1`
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   margin-bottom: 8px;
   color:#fefefe;
@@ -68,7 +68,7 @@ const AskInput = styled.textarea`
     width: 100%;
     padding: 20px;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 16px;
     margin-bottom : 32px;
     overflow-y: auto;
     transform: all .4 ease;
@@ -106,10 +106,10 @@ const ResultWrapper = styled.div`
 
 const ResultContainer = styled.div`
   width: 100%;
-  padding: 0 20px;
+  padding: 0 30px;
 `
 const ResultText = styled.div`
-  font-size: 16px;
+  font-size: 14px;
   font-weight: 400;
   line-height: 25px;
   white-space: pre-wrap;
@@ -117,7 +117,7 @@ const ResultText = styled.div`
 `
 
 const ConcernText = styled.p`
- font-size: 16px;
+ font-size: 14px;
   font-weight: 500;
   line-height: 25px;
   white-space: pre-wrap;
@@ -126,7 +126,7 @@ const ConcernText = styled.p`
 `
 
 const ResultTitle = styled.div`
-  font-size: 22px;
+  font-size: 18px;
   font-weight: 600;
   color:var(--color-set05);
   /* text-align: center; */
@@ -306,10 +306,10 @@ function AskComponent() {
         <>
           <AskTitleContainer>
             <UseMotion>
-              <AskTitle>마음 속 이야기를 털어놓아 보세요</AskTitle>
+              <AskTitle>당신의 마음속 질문에 성경의 답을 찾아드립니다.</AskTitle>
             </UseMotion>
             <UseMotion delay={0.15}>
-              <AskSubiitle>고민이나 질문을 자세히 적어주세요</AskSubiitle>
+              <AskSubiitle>고민이 있으신가요? 성경의 지혜로 답을 찾아보세요.</AskSubiitle>
             </UseMotion>
           </AskTitleContainer>
           <UseMotion delay={0.6}>

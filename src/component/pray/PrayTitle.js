@@ -9,7 +9,7 @@ const PrayTitleContainer = styled.div`
   margin-bottom: 35px;
 `
 const PrayTitleText = styled.p`
-  font-size: 22px;
+  font-size: 18px;
   color:#e2a26a;
   font-weight: 600;
 `

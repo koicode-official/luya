@@ -29,7 +29,7 @@ const ParyAddSubTitle = styled.div`
 
 const PrayAddTitle = styled.div`
   margin-bottom: 50px;
-  font-size: 18px;
+  font-size: 16px;
   font-weight: 400;
   text-align: center ;
 `
@@ -49,7 +49,7 @@ const PrayAddTextArea = styled.textarea`
     width: 100%;
     padding: 20px;
     font-weight: 500;
-    font-size: 20px;
+    font-size: 18px;
     overflow-y: auto;
     outline :  var(--color-set02);
     :focus {

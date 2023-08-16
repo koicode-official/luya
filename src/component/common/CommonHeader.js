@@ -1,8 +1,14 @@
 "use client"
-import styled from "styled-components"
+import styled, { css } from "styled-components"
 import Image from "next/image"
-import Link from "next/link"
-import { BiUserCircle } from "react-icons/bi";
+import { usePathname } from "next/navigation";
+import { BiSolidUserCircle } from "react-icons/bi";
+import { useEffect, useState } from "react";
+import { FiLogOut } from "react-icons/fi";
+import { AiFillCloseCircle } from "react-icons/ai";
+import { useQuery } from "react-query";
+import useCustomAxios from "@/utils/UseCustomAxios";
+import { common } from "../../../public/js/common";
 
 const HeaderWrapper = styled.div`
   width: 100%;
@@ -27,6 +33,7 @@ const HeaderTitle = styled.div`
   font-size: 24px;
   font-weight: 800;
   color: #fefefe;
+  height: 45px;
 `
 
 const Backward = styled.div`
@@ -36,11 +43,12 @@ const Backward = styled.div`
   }
 `
 
+
 const ProfileContainer = styled.div`
   display: flex;
   justify-content: center;
   align-items: center;
-
+  width: 24px;
 `
 const Profile = styled.div`
   display: flex;
@@ -53,7 +61,139 @@ const Profile = styled.div`
   font-weight: 300;
 `
 
+const ProfileMenuListContainer = styled.div`
+  width: 100%;
+  display: flex;
+  
+`
+const ProfileBackground = styled.div`
+  position: fixed;
+  top: 0%;
+  left: 0%;
+  width: 50%;
+  height: calc(100vh - 70px);
+  background-color: transparent;
+  z-index: 999;
+`
+
+const ProfileMenuList = styled.ul`
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+  position: fixed;
+  top: 69px;
+  right: 0%;
+  transform: translate(150%, 0);
+  background-color: #fefefe;
+  width: 40%;
+  height: auto;
+  /* height: calc(100vh - 70px); */
+  padding: 10px;
+  z-index: 9999;
+  transition: all .4s ease;
+  border: 1px solid #e5e5e5;
+
+  ${props => props.active === true ?
+    css`
+    transform: translate(0%, 0);
+  `
+    :
+    css`
+      transform: translate(150%, 0);
+  `
+  }
+
+`
+
+const ProfileMenu = styled.li`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: var(--color-set07);
+  font-size: 14px;
+  width: 100%;
+`
+
+const MenuContainer = styled.div`
+   width: fit-content;
+   display: flex ;
+   justify-content: flex-end;
+   align-items: center;
+    p{
+      margin-right: 4px;
+    }
+`
+
 function CommonHeader() {
+  const axios = useCustomAxios();
+  const [isLogin, setIsLogin] = useState(false);
+  const pathName = usePathname();
+  const [profileState, setProfileState] = useState(false);
+
+
+  const requestLogout = async () => {
+    return await axios({
+      method: "GET",
+      withCredentials: true,
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/logout`,
+    })
+  }
+
+
+  const { refetch: requestLogoutRefetch } = useQuery('requestLogout', requestLogout, {
+    enabled: false,
+    onSuccess: (res) => {
+      common.setItemWithExpireTime("loggedIn", false, 0);
+      location.href = "/login"
+    },
+    onError: (error) => {
+      console.error("Error Occured : ", error);
+    }
+  });
+
+
+  const logout = () => {
+    setIsLogin(false);
+    requestLogoutRefetch();
+  }
+
+
+
+
+  useEffect(() => {
+    const loginInfo = JSON.parse(localStorage.getItem("loggedIn"));
+    if (loginInfo && loginInfo.value) {
+      setIsLogin(loginInfo.value);
+    } else {
+      setIsLogin(false);
+    }
+    handelClose();
+  }, [pathName])
+
+
+  const handleProfile = () => {
+    setProfileState(prev => {
+      return !prev
+    });
+  }
+
+  const handelClose = () => {
+    setProfileState(prev => {
+      return false
+    });
+  }
+
+
+
+
+  useEffect(() => {
+
+    return () => {
+      setProfileState(prev => {
+        return false
+      });
+    }
+  }, [])
 
   return (
     <HeaderWrapper>
@@ -69,15 +209,26 @@ function CommonHeader() {
           </Link>
         </Backward> */}
         <HeaderTitle>
-          <Image width={80} height={45} src="/img/logo/logo_text06.png" alt="Luya"></Image>
+          <Image priority={true} width={80} height={45} src="/img/logo/logo_text06.png" alt="Luya"></Image>
         </HeaderTitle>
-        {/* <ProfileContainer>
-          <Profile>
-           <BiUserCircle size={32}></BiUserCircle>
-          </Profile>
-        </ProfileContainer> */}
+        {isLogin &&
+          <ProfileContainer >
+            <Profile onClick={handleProfile}>
+              <BiSolidUserCircle size={28}></BiSolidUserCircle>
+            </Profile>
+            <ProfileMenuListContainer>
+              {/* <ProfileBackground onClick={handelClose}></ProfileBackground> */}
+              <ProfileMenuList active={profileState}>
+                <ProfileMenu>
+                  <AiFillCloseCircle width={10} onClick={handelClose}> </AiFillCloseCircle>
+                  <MenuContainer onClick={logout}> <p>로그아웃</p><FiLogOut width={10}></FiLogOut></MenuContainer>
+                </ProfileMenu>
+              </ProfileMenuList>
+            </ProfileMenuListContainer>
+          </ProfileContainer>
+        }
       </HeaderContainer>
-    </HeaderWrapper>
+    </HeaderWrapper >
   );
 }
 

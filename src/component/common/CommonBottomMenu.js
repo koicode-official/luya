@@ -20,7 +20,7 @@ const CommonFooterWrpper = styled.div`
 const CommonFooterContainer = styled.div`
   border-top: 1px solid #e5e5e5;
   /* border-top: 1px solid #e2a26a; */
-  padding: 20px;
+  padding: 10px 20px;
 `;
 
 const MenuList = styled.ul`
@@ -104,11 +104,6 @@ function CommonFooter() {
       })
     }
   }
-
-  useEffect(() => {
-    console.log('menuStatInfo', menuStatInfo)
-  }, [menuStatInfo])
-
 
   return (
     <CommonFooterWrpper>

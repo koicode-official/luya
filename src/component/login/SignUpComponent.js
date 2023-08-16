@@ -12,6 +12,7 @@ const SignUpContainer = styled.div`
 
 `
 const SignupTitle = styled.h3`
+  font-size: 18px;
   text-align: center;
 `
 

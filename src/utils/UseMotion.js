@@ -26,7 +26,7 @@ const UseMotion = ({ children, delay = 0 }) => {
     },
     out: {
       opacity: 0,
-      y: -100,
+      y: -60,
       transition: {
         duration: .8,
         ease: 'easeInOut',
@@ -34,7 +34,7 @@ const UseMotion = ({ children, delay = 0 }) => {
       }
     },
     in: {
-      y: 100,
+      y: 60,
       opacity: 0,
       transition: {
         duration: .8,

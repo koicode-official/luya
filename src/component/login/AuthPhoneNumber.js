@@ -64,6 +64,7 @@ const Button = styled(CommonButton)`
   border-radius: 5px;
   margin-left: 12px;
   font-size: 14px;
+  padding:10px;
   cursor: pointer;
   
   ${props => {

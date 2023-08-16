@@ -8,7 +8,11 @@ import Footer from "./Footer";
 import NavigationEvents from '@/utils/NavigationEvent';
 import useAlert from "@/utils/useAlert/UseAlert";
 import useConfirm from "@/utils/useConfirm/UseConfirm";
+import { usePathname } from "next/navigation";
 import { useEffect } from "react";
+import LoadingSpinner from "./LoadingSpinner";
+import { loadingState } from "@/state/common";
+import { useRecoilValue } from "recoil";
 
 const Layout = styled.div`
   position: relative;
@@ -27,31 +31,39 @@ const ChildrenContainer = styled.div`
   flex-direction: column;
   align-items: center;
   width: 100%;
-  /* height: 100%; */
-  height: calc(100% - 159px);
-  min-height: calc(100vh - 159px);
-  /* margin-bottom: 90px; */
+  
+  height: auto;
+  min-height: calc( 100vh - 139px );
 
 `
 
 
 function CommonLayout({ children }) {
+  const pathName = usePathname();
   const { alertStateInfo } = useAlert();
   const { confirmStateInfo } = useConfirm();
+  const loadingStateInfo = useRecoilValue(loadingState);
 
-  useEffect(()=>{
-      if('serviceWorker' in navigator){
-        const registInit = async ()=>{
-          const registration = await navigator.serviceWorker.register("/sw.js");
-          registration.waiting?.postMessage("SKIP_WAITING");
-        }
-        registInit();
-        // const registration = 
+
+  useEffect(() => {
+    if ('serviceWorker' in navigator) {
+      const registInit = async () => {
+        const registration = await navigator.serviceWorker.register("/sw.js");
+        registration.waiting?.postMessage("SKIP_WAITING");
       }
-  },[])
+      registInit();
+      // const registration = 
+    }
+    //로그인 Redirect용
+  }, [])
+
+  useEffect(() => {
+    sessionStorage.setItem('prevUrl', pathName);
+  }, [pathName])
 
   return (
     <Layout>
+
       {alertStateInfo.active === true &&
         <CommonAlert></CommonAlert>
       }
@@ -61,9 +73,12 @@ function CommonLayout({ children }) {
       <CommonHeader></CommonHeader>
       <NavigationEvents>
         <ChildrenContainer>
+          {
+            loadingStateInfo.active == true &&
+            <LoadingSpinner></LoadingSpinner>
+          }
           {children}
         </ChildrenContainer>
-        <Footer></Footer>
       </NavigationEvents>
       <CommonBottomMenu></CommonBottomMenu>
     </Layout>

@@ -18,7 +18,7 @@ const LoginContainer = styled.div`
 `;
 
 const LoginTitle = styled.h2`
-  font-size: 24px;
+  font-size: 18px;
   font-weight: bold;
   margin-bottom: 24px;
 `;
@@ -35,9 +35,10 @@ const Input = styled(CommonInput)``;
 
 const LoginButton = styled(CommonButton)``;
 const SignUpButton = styled.div`
-text-decoration: underline;
-text-align: right;
-  
+  text-decoration: underline;
+  text-align: right;
+  font-size:14px;
+
 `;
 
 const KakaoLogin = styled(CommonButton)`
@@ -71,6 +72,7 @@ const Login = () => {
     enabled: false,
     onSuccess: (res) => {
       const data = res.data;
+      console.log('data', data)
       if (data.status === "not found") {
         alertHook.alert("아이디가 존재하지 않습니다.", () =>
           router.replace('/login')
@@ -81,7 +83,7 @@ const Login = () => {
         );
       } else {
         common.setItemWithExpireTime("loggedIn", true, 12960000);
-        router.replace('/');
+        router.replace("/");
       }
     },
     onError: (error) => {
@@ -105,7 +107,8 @@ const Login = () => {
   };
 
 
-  const handleKakaoLogin = () => {
+  const handleKakaoLogin = (e) => {
+    e.stopPropagation(); 
     const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_DOMAIN + "/login/kakaologin"}`
     location.href = KAKAO_AUTH_URL;
   }
@@ -129,14 +132,14 @@ const Login = () => {
           onKeyPress={handlePasswordKeyPress}
         />
         <LoginButton type="submit">로그인</LoginButton>
-        {/* <KakaoLogin
+        <KakaoLogin
+          type='button'
           onClick={handleKakaoLogin}
         >
           <Image width={20} height={20} src="/img/kakaoLogin.png" alt="카카오 로그인"></Image>
           카카오로 시작하기
-
-        </KakaoLogin> */}
-        <SignUpButton onClick={() => router.push("/signup")}>
+        </KakaoLogin>
+        <SignUpButton  onClick={() => router.push("/signup")}>
           회원가입
         </SignUpButton>
       </LoginForm>
