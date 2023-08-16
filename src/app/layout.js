@@ -38,7 +38,7 @@ export default function RootLayout({ children }) {
         <link rel="apple-touch-icon" sizes="180x180" href="/img/logo/apple-touch-icon.png" />
         <link rel="icon" type="image/png" sizes="32x32" href="/img/logo/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/img/logo/favicon-16x16.png" />
-        <script src="https://developers.kakao.com/sdk/js/kakao.js"></script>
+        <script src="https://developers.kakao.com/sdk/js/kakao.js" defer></script>
       </head>
       <body>
         <ReactQueryProvider>
@@ -46,7 +46,7 @@ export default function RootLayout({ children }) {
             <StyledComponentsRegistry>
               <Suspense fallback={<LoadingSpinner />}>
                 <CommonLayout>
-                  {children}
+                    {children}
                 </CommonLayout>
               </Suspense>
             </StyledComponentsRegistry>
