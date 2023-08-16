@@ -1,5 +1,5 @@
 "use client";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import styled from "styled-components";
 import Image from "next/image";
 import useAlert from "@/utils/useAlert/UseAlert";
@@ -32,6 +32,7 @@ const KaKaoShareButton = styled.div`
 function PrayKakaoShare({ shareList, userInfo }) {
   const shareContents = [];
   const alertHook = useAlert();
+  const [isInitialized, setIsInitialized] = useState(false);
 
 
   if (shareList.length > 0) {
@@ -63,7 +64,9 @@ function PrayKakaoShare({ shareList, userInfo }) {
       Kakao.init(process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY);
     }
 
-    if (shareContents.length > 0 && userInfo) {
+
+
+    if (!isInitialized && shareContents.length > 0 && userInfo) {
       const url = `${process.env.NEXT_PUBLIC_DOMAIN}/pray/share?userToken=${userInfo.userToken}`;
       Kakao.Share.createDefaultButton({
         container: '#kakaotalk-sharing-btn',
@@ -93,9 +96,10 @@ function PrayKakaoShare({ shareList, userInfo }) {
           },
         ],
       });
+      setIsInitialized(true);
     }
 
-  }, [shareContents, userInfo])
+  }, [shareContents, userInfo, isInitialized])
 
   return (
     <PrayKakaoShareWrapper>
