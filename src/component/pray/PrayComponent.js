@@ -226,10 +226,10 @@ function PrayComponent() {
   useQuery(`getPrayList`, getPrayList, {
     retry: false,
     onSuccess: res => {
-      setPrayCount({
-        done: 0,
-        wait: 0,
-      })
+      // setPrayCount({
+      //   done: 0,
+      //   wait: 0,
+      // })
       if (res.data.message === "success") {
         setShareList(res.data.prayList)
       }
@@ -253,14 +253,16 @@ function PrayComponent() {
     retry: false,
     onSuccess: res => {
 
-      if (res.data.message === "success") {
-        setPrayListForCount((prevState) => {
-          return {
-            ...prevState,
-            prayList: res.data.prayList
-          }
-        })
-      }
+      // if (res.data.message === "success") {
+      //   setPrayListForCount((prevState) => {
+      //     return {
+      //       ...prevState,
+      //       prayList: res.data.prayList
+      //     }
+      //   })
+
+      setPrayCount(countPrayList(res.data.prayList));
+
     },
     onError: error => {
       console.error("Error Occured : ", error)
@@ -303,10 +305,9 @@ function PrayComponent() {
 
   }
 
-  const countPrayList = () => {
-    if (prayListForCount) {
+  const countPrayList = (prayList) => {
+    if (prayList) {
 
-      const prayList = prayListForCount.prayList
       const prayCount = {
         done: 0,
         wait: 0,
@@ -322,7 +323,7 @@ function PrayComponent() {
           }
         }
       }
-      setPrayCount(prayCount);
+      return prayCount
     }
   }
 
@@ -335,9 +336,7 @@ function PrayComponent() {
   }, [shareList])
 
 
-  useEffect(() => {
-    countPrayList();
-  }, [prayListForCount])
+
   return (
     <PrayWrapper>
       <UseMotion>
