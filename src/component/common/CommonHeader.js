@@ -6,9 +6,12 @@ import { BiSolidUserCircle } from "react-icons/bi";
 import { useEffect, useState } from "react";
 import { FiLogOut } from "react-icons/fi";
 import { AiFillCloseCircle } from "react-icons/ai";
+import { HiOutlineDocumentText } from "react-icons/hi";
 import { useQuery } from "react-query";
 import useCustomAxios from "@/utils/UseCustomAxios";
 import { common } from "../../../public/js/common";
+import { useRouter } from "next/navigation";
+
 
 const HeaderWrapper = styled.div`
   width: 100%;
@@ -76,10 +79,9 @@ const ProfileBackground = styled.div`
   z-index: 999;
 `
 
-const ProfileMenuList = styled.ul`
+const ProfileMenuList = styled.div`
   display: flex;
-  align-items: flex-end;
-  flex-direction: column;
+  justify-content: space-between;
   position: fixed;
   top: 69px;
   right: 0%;
@@ -88,7 +90,7 @@ const ProfileMenuList = styled.ul`
   width: 40%;
   height: auto;
   /* height: calc(100vh - 70px); */
-  padding: 10px;
+  padding: 10px 10px 0;
   z-index: 9999;
   transition: all .4s ease;
   border: 1px solid #e5e5e5;
@@ -105,26 +107,29 @@ const ProfileMenuList = styled.ul`
 
 `
 
-const ProfileMenu = styled.li`
+const ProfileMenu = styled.ul`
   display: flex;
-  justify-content: space-between;
-  align-items: center;
+  align-items: flex-end;
+  justify-content: center;
+  flex-direction: column;
   color: var(--color-set07);
   font-size: 14px;
   width: 100%;
 `
 
-const MenuContainer = styled.div`
-   width: fit-content;
+const MenuContainer = styled.li`
    display: flex ;
    justify-content: flex-end;
    align-items: center;
+   width: fit-content;
+    margin-bottom: 12px;
     p{
       margin-right: 4px;
     }
 `
 
 function CommonHeader() {
+  const router = useRouter();
   const axios = useCustomAxios();
   const [isLogin, setIsLogin] = useState(false);
   const pathName = usePathname();
@@ -198,17 +203,7 @@ function CommonHeader() {
   return (
     <HeaderWrapper>
       <HeaderContainer>
-        {/* <Backward>
-          <Link href="/">
-            <Image
-              src="/img/left-arrow.png"
-              width={20}
-              height={20}
-              alt="backward arrow"
-            ></Image>
-          </Link>
-        </Backward> */}
-        <HeaderTitle>
+        <HeaderTitle onClick={()=>{router.push("/")}}>
           <Image priority={true} width={80} height={45} src="/img/logo/logo_text06.png" alt="Luya"></Image>
         </HeaderTitle>
         {isLogin &&
@@ -217,11 +212,11 @@ function CommonHeader() {
               <BiSolidUserCircle size={28}></BiSolidUserCircle>
             </Profile>
             <ProfileMenuListContainer>
-              {/* <ProfileBackground onClick={handelClose}></ProfileBackground> */}
               <ProfileMenuList active={profileState}>
+                <AiFillCloseCircle width={10} onClick={handelClose}> </AiFillCloseCircle>
                 <ProfileMenu>
-                  <AiFillCloseCircle width={10} onClick={handelClose}> </AiFillCloseCircle>
                   <MenuContainer onClick={logout}> <p>로그아웃</p><FiLogOut width={10}></FiLogOut></MenuContainer>
+                  <MenuContainer onClick={() => { router.push("/advice/list") }}> <p>고민/질문</p><HiOutlineDocumentText width={10}></HiOutlineDocumentText></MenuContainer>
                 </ProfileMenu>
               </ProfileMenuList>
             </ProfileMenuListContainer>

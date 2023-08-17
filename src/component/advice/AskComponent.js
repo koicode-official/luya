@@ -6,12 +6,15 @@ import { CommonButton, CommonWrapper } from "../common/CommonComponent"
 import { useRecoilValue, useSetRecoilState } from "recoil";
 import { adviceState } from "@/state/adviceState";
 import { useQuery } from "react-query"
-import { useEffect, useState } from "react";
-import LoadingSpinner from "../common/LoadingSpinner";
+import { useEffect, useRef, useState } from "react";
 import { useRouter } from "next/navigation";
-import UseMotion from "@/utils/UseMotion";
-
 import { commonAlertState } from "@/state/common"
+import UseMotion from "@/utils/UseMotion";
+import LoadingSpinner from "../common/LoadingSpinner";
+import AskKakaoShare from "./AskKakaoShare";
+import AdviceResult from "./AdviceResult";
+import useAlert from "@/utils/useAlert/UseAlert";
+
 
 const AskWrapper = styled(CommonWrapper)`
   background-color: var(--color-set05);
@@ -92,7 +95,9 @@ const AskButton = styled(CommonButton)`
 `
 
 const SaveAdviceButton = styled(AskButton)`
-  margin: 0 auto;
+  margin: 0 auto 12px;
+  width: 100%;
+
 `
 
 const ResultWrapper = styled.div`
@@ -102,6 +107,7 @@ const ResultWrapper = styled.div`
   width: 100%;
   background-color: #fefefe;
   padding-bottom: 60px;
+  min-height: 100vh;
 `
 
 const ResultContainer = styled.div`
@@ -133,6 +139,37 @@ const ResultTitle = styled.div`
   margin-top: 30px;
 `
 
+const ResultButtonContainer = styled.div`
+  width: 100%;
+  padding:30px;
+
+`
+
+const ResultButtonGroup = styled.div`
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+ 
+  
+`
+const ButtonContainer = styled.div`
+    width: 48%;
+`
+
+const SignupButtonContainer = styled.div`
+    width: 100%;
+    margin-top: 30px;
+    padding: 0 30px;
+    p{
+      font-size: 14px;
+      margin-bottom: 8px;
+    }
+`
+
+const RetryButton = styled(CommonButton)`
+  width: 100%;
+`
+
 const LoadingContianer = styled.div`
   display:flex;
   justify-content : center;
@@ -151,11 +188,16 @@ const LoadingContianer = styled.div`
 function AskComponent() {
   const axios = useCustomAxios();
   const router = useRouter();
+  const alertHook = useAlert();
   const adviceStateInfo = useRecoilValue(adviceState);
   const setAdviceState = useSetRecoilState(adviceState);
   const [isLoading, setIsLoading] = useState(false);
+  const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [resultAdvice, setResultAdvice] = useState({ advice: null, question: null });
-  const setAddAlertState = useSetRecoilState(commonAlertState)
+  const isAborted = useRef(false);
+  const controller = useRef(new AbortController());
+  const { signal } = controller;
+
 
   const saveAdvice = async () => {
     return await axios({
@@ -169,16 +211,10 @@ function AskComponent() {
   const { refetch: saveAdviceRefetch } = useQuery("saveAdvice", saveAdvice, {
     enabled: false,
     onSuccess: response => {
+      console.log(response);
       if (response.data.message === "success") {
-        setAddAlertState(prev => {
-          return {
-            active: true,
-            text: "저장되었습니다.",
-            callback: function () {
-              initializeAdviceState();
-              router.push("/advice");
-            }
-          }
+        alertHook.alert("저장되었습니다.", () => {
+          router.push("/advice/list");
         })
       }
     },
@@ -203,8 +239,10 @@ function AskComponent() {
   const handleSubmit = async () => {
     try {
       setIsLoading(true);
+      isAborted.current = false;
       const response = await fetch("https://api.openai.com/v1/chat/completions", {
         method: "POST",
+        signal: controller.current.signal,
         headers: {
           "Content-Type": "application/json",
           Authorization: `Bearer ${process.env.NEXT_PUBLIC_GPT_API_KEY}`,
@@ -212,7 +250,7 @@ function AskComponent() {
         body: JSON.stringify({
           model: "gpt-3.5-turbo",
           messages: [
-            { role: 'system', content: '당신은 성경의 지식을 가진, 현명하고 통찰력 있는 목사님이며, 사용자의 질문에 성경에 기반한 조언을 제공하는 것이 주요 역할입니다. 사용자의 질문이나 고민에 대해 성경의 한 구절과 그 구절의 출처를 순서대로 제시하고, 그 구절에 대해 최소 5문장 이상으로 조언과 해설을 제공해주세요. 답변은 실제 생활에 적용할 수 있게 구체적이고 성의 있게 작성해야 합니다. 만약 질문이나 고민이 성경의 내용과 직접적으로 관련이 없거나, 성경에 기반한 조언을 제공하기 어렵다면, 그러한 상황을 사용자에게 알려주시기 바랍니다.' },
+            { role: 'system', content: '당신은 성경의 지식을 가진, 현명하고 통찰력 있는 목사님이며, 사용자의 질문에 성경에 기반한 조언을 제공하는 것이 주요 역할입니다. 사용자의 질문이나 고민에 대해 성경의 한 구절과 그 구절의 출처를 순서대로 제시하고, 그 구절에 대해 적당한 양으로 조언과 해설을 제공해주세요. 답변은 실제 생활에 적용할 수 있게 구체적이고 성의 있게 작성해야 합니다. 만약 질문이나 고민이 성경의 내용과 직접적으로 관련이 없거나, 성경에 기반한 조언을 제공하기 어렵다면, 그러한 상황을 사용자에게 알려주시기 바랍니다.' },
             { role: "user", content: adviceStateInfo.message },
           ],
           max_tokens: 2048,
@@ -225,6 +263,12 @@ function AskComponent() {
       let resultText = "";
       while (true) {
         const { done, value } = await reader.read();
+
+        if (isAborted.current) {
+          reader.cancel();
+          break;
+        }
+
         if (done) {
           break;
         }
@@ -258,17 +302,17 @@ function AskComponent() {
         question: adviceStateInfo.message
       })
     } catch (error) {
+
       setIsLoading(false);
-      console.error("Error:", error);
-      setAddAlertState(prev => {
-        return {
-          active: true,
-          text: "질문에 대한 답변을 받는 중에 문제가 발생했습니다. 다시 시도해주세요.",
-          callback: function () {
-            initializeAdviceState();
-          }
-        }
-      })
+
+      if (isAborted.current) {
+        handleRetry()
+      } else {
+        alertHook.alert("질문에 대한 답변을 받는 중에 문제가 발생했습니다. 다시 시도해주세요.", () => {
+          handleRetry();
+        });
+      }
+
     }
 
   }
@@ -294,10 +338,28 @@ function AskComponent() {
     })
   }
 
+  const handleRetry = (url = "advice") => {
+    initializeAdviceState();
+    isAborted.current = false; // abort 상태를 false로 설정
+    controller.current = new AbortController();
+    router.push(url);
+  }
+
 
   useEffect(() => {
     initializeAdviceState();
+    const loginInfo = JSON.parse(localStorage.getItem("loggedIn"));
+    setIsLoggedIn(loginInfo.value);
   }, [])
+
+
+  useEffect(() => {
+    return () => {
+      controller.current.abort();
+      isAborted.current = true;
+    };
+  }, []);
+
 
 
   return (
@@ -329,26 +391,31 @@ function AskComponent() {
         isLoading === true &&
         <LoadingContianer>
           <LoadingSpinner key="askLoading"></LoadingSpinner>
-          <p>요청량이 많아 시간이 소요됩니다. <br></br>잠시만 기다려주세요...</p>
+          <p>답변을 생각중이에요..<br></br>잠시만 기다려주세요...</p>
         </LoadingContianer>
       }
       {isLoading === false && adviceStateInfo && adviceStateInfo.advice &&
-        <ResultWrapper>
-          <ResultContainer>
-            <ResultTitle>고민</ResultTitle>
-            <ConcernText>
-              {adviceStateInfo.message}
-            </ConcernText>
-          </ResultContainer>
-          <ResultContainer>
-            <ResultTitle>성경 말씀</ResultTitle>
-            <ResultText>
-              {adviceStateInfo.advice}
-            </ResultText>
-          </ResultContainer>
-          {/* {resultAdvice && resultAdvice.advice &&
-            <SaveAdviceButton SaveAdviceButton onClick={handleSaveAdvice}>저장하기</SaveAdviceButton>
-          } */}
+        <ResultWrapper >
+          <AdviceResult adviceStateInfo={adviceStateInfo}></AdviceResult>
+          {resultAdvice && resultAdvice.advice && isLoggedIn == true &&
+            <ResultButtonContainer>
+              <SaveAdviceButton SaveAdviceButton onClick={handleSaveAdvice}>저장하기</SaveAdviceButton>
+              <ResultButtonGroup>
+                <ButtonContainer>
+                  <AskKakaoShare shareList={resultAdvice}>공유하기</AskKakaoShare>
+                </ButtonContainer>
+                <ButtonContainer>
+                  <RetryButton onClick={handleRetry}>다시하기</RetryButton>
+                </ButtonContainer>
+              </ResultButtonGroup>
+            </ResultButtonContainer>
+          }
+          {resultAdvice && resultAdvice.advice && isLoggedIn == false &&
+            <SignupButtonContainer>
+              <p>회원가입하면 답변을 저장하고 공유 할 수 있어요!</p>
+              <RetryButton onClick={() => { router.push("/login") }}>회원가입 하러가기</RetryButton>
+            </SignupButtonContainer>
+          }
         </ResultWrapper>
       }
 

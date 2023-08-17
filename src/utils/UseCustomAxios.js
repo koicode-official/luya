@@ -72,6 +72,7 @@ const useCustomAxios = () => {
 
     customAxios.interceptors.request.use(interceptRequest)
 
+
     const responseInterceptor = customAxios.interceptors.response.use(
       interceptResponse,
       interceptError

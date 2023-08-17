@@ -118,8 +118,6 @@ function PrayInfoComponent({ id }) {
   const confirmHook = useConfirm();
   const prayInfoState = useRecoilValue(prayInfoStateFamily(id))
   const setPrayInfoState = useSetRecoilState(prayInfoStateFamily(id))
-  const setConfirmState = useSetRecoilState(commonConfirmState)
-  const setAlertState = useSetRecoilState(commonAlertState)
 
 
 

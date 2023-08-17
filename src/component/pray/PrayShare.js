@@ -44,8 +44,8 @@ const ButtonContainer = styled.div`
 function PrayShare() {
   const axios = useCustomAxios();
   const searchParams = useSearchParams();
-  const alertHook = useAlert();
   const userToken = searchParams.get("userToken");
+  const alertHook = useAlert();
   const [prayList, setprayList] = useState();
   const [userName, setUserName] = useState(null);
   const router = useRouter();

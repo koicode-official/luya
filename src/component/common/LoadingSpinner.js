@@ -9,9 +9,9 @@ const LoadingWrapper = styled.div`
   position: absolute;
   top:0;
   left:0;
-  height: 100vh;
+  height: 100%;
   width: 100vw;
-  background-color: #fcfcfc;
+  background-color: #fefefe;
   z-index: 99999;
 `;
 const LoadingContainer = styled.div`
