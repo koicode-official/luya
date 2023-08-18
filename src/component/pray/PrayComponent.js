@@ -339,22 +339,24 @@ function PrayComponent() {
 
   return (
     <PrayWrapper>
-      <UseMotion>
-        <CountPrayContainer>
-          <CountPray>
-            <span>기다리는 기도</span>
-            <Count>
-              {prayCount.wait}
-            </Count>
-          </CountPray>
-          <CountPray>
-            <span>응답된 기도</span>
-            <Count>
-              {prayCount.done}
-            </Count>
-          </CountPray>
-        </CountPrayContainer>
-      </UseMotion>
+      {prayCount &&
+        <UseMotion>
+          <CountPrayContainer>
+            <CountPray>
+              <span>기다리는 기도</span>
+              <Count>
+                {prayCount.wait}
+              </Count>
+            </CountPray>
+            <CountPray>
+              <span>응답된 기도</span>
+              <Count>
+                {prayCount.done}
+              </Count>
+            </CountPray>
+          </CountPrayContainer>
+        </UseMotion>
+      }
       <UseMotion delay={0.15}>
         <ButtonGroup>
           <ButtonContainer>
@@ -390,7 +392,7 @@ function PrayComponent() {
           <PrayList stateKey={"wait"}></PrayList>
         </PrayContainer>
       </PrayListContainer>
-    </PrayWrapper>
+    </PrayWrapper >
   );
 }
 
