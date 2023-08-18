@@ -12,6 +12,7 @@ import { CommonButton, CommonWrapper } from "../common/CommonComponent";
 import Image from "next/image";
 
 const AdviceInfoComponentWarpper = styled(CommonWrapper)`
+  padding-bottom: 60px;
 `
 
 const ButtonGroup = styled.div`
