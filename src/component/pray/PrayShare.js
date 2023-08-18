@@ -74,10 +74,6 @@ function PrayShare() {
 
 
   useEffect(() => {
-    console.log('prayList', prayList)
-  }, [prayList])
-
-  useEffect(() => {
     if (!userToken) {
       alertHook.alert("잘못된 접근입니다.", () => {
         location.replace("/")

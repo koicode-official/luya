@@ -211,7 +211,6 @@ function AskComponent() {
   const { refetch: saveAdviceRefetch } = useQuery("saveAdvice", saveAdvice, {
     enabled: false,
     onSuccess: response => {
-      console.log(response);
       if (response.data.message === "success") {
         alertHook.alert("저장되었습니다.", () => {
           router.push("/advice/list");
@@ -359,7 +358,6 @@ function AskComponent() {
       isAborted.current = true;
     };
   }, []);
-
 
 
   return (

@@ -110,10 +110,6 @@ function AdviceList() {
   })
   
 
-  useEffect(()=>{
-    console.log("list rendered")
-  },[])
-
 
   return (
     <AdviceListContainer>

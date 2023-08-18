@@ -72,7 +72,6 @@ const Login = () => {
     enabled: false,
     onSuccess: (res) => {
       const data = res.data;
-      console.log('data', data)
       if (data.status === "not found") {
         alertHook.alert("아이디가 존재하지 않습니다.", () =>
           router.replace('/login')

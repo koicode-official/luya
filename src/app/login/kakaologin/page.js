@@ -82,7 +82,6 @@ function KakaologinRedirect() {
     retry: false,
     enabled: accessToken != null,
     onSuccess: (res) => {
-      console.log('res :>> ', res);
       setUserInfo(res.data)
     },
     onError: (error) => {
@@ -94,7 +93,6 @@ function KakaologinRedirect() {
     retry: false,
     enabled: code != null,
     onSuccess: (res) => {
-      console.log('res :>> ', res);
       const accessToken = res.data.access_token
       setAccessToken(accessToken);
     },
@@ -113,13 +111,6 @@ function KakaologinRedirect() {
     }
   }, []);
 
-  useEffect(() => {
-    console.log("accessToken", accessToken)
-  }, [accessToken])
-
-  useEffect(() => {
-    console.log("rendered");
-  }, [])
   return (
     <KakaologinRedirectWrapper>
       <LoadingSpinner></LoadingSpinner>
