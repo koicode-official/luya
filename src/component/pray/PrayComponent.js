@@ -331,10 +331,6 @@ function PrayComponent() {
     alertHook.alert("아직 지원하지 않는 기능입니다.");
   }
 
-  useEffect(() => {
-    console.log('shareList', shareList)
-  }, [shareList])
-
 
 
   return (
