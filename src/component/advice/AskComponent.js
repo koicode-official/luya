@@ -14,6 +14,7 @@ import LoadingSpinner from "../common/LoadingSpinner";
 import AskKakaoShare from "./AskKakaoShare";
 import AdviceResult from "./AdviceResult";
 import useAlert from "@/utils/useAlert/UseAlert";
+import useLoginInfo from "@/utils/useLoginInfo/useLoginInfo";
 
 
 const AskWrapper = styled(CommonWrapper)`
@@ -192,12 +193,12 @@ function AskComponent() {
   const adviceStateInfo = useRecoilValue(adviceState);
   const setAdviceState = useSetRecoilState(adviceState);
   const [isLoading, setIsLoading] = useState(false);
-  const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLogin, setIsLogin] = useState(false);
   const [resultAdvice, setResultAdvice] = useState({ advice: null, question: null });
   const isAborted = useRef(false);
   const controller = useRef(new AbortController());
   const { signal } = controller;
-
+  const loginHook = useLoginInfo();
 
   const saveAdvice = async () => {
     return await axios({
@@ -337,20 +338,27 @@ function AskComponent() {
     })
   }
 
-  const handleRetry = (url = "advice") => {
+  const handleRetry = () => {
     initializeAdviceState();
     isAborted.current = false; // abort 상태를 false로 설정
     controller.current = new AbortController();
-    router.push(url);
+    router.push("advice");
   }
 
 
   useEffect(() => {
     initializeAdviceState();
-    const loginInfo = JSON.parse(localStorage.getItem("loggedIn"));
-    setIsLoggedIn(loginInfo.value);
-  }, [])
 
+    const fetchLoginStatus = async () => {
+      try {
+        const loginInfo = await loginHook.fetchLoginInfo();
+        setIsLogin(loginInfo);
+      } catch (error) {
+        console.error("Error fetching login info:", error);
+      }
+    };
+    fetchLoginStatus();
+  }, [])
 
   useEffect(() => {
     return () => {
@@ -395,7 +403,7 @@ function AskComponent() {
       {isLoading === false && adviceStateInfo && adviceStateInfo.advice &&
         <ResultWrapper >
           <AdviceResult adviceStateInfo={adviceStateInfo}></AdviceResult>
-          {resultAdvice && resultAdvice.advice && isLoggedIn == true &&
+          {resultAdvice && resultAdvice.advice && isLogin == true &&
             <ResultButtonContainer>
               <SaveAdviceButton SaveAdviceButton onClick={handleSaveAdvice}>저장하기</SaveAdviceButton>
               <ResultButtonGroup>
@@ -408,7 +416,7 @@ function AskComponent() {
               </ResultButtonGroup>
             </ResultButtonContainer>
           }
-          {resultAdvice && resultAdvice.advice && isLoggedIn == false &&
+          {resultAdvice && resultAdvice.advice && isLogin == false &&
             <SignupButtonContainer>
               <p>회원가입하면 답변을 저장하고 공유 할 수 있어요!</p>
               <RetryButton onClick={() => { router.push("/login") }}>회원가입 하러가기</RetryButton>

@@ -5,10 +5,14 @@ import { useEffect } from "react";
 import { common } from "../../public/js/common";
 import { loadingState } from "@/state/common";
 import { useRecoilValue, useSetRecoilState } from "recoil";
+import useLoginInfo from "@/utils/useLoginInfo/useLoginInfo";
+
+
 const useCustomAxios = () => {
   const router = useRouter();
   const loadingStateInfo = useRecoilValue(loadingState);
   const setLoadingState = useSetRecoilState(loadingState);
+  const loginHook = useLoginInfo();
 
   const customAxios = axios.create({
     baseURL: process.env.NEXT_PUBLIC_API_SERVER,
@@ -38,14 +42,16 @@ const useCustomAxios = () => {
         );
         if (!notNeededLoginList.includes(router.pathname)) {
           if (jwtExpired) {
-            common.setItemWithExpireTime("loggedIn", false, 0);
+            // common.setItemWithExpireTime("loggedIn", false, 0);
+            loginHook.saveLoginInfo(false, 0);
             document.cookie = "_actk" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
             document.cookie = "_rftk" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
             router.replace("/login");
           }
         } else {
           if (jwtExpired) {
-            common.setItemWithExpireTime("loggedIn", false, 0);
+            // common.setItemWithExpireTime("loggedIn", false, 0);
+            loginHook.saveLoginInfo(false, 0);
             document.cookie = "_actk" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
             document.cookie = "_rftk" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
           }

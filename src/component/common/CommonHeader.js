@@ -11,6 +11,7 @@ import { useQuery } from "react-query";
 import useCustomAxios from "@/utils/UseCustomAxios";
 import { common } from "../../../public/js/common";
 import { useRouter } from "next/navigation";
+import useLoginInfo from "@/utils/useLoginInfo/useLoginInfo";
 
 
 const HeaderWrapper = styled.div`
@@ -134,6 +135,7 @@ function CommonHeader() {
   const [isLogin, setIsLogin] = useState(false);
   const pathName = usePathname();
   const [profileState, setProfileState] = useState(false);
+  const loginHook = useLoginInfo();
 
 
   const requestLogout = async () => {
@@ -148,7 +150,9 @@ function CommonHeader() {
   const { refetch: requestLogoutRefetch } = useQuery('requestLogout', requestLogout, {
     enabled: false,
     onSuccess: (res) => {
-      common.setItemWithExpireTime("loggedIn", false, 0);
+      loginHook.saveLoginInfo(false, 0)
+
+      // common.setItemWithExpireTime("loggedIn", false, 0);
       location.href = "/login"
     },
     onError: (error) => {
@@ -166,12 +170,22 @@ function CommonHeader() {
 
 
   useEffect(() => {
-    const loginInfo = JSON.parse(localStorage.getItem("loggedIn"));
-    if (loginInfo && loginInfo.value) {
-      setIsLogin(loginInfo.value);
-    } else {
-      setIsLogin(false);
-    }
+
+
+    const fetchLoginStatus = async () => {
+      try {
+        const loginInfo = await loginHook.fetchLoginInfo();
+        if (loginInfo) {
+          setIsLogin(loginInfo);
+        } else {
+          setIsLogin(false);
+        }
+      } catch (error) {
+        console.error("Error fetching login info:", error);
+      }
+    };
+    fetchLoginStatus();
+
     handelClose();
   }, [pathName])
 
@@ -203,7 +217,7 @@ function CommonHeader() {
   return (
     <HeaderWrapper>
       <HeaderContainer>
-        <HeaderTitle onClick={()=>{router.push("/")}}>
+        <HeaderTitle onClick={() => { router.push("/") }}>
           <Image priority={true} width={80} height={45} src="/img/logo/logo_text06.png" alt="Luya"></Image>
         </HeaderTitle>
         {isLogin &&

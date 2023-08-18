@@ -8,6 +8,8 @@ import useCustomAxios from "../../utils/UseCustomAxios";
 import useAlert from '@/utils/useAlert/UseAlert';
 import { common } from '../../../public/js/common';
 import Image from 'next/image';
+import useLoginInfo from "@/utils/useLoginInfo/useLoginInfo";
+
 
 const LoginContainer = styled.div`
   display: flex;
@@ -58,6 +60,8 @@ const Login = () => {
   const alertHook = useAlert();
   const [useremail, setuseremail] = useState('');
   const [password, setPassword] = useState('');
+  const loginHook= useLoginInfo();
+
 
   const login = async () => {
     return await axios({
@@ -81,7 +85,8 @@ const Login = () => {
           router.replace('/login')
         );
       } else {
-        common.setItemWithExpireTime("loggedIn", true, 12960000);
+        loginHook.saveLoginInfo(true, 12960000);
+        // common.setItemWithExpireTime("loggedIn", true, 12960000);
         router.replace("/");
       }
     },

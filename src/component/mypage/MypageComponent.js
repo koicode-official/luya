@@ -5,6 +5,9 @@ import { useQuery } from "react-query";
 import useCustomAxios from "@/utils/UseCustomAxios";
 import { useRouter } from "next/navigation";
 import { common } from "../../../public/js/common";
+import useLoginInfo from "@/utils/useLoginInfo/useLoginInfo";
+
+
 // import MypageMenuList from "./MypageMenuList";
 const MypageWrapper = styled(CommonWrapper)`
 `
@@ -29,6 +32,9 @@ const LogoutButton = styled(CommonButton)`
 function MypageComponent() {
   const axios = useCustomAxios();
   const router = useRouter();
+  const loginHook = useLoginInfo();
+
+
 
   const logOut = async () => {
     return await axios({
@@ -42,7 +48,8 @@ function MypageComponent() {
     enabled: false,
     onSuccess: response => {
       if (response.data.status === "success") {
-        common.setItemWithExpireTime("loggedIn", false, 0);
+        loginHook.saveLoginInfo(false,0);
+        // common.setItemWithExpireTime("loggedIn", false, 0);
         router.push("/");
       }
     },

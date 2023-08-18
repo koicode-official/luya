@@ -2,6 +2,7 @@
 import { useEffect, useState } from 'react';
 import { useRouter, usePathname, useSearchParams } from 'next/navigation';
 import LoginComponent from '@/component/login/LoginComponent';
+import useLoginInfo from './useLoginInfo/useLoginInfo';
 
 function NavigationEvents({ children }) {
   const router = useRouter();
@@ -9,14 +10,14 @@ function NavigationEvents({ children }) {
   const searchParams = useSearchParams();
   const [isLoading, setIsLoading] = useState(true);
   const [isAuthenticated, setIsAuthenticated] = useState(false);
+  const loginHook = useLoginInfo();
 
   useEffect(() => {
-    const loggedInData = JSON.parse(localStorage.getItem('loggedIn'));
-    const isAuthenticated = loggedInData ? loggedInData.value : false;
-    
+    const isAuthenticated = loginHook.fetchLoginInfo();
+
     setIsAuthenticated(isAuthenticated);
     setIsLoading(false);
-    
+
     if (!isAuthenticated && !isPublicRoute(pathname)) {
       router.push('/login');
     }

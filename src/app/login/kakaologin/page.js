@@ -7,6 +7,8 @@ import { useState } from "react";
 import { Oval } from 'react-loader-spinner'
 import { common } from "public/js/common";
 import LoadingSpinner from "@/component/common/LoadingSpinner";
+import useLoginInfo from "@/utils/useLoginInfo/useLoginInfo";
+
 const KakaologinRedirectWrapper = styled.div`
   
 `
@@ -19,7 +21,7 @@ function KakaologinRedirect() {
   const [code, setCode] = useState(null);
   const [accessToken, setAccessToken] = useState(null);
   const [userInfo, setUserInfo] = useState(null);
-
+  const loginHook = useLoginInfo();
 
   const getUserInfo = () => {
     return axios({
@@ -67,7 +69,9 @@ function KakaologinRedirect() {
     enabled: userInfo != null,
     onSuccess: (res) => {
       if (res.data.status === "success") {
-        common.setItemWithExpireTime("loggedIn", true, 12960000)
+        loginHook.saveLoginInfo(true, 12960000);
+
+        // common.setItemWithExpireTime("loggedIn",true, 12960000 )
         location.replace("/");
       } else if (res.data.status === "not exist") {
         location.replace("/");

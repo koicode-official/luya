@@ -1,5 +1,6 @@
 
 import { useRouter } from "next/router";
+import useLoginInfo from "@/utils/useLoginInfo/useLoginInfo";
 
 export const common = {
   getDayOfWeek: (date) => { //ex) getDayOfWeek('2022-06-13')
@@ -31,40 +32,7 @@ export const common = {
       return tmp
     }
   },
-  loginCheck: (path) => {
-    const router= useRouter();
 
-    //로그인이 필요없는 페이지 리스트를 객체화 하여 예외처리해줘야함. env파일에있음.
-
-    const notNeededLoginList = JSON.parse(process.env.NEXT_PUBLIC_WHITELIST_URL);
-    if (!notNeededLoginList.includes(path)) {
-
-      const expireCheck = () => {
-
-        const objString = window.localStorage.getItem("loggedIn");
-
-        if (!objString) {
-          return false;
-        }
-        const obj = JSON.parse(objString);
-        if (Date.now() > obj.expire) {
-          window.localStorage.removeItem("loggedIn");
-          return false;
-        } else if (obj.value == false) {
-          return false;
-        }
-        return true;
-
-      };
-      const loggInState = expireCheck();
-
-      if (loggInState === false) {
-        router.replace("/login", undefined, { shallow: true });
-      }
-    } else {
-      return false;
-    }
-  },
   displayToken: () => {
     var token = getCookie('authorize-access-token');
 
