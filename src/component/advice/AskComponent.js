@@ -362,7 +362,7 @@ function AskComponent() {
 
   return (
     <AskWrapper>
-      {isLoading === false && adviceStateInfo.advice.length == 0 &&
+      {isLoading === false && adviceStateInfo && adviceStateInfo.advice?.length == 0 &&
         <>
           <AskTitleContainer>
             <UseMotion>
