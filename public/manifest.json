@@ -35,23 +35,6 @@
     "health"
   ],
   "handle_links": "preferred",
-  "screenshots": [
-    {
-      "src": "/img/screenshot01.png",
-      "sizes": "674x1458",
-      "type": "image/png"
-    },
-    {
-      "src": "/img/screenshot02.png",
-      "sizes": "674x1456",
-      "type": "image/png"
-    },
-    {
-      "src": "/img/screenshot03.png",
-      "sizes": "674x1447",
-      "type": "image/png"
-    }
-  ],
   "icons": [
     {
       "src": "/img/logo/logo.png",
