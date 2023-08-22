@@ -348,11 +348,14 @@ function AskComponent() {
 
   useEffect(() => {
     initializeAdviceState();
-
     const fetchLoginStatus = async () => {
       try {
         const loginInfo = await loginHook.fetchLoginInfo();
-        setIsLogin(loginInfo);
+        if (loginInfo) {
+          setIsLogin(loginInfo);
+        } else {
+          setIsLogin(false);
+        }
       } catch (error) {
         console.error("Error fetching login info:", error);
       }
@@ -366,6 +369,10 @@ function AskComponent() {
       isAborted.current = true;
     };
   }, []);
+
+  useEffect(()=>{
+    console.log('loginInfo', isLogin)
+  },[isLogin])
 
 
   return (
