@@ -2,7 +2,7 @@
 import styled from "styled-components"
 import { CommonWrapper } from "../common/CommonComponent"
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useQuery } from 'react-query';
+import { useMutation } from 'react-query';
 import { useEffect } from "react";
 
 
@@ -16,21 +16,58 @@ const AppleLoginContainer = styled.div`
 function AppleLogin() {
 
 
+  const login = async () => {
+    return await axios({
+      method: "POST",
+      withCredentials: true,
+      data: { USER_EMAIL: useremail, USER_PASSWORD: password },
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/login`,
+    });
+  };
+
+  const { mutate} = useMutation(login, {
+    enabled: false,
+    onSuccess: (res) => {
+      const data = res.data;
+      if (data.status === "not found") {
+        alertHook.alert("아이디가 존재하지 않습니다.", () =>
+          router.replace('/login')
+        );
+      } else if (data.status === "fail" && data.error === "Wrong password") {
+        alertHook.alert("비밀번호가 일치하지 않습니다.", () =>
+          router.replace('/login')
+        );
+      } else {
+        loginHook.saveLoginInfo(true, 12960000);
+        // common.setItemWithExpireTime("loggedIn", true, 12960000);
+        router.replace("/");
+      }
+    },
+    onError: (error) => {
+      // 로그인 실패 시 에러 처리
+      alertHook.alert("로그인에 실패했습니다. 다시 시도해주세요.", () =>
+        router.replace('/login')
+      );
+      console.error('로그인 실패:', error);
+    },
+  });
+
+
   useEffect(() => {
     AppleID.auth.init({
       clientId: 'kr.co.luya.signup',
       scope: 'name email',
       redirectURI: 'https://luya.co.kr/signup/apple',
       state: 'signin',	//csrf, php의 openssl_random_pseudo_bytes
-      usePopup: true	// or false defaults to false
+      usePopup: false	// or false defaults to false
     });
   }, [])
 
   useEffect(() => {
     // 성공한 인증 응답을 처리하기 위한 이벤트 리스너 추가
     const successHandler = (event) => {
-      console.log('event', event)
-      console.log(event.detail.data);
+      console.log('event', event.detail.authorization);
+      mutate(event.detail.authorization.code)
     };
 
     // 인증 실패를 처리하기 위한 이벤트 리스너 추가
@@ -38,7 +75,7 @@ function AppleLogin() {
       console.log('event', event)
       console.log(event.detail.error);
     };
-    
+
 
     // 이벤트 리스너를 document에 연결
     document.addEventListener('AppleIDSignInOnSuccess', successHandler);
@@ -52,7 +89,7 @@ function AppleLogin() {
   }, []);  // 빈 dependency 배열을 사용하여 이 effect를 컴포넌트 마운트시에만 실행
 
 
-  
+
 
   return (
     <AppleLoginWrapper>
