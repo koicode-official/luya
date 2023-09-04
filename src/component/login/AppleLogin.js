@@ -7,7 +7,7 @@ import { useEffect } from "react";
 import useCustomAxios from "@/utils/UseCustomAxios";
 
 
-const AppleLoginWrapper = styled(CommonWrapper)`
+const AppleLoginWrapper = styled.div`
   
 `
 const AppleLoginContainer = styled.div`
