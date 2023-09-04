@@ -44,6 +44,7 @@ const useCustomAxios = () => {
           if (jwtExpired) {
             // common.setItemWithExpireTime("loggedIn", false, 0);
             loginHook.saveLoginInfo(false, 0);
+
             document.cookie = "_actk" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
             document.cookie = "_rftk" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
             router.replace("/login");
@@ -52,6 +53,7 @@ const useCustomAxios = () => {
           if (jwtExpired) {
             // common.setItemWithExpireTime("loggedIn", false, 0);
             loginHook.saveLoginInfo(false, 0);
+
             document.cookie = "_actk" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
             document.cookie = "_rftk" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
           }

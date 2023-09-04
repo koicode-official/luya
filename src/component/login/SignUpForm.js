@@ -143,7 +143,7 @@ const SignUpForm = () => {
       method: "POST",
       withCredentials: true,
       data: formData,
-      url: `${process.env.NEXT_PUBLIC_API_SERVER}/user/create`,
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/signup/create`,
     })
   }
 
@@ -234,7 +234,8 @@ const SignUpForm = () => {
   };
 
   // 아이디 중복 확인
-  const handleIdCheck = async () => {
+  const handleIdCheck = async (e) => {
+    e.preventDefault();
     if (!formData.email.value) {
       setIdCheckMessage('아이디를 입력해주세요.');
       return;
@@ -317,6 +318,11 @@ const SignUpForm = () => {
       phoneNumber: { value: authPhoneStateInfo.phoneNumber, validation: authPhoneStateInfo.authDone },
     }));
   }, [authPhoneStateInfo])
+
+  useEffect(()=>{
+    console.log('formData', formData)
+
+  },[formData])
 
 
   return (

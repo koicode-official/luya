@@ -22,6 +22,8 @@ export const CommonInput = styled.input`
   font-size : 14px;
   padding: 10px 10px;
   outline: none;
+  appearance: none;
+
   :focus {
     border: 1px solid var(--color-set03);
   }

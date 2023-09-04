@@ -9,6 +9,7 @@ import useAlert from '@/utils/useAlert/UseAlert';
 import { common } from '../../../public/js/common';
 import Image from 'next/image';
 import useLoginInfo from "@/utils/useLoginInfo/useLoginInfo";
+import AppleLogin from './AppleLogin';
 
 
 const LoginContainer = styled.div`
@@ -35,11 +36,16 @@ const LoginForm = styled.form`
 
 const Input = styled(CommonInput)``;
 
-const LoginButton = styled(CommonButton)``;
+const LoginButton = styled(CommonButton)`
+ font-size:16px;
+ height: 40px;
+
+`;
 const SignUpButton = styled.div`
   text-decoration: underline;
   text-align: right;
-  font-size:14px;
+  font-size:16px;
+  height: 40px;
 
 `;
 
@@ -50,6 +56,9 @@ const KakaoLogin = styled(CommonButton)`
  color : #000000;
  background : #FEE500;
  border : none;
+ font-size:16px;
+ height: 40px;
+
  img{
   margin-right: 12px;
  }
@@ -143,6 +152,7 @@ const Login = () => {
           <Image width={20} height={20} src="/img/kakaoLogin.png" alt="카카오 로그인"></Image>
           카카오로 시작하기
         </KakaoLogin>
+        <AppleLogin></AppleLogin>
         <SignUpButton  onClick={() => router.push("/signup")}>
           회원가입
         </SignUpButton>

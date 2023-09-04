@@ -39,6 +39,8 @@ export default function RootLayout({ children }) {
         <link rel="icon" type="image/png" sizes="32x32" href="/img/logo/favicon-32x32.png" />
         <link rel="icon" type="image/png" sizes="16x16" href="/img/logo/favicon-16x16.png" />
         <script src="https://developers.kakao.com/sdk/js/kakao.js" defer></script>
+
+        <script type="text/javascript" src="https://appleid.cdn-apple.com/appleauth/static/jsapi/appleid/1/en_US/appleid.auth.js"></script>
       </head>
       <body>
         <ReactQueryProvider>
