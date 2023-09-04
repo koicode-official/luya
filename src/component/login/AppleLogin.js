@@ -17,16 +17,16 @@ const AppleLoginContainer = styled.div`
 function AppleLogin() {
   const axios = useCustomAxios();
 
-  const login = async (code) => {
+  const login = async (authorization) => {
     return await axios({
       method: "POST",
       withCredentials: true,
-      data: { code: code },
+      data: { auth: authorization },
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/applelogin`,
     });
   };
 
-  const { mutate } = useMutation((code) => login(code), {
+  const { mutate } = useMutation((authorization) => login(authorization), {
     enabled: false,
     onSuccess: (res) => {
       const data = res.data;
@@ -68,7 +68,7 @@ function AppleLogin() {
     // 성공한 인증 응답을 처리하기 위한 이벤트 리스너 추가
     const successHandler = (event) => {
       console.log('event', event.detail.authorization);
-      mutate(event.detail.authorization.code)
+      mutate(event.detail.authorization)
     };
 
     // 인증 실패를 처리하기 위한 이벤트 리스너 추가
