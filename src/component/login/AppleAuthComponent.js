@@ -36,4 +36,4 @@ function AppleAuthComponent() {
   );
 }
 
-export default ;
+export default AppleAuthComponent;
