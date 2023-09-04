@@ -59,7 +59,7 @@ function AppleLogin() {
       scope: 'name email',
       redirectURI: 'https://luya.co.kr/signup/apple',
       state: 'signin',	//csrf, php의 openssl_random_pseudo_bytes
-      usePopup: false	// or false defaults to false
+      usePopup: true	// or false defaults to false
     });
   }, [])
 
