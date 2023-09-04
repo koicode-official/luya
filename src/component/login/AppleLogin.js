@@ -22,7 +22,7 @@ function AppleLogin() {
       method: "POST",
       withCredentials: true,
       data: { code: code },
-      url: `${process.env.NEXT_PUBLIC_API_SERVER}/signup/applelogin`,
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/applelogin`,
     });
   };
 
