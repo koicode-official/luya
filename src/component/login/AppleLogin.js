@@ -29,13 +29,16 @@ function AppleLogin() {
   useEffect(() => {
     // 성공한 인증 응답을 처리하기 위한 이벤트 리스너 추가
     const successHandler = (event) => {
+      console.log('event', event)
       console.log(event.detail.data);
     };
 
     // 인증 실패를 처리하기 위한 이벤트 리스너 추가
     const failureHandler = (event) => {
+      console.log('event', event)
       console.log(event.detail.error);
     };
+    
 
     // 이벤트 리스너를 document에 연결
     document.addEventListener('AppleIDSignInOnSuccess', successHandler);
