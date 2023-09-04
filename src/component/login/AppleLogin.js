@@ -4,6 +4,7 @@ import { CommonWrapper } from "../common/CommonComponent"
 import { useRecoilState, useRecoilValue } from 'recoil';
 import { useMutation } from 'react-query';
 import { useEffect } from "react";
+import useCustomAxios from "@/utils/UseCustomAxios";
 
 
 const AppleLoginWrapper = styled(CommonWrapper)`
@@ -14,18 +15,18 @@ const AppleLoginContainer = styled.div`
 `
 
 function AppleLogin() {
+  const axios = useCustomAxios();
 
-
-  const login = async () => {
+  const login = async (code) => {
     return await axios({
       method: "POST",
       withCredentials: true,
-      data: { USER_EMAIL: useremail, USER_PASSWORD: password },
+      data: { code: code },
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/login`,
     });
   };
 
-  const { mutate} = useMutation(login, {
+  const { mutate } = useMutation((code) => login(code), {
     enabled: false,
     onSuccess: (res) => {
       const data = res.data;
