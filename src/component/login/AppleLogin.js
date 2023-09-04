@@ -22,7 +22,7 @@ function AppleLogin() {
       method: "POST",
       withCredentials: true,
       data: { code: code },
-      url: `${process.env.NEXT_PUBLIC_API_SERVER}/login`,
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/signup/applelogin`,
     });
   };
 
@@ -39,7 +39,7 @@ function AppleLogin() {
           router.replace('/login')
         );
       } else {
-        loginHook.saveLoginInfo(true, 12960000);
+        // loginHook.saveLoginInfo(true, 12960000);
         // common.setItemWithExpireTime("loggedIn", true, 12960000);
         router.replace("/");
       }
