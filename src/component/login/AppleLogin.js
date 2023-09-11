@@ -22,11 +22,11 @@ function AppleLogin() {
   const loginHook = useLoginInfo();
 
 
-  const checkId = async (authorization) => {
+  const checkId = async () => {
     return await axios({
       method: "GET",
       withCredentials: true,
-      params: authorization ,
+      params: loginInfo ,
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/applelogin`,
     });
   };
