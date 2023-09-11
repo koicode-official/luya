@@ -2,9 +2,10 @@
 import styled from "styled-components"
 import { CommonWrapper } from "../common/CommonComponent"
 import { useRecoilState, useRecoilValue } from 'recoil';
-import { useMutation } from 'react-query';
-import { useEffect } from "react";
+import { useMutation, useQuery } from 'react-query';
+import { useEffect, useState } from "react";
 import useCustomAxios from "@/utils/UseCustomAxios";
+import useLoginInfo from "@/utils/useLoginInfo/useLoginInfo";
 
 
 const AppleLoginWrapper = styled.div`
@@ -16,6 +17,35 @@ const AppleLoginContainer = styled.div`
 
 function AppleLogin() {
   const axios = useCustomAxios();
+  const [isExist, setIsExist] = useState(null);
+  const [loginInfo, setLoginInfo] = useState(null);
+  const loginHook = useLoginInfo();
+
+
+  const checkId = async (authorization) => {
+    return await axios({
+      method: "POST",
+      withCredentials: true,
+      data: { auth: authorization },
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/checkId`,
+    });
+  };
+
+  const { refetch } = useQuery('checkId', checkId, {
+    onSuccess: res => {
+      if (res.data.status === "exist") {
+        setIsExist(false);
+        router.push("/signup");
+      } else {
+        loginHook.saveLoginInfo(true, 12960000);
+        router.replace("/");
+      }
+    },
+    onError: error => {
+      console.error('로그인 실패:', error);
+    }
+  })
+
 
   const login = async (authorization) => {
     return await axios({
@@ -68,7 +98,8 @@ function AppleLogin() {
     // 성공한 인증 응답을 처리하기 위한 이벤트 리스너 추가
     const successHandler = (event) => {
       console.log('event', event.detail.authorization);
-      mutate(event.detail.authorization)
+      setLoginInfo(event.detail.authorization);
+      refetch();
     };
 
     // 인증 실패를 처리하기 위한 이벤트 리스너 추가
@@ -89,6 +120,11 @@ function AppleLogin() {
     };
   }, []);  // 빈 dependency 배열을 사용하여 이 effect를 컴포넌트 마운트시에만 실행
 
+  useEffect(() => {
+    if (isExist === true) {
+      mutate(loginInfo)
+    }
+  }, [isExist])
 
 
 
