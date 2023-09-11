@@ -32,6 +32,7 @@ function AppleLogin() {
   };
 
   const { refetch } = useQuery('checkId', checkId, {
+    enabled: false,
     onSuccess: res => {
       if (res.data.status === "exist") {
         setIsExist(false);
@@ -97,7 +98,6 @@ function AppleLogin() {
   useEffect(() => {
     // 성공한 인증 응답을 처리하기 위한 이벤트 리스너 추가
     const successHandler = (event) => {
-      console.log('event', event.detail.authorization);
       setLoginInfo(event.detail.authorization);
       refetch();
     };
