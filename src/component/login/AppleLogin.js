@@ -24,10 +24,10 @@ function AppleLogin() {
 
   const checkId = async (authorization) => {
     return await axios({
-      method: "POST",
+      method: "GET",
       withCredentials: true,
       data: { auth: authorization },
-      url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/checkId`,
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/applelogin`,
     });
   };
 
