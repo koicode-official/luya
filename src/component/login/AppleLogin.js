@@ -23,6 +23,7 @@ function AppleLogin() {
 
 
   const checkId = async () => {
+    console.log('loginInfo', loginInfo)
     return await axios({
       method: "GET",
       withCredentials: true,
