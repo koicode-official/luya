@@ -37,53 +37,54 @@ function AppleLogin() {
     onSuccess: res => {
       if (res.data.status === "exist") {
         setIsExist(false);
-        router.push("/signup");
+        console.log('res.data', res.data.data)
+        // mutate()
       } else {
-        loginHook.saveLoginInfo(true, 12960000);
-        router.replace("/");
+        router.push("/signup");
+
       }
     },
     onError: error => {
       console.error('로그인 실패:', error);
     }
-  })
+  });
 
 
-  // const login = async (authorization) => {
-  //   return await axios({
-  //     method: "POST",
-  //     withCredentials: true,
-  //     data: { auth: authorization },
-  //     url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/applelogin`,
-  //   });
-  // };
+  const login = async (authorization) => {
+    return await axios({
+      method: "POST",
+      withCredentials: true,
+      data: { auth: authorization },
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/applelogin`,
+    });
+  };
 
-  // const { mutate } = useMutation((authorization) => login(authorization), {
-  //   enabled: false,
-  //   onSuccess: (res) => {
-  //     const data = res.data;
-  //     if (data.status === "not found") {
-  //       alertHook.alert("아이디가 존재하지 않습니다.", () =>
-  //         router.replace('/login')
-  //       );
-  //     } else if (data.status === "fail" && data.error === "Wrong password") {
-  //       alertHook.alert("비밀번호가 일치하지 않습니다.", () =>
-  //         router.replace('/login')
-  //       );
-  //     } else {
-  //       // loginHook.saveLoginInfo(true, 12960000);
-  //       // common.setItemWithExpireTime("loggedIn", true, 12960000);
-  //       router.replace("/");
-  //     }
-  //   },
-  //   onError: (error) => {
-  //     // 로그인 실패 시 에러 처리
-  //     alertHook.alert("로그인에 실패했습니다. 다시 시도해주세요.", () =>
-  //       router.replace('/login')
-  //     );
-  //     console.error('로그인 실패:', error);
-  //   },
-  // });
+  const { mutate } = useMutation((authorization) => login(authorization), {
+    enabled: false,
+    onSuccess: (res) => {
+      const data = res.data;
+      if (data.status === "not found") {
+        alertHook.alert("아이디가 존재하지 않습니다.", () =>
+          router.replace('/login')
+        );
+      } else if (data.status === "fail" && data.error === "Wrong password") {
+        alertHook.alert("비밀번호가 일치하지 않습니다.", () =>
+          router.replace('/login')
+        );
+      } else {
+        // loginHook.saveLoginInfo(true, 12960000);
+        // common.setItemWithExpireTime("loggedIn", true, 12960000);
+        router.replace("/");
+      }
+    },
+    onError: (error) => {
+      // 로그인 실패 시 에러 처리
+      alertHook.alert("로그인에 실패했습니다. 다시 시도해주세요.", () =>
+        router.replace('/login')
+      );
+      console.error('로그인 실패:', error);
+    },
+  });
 
 
   useEffect(() => {
