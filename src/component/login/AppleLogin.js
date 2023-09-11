@@ -27,12 +27,13 @@ function AppleLogin() {
     return await axios({
       method: "GET",
       withCredentials: true,
-      params: loginInfo ,
+      params: loginInfo,
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/applelogin`,
     });
   };
 
-  const { refetch } = useQuery('checkId', checkId, {
+
+  const { refetch } = useQuery(['checkId', loginInfo], checkId, {
     enabled: false,
     onSuccess: res => {
       if (res.data.status === "exist") {
@@ -41,7 +42,6 @@ function AppleLogin() {
         // mutate()
       } else {
         router.push("/signup");
-
       }
     },
     onError: error => {

@@ -152,7 +152,7 @@ const Login = () => {
           <Image width={20} height={20} src="/img/kakaoLogin.png" alt="카카오 로그인"></Image>
           카카오로 시작하기
         </KakaoLogin>
-        <AppleLogin></AppleLogin>
+        {/* <AppleLogin></AppleLogin> */}
         <SignUpButton  onClick={() => router.push("/signup")}>
           회원가입
         </SignUpButton>
