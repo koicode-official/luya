@@ -120,11 +120,11 @@ function AppleLogin() {
     };
   }, []);  // 빈 dependency 배열을 사용하여 이 effect를 컴포넌트 마운트시에만 실행
 
-  useEffect(() => {
-    if (isExist === true) {
-      mutate(loginInfo)
-    }
-  }, [isExist])
+  // useEffect(() => {
+  //   if (isExist === true) {
+  //     mutate(loginInfo)
+  //   }
+  // }, [isExist])
 
 
 
