@@ -26,7 +26,7 @@ function AppleLogin() {
     return await axios({
       method: "GET",
       withCredentials: true,
-      data: { auth: authorization },
+      params: { auth: authorization },
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/applelogin`,
     });
   };
