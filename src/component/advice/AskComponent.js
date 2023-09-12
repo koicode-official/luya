@@ -186,6 +186,28 @@ const LoadingContianer = styled.div`
   }
 `
 
+const VideoWrapper = styled.div`
+  margin-bottom: 24px;
+`
+
+
+function VideoEmbed() {
+  return (
+    <VideoWrapper>
+      <iframe
+        width="100%"
+        height="100%"
+        src="https://www.youtube.com/embed/SBH5tCVQKSs?si=DYCZa5Us1RSBMqhO"
+        title="YouTube video player"
+        frameBorder="0"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+        allowFullScreen></iframe>
+    </VideoWrapper>
+  );
+}
+
+
+
 function AskComponent() {
   const axios = useCustomAxios();
   const router = useRouter();
@@ -370,9 +392,9 @@ function AskComponent() {
     };
   }, []);
 
-  useEffect(()=>{
+  useEffect(() => {
     console.log('loginInfo', isLogin)
-  },[isLogin])
+  }, [isLogin])
 
 
   return (
@@ -411,7 +433,10 @@ function AskComponent() {
         <ResultWrapper >
           <AdviceResult adviceStateInfo={adviceStateInfo}></AdviceResult>
           {resultAdvice && resultAdvice.advice && isLogin == true &&
+
             <ResultButtonContainer>
+              <VideoEmbed  ></VideoEmbed>
+
               <SaveAdviceButton SaveAdviceButton onClick={handleSaveAdvice}>저장하기</SaveAdviceButton>
               <ResultButtonGroup>
                 <ButtonContainer>

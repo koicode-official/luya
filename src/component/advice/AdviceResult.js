@@ -36,6 +36,8 @@ const AdviceResultTitle = styled.div`
   margin-top: 30px;
 `
 
+
+
 function AdivceResult({ adviceStateInfo }) {
   return (
     <AdviceResultWrapper>
