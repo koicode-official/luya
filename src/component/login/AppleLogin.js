@@ -37,9 +37,8 @@ function AppleLogin() {
     enabled: false,
     onSuccess: res => {
       if (res.data.status === "exist") {
-        setIsExist(false);
         console.log('res.data', res.data.data)
-        // mutate()
+        mutate()
       } else {
         router.push("/signup");
       }
@@ -72,7 +71,7 @@ function AppleLogin() {
           router.replace('/login')
         );
       } else {
-        // loginHook.saveLoginInfo(true, 12960000);
+        loginHook.saveLoginInfo(true, 12960000);
         // common.setItemWithExpireTime("loggedIn", true, 12960000);
         router.replace("/");
       }
