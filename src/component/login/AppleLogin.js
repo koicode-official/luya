@@ -63,11 +63,7 @@ function AppleLogin() {
         alertHook.alert("아이디가 존재하지 않습니다.", () =>
           router.replace('/signup')
         );
-      } else if (data.status === "fail" && data.error === "Wrong password") {
-        alertHook.alert("비밀번호가 일치하지 않습니다.", () =>
-          router.replace('/login')
-        );
-      } else {
+      } else if (data.status === "success") {
         loginHook.saveLoginInfo(true, 12960000);
         router.replace("/");
       }
