@@ -450,6 +450,7 @@ function AskComponent() {
           }
           {resultAdvice && resultAdvice.advice && isLogin == false &&
             <SignupButtonContainer>
+              <VideoEmbed  ></VideoEmbed>
               <p>회원가입하면 답변을 저장하고 공유 할 수 있어요!</p>
               <RetryButton onClick={() => { router.push("/login") }}>회원가입 하러가기</RetryButton>
             </SignupButtonContainer>
