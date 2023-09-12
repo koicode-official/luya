@@ -6,7 +6,7 @@ import { useMutation, useQuery } from 'react-query';
 import { useEffect, useState } from "react";
 import useCustomAxios from "@/utils/UseCustomAxios";
 import useLoginInfo from "@/utils/useLoginInfo/useLoginInfo";
-
+import { useRouter } from "next/navigation";
 
 const AppleLoginWrapper = styled.div`
   
@@ -17,13 +17,11 @@ const AppleLoginContainer = styled.div`
 
 function AppleLogin() {
   const axios = useCustomAxios();
-  const [isExist, setIsExist] = useState(null);
   const [loginInfo, setLoginInfo] = useState(null);
   const loginHook = useLoginInfo();
-
+  const router = useRouter();
 
   const checkId = async () => {
-    console.log('loginInfo', loginInfo)
     return await axios({
       method: "GET",
       withCredentials: true,
@@ -37,7 +35,6 @@ function AppleLogin() {
     enabled: false,
     onSuccess: res => {
       if (res.data.status === "exist") {
-        console.log('res.data', res.data.data)
         mutate()
       } else {
         router.push("/signup");
@@ -72,7 +69,6 @@ function AppleLogin() {
         );
       } else {
         loginHook.saveLoginInfo(true, 12960000);
-        // common.setItemWithExpireTime("loggedIn", true, 12960000);
         router.replace("/");
       }
     },
