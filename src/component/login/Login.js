@@ -1,5 +1,5 @@
 "use client"
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useQuery } from 'react-query';
 import styled from 'styled-components';
 import { CommonButton, CommonInput } from '../common/CommonComponent';
@@ -69,7 +69,7 @@ const Login = () => {
   const alertHook = useAlert();
   const [useremail, setuseremail] = useState('');
   const [password, setPassword] = useState('');
-  const loginHook= useLoginInfo();
+  const loginHook = useLoginInfo();
 
 
   const login = async () => {
@@ -121,10 +121,18 @@ const Login = () => {
 
 
   const handleKakaoLogin = (e) => {
-    e.stopPropagation(); 
-    const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_DOMAIN + "/login/kakaologin"}`
-    location.href = KAKAO_AUTH_URL;
+    e.stopPropagation();
+    // const KAKAO_AUTH_URL = `https://kauth.kakao.com/oauth/authorize?response_type=code&client_id=${process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY}&redirect_uri=${process.env.NEXT_PUBLIC_DOMAIN + "/login/kakaologin"}`
+    // location.href = KAKAO_AUTH_URL;
+    Kakao.Auth.authorize({
+      redirectUri: process.env.NEXT_PUBLIC_DOMAIN + "/login/kakaologin",
+    });
   }
+
+  useEffect(() => {
+    Kakao.init(process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY);
+
+  }, [])
 
 
   return (
@@ -153,7 +161,7 @@ const Login = () => {
           카카오로 시작하기
         </KakaoLogin>
         <AppleLogin></AppleLogin>
-        <SignUpButton  onClick={() => router.push("/signup")}>
+        <SignUpButton onClick={() => router.push("/signup")}>
           회원가입
         </SignUpButton>
       </LoginForm>

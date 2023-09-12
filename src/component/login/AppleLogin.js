@@ -21,30 +21,6 @@ function AppleLogin() {
   const loginHook = useLoginInfo();
   const router = useRouter();
 
-  // const checkId = async () => {
-  //   return await axios({
-  //     method: "GET",
-  //     withCredentials: true,
-  //     params: loginInfo,
-  //     url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/applelogin`,
-  //   });
-  // };
-
-
-  // const { refetch } = useQuery(['checkId', loginInfo], checkId, {
-  //   enabled: false,
-  //   onSuccess: res => {
-  //     if (res.data.status === "exist") {
-  //       mutate()
-  //     } else {
-  //       router.push("/signup");
-  //     }
-  //   },
-  //   onError: error => {
-  //     console.error('로그인 실패:', error);
-  //   }
-  // });
-
 
   const login = async (authorization) => {
     return await axios({
