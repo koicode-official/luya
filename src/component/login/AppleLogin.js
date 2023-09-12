@@ -62,9 +62,9 @@ function AppleLogin() {
     enabled: false,
     onSuccess: (res) => {
       const data = res.data;
-      if (data.status === "not found") {
+      if (data.status === "not exist") {
         alertHook.alert("아이디가 존재하지 않습니다.", () =>
-          router.replace('/login')
+          router.replace('/signup')
         );
       } else if (data.status === "fail" && data.error === "Wrong password") {
         alertHook.alert("비밀번호가 일치하지 않습니다.", () =>
