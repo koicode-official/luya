@@ -130,7 +130,9 @@ const Login = () => {
   }
 
   useEffect(() => {
-    Kakao.init(process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY);
+    if (!Kakao.isInitialized()) {
+      Kakao.init(process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY);
+    }
 
   }, [])
 
