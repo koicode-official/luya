@@ -100,7 +100,9 @@ function AppleLogin() {
     // 성공한 인증 응답을 처리하기 위한 이벤트 리스너 추가
     const successHandler = (event) => {
       setLoginInfo(event.detail.authorization);
-      refetch();
+      if (event.detail.authorization) {
+        refetch();
+      }
     };
 
     // 인증 실패를 처리하기 위한 이벤트 리스너 추가
@@ -121,7 +123,11 @@ function AppleLogin() {
     };
   }, []);  // 빈 dependency 배열을 사용하여 이 effect를 컴포넌트 마운트시에만 실행
 
-
+  useEffect(() => {
+    if (loginInfo) {
+      refetch();
+    }
+  }, [loginInfo]);
 
 
   return (
