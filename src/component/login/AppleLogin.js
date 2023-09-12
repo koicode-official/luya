@@ -48,11 +48,12 @@ function AppleLogin() {
 
   const login = async (authorization) => {
     return await axios({
-      method: "POST",
+      method: "GET",
       withCredentials: true,
-      data: { auth: authorization },
+      params: loginInfo,
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/applelogin`,
     });
+
   };
 
   const { mutate } = useMutation((authorization) => login(authorization), {
