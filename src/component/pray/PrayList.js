@@ -67,7 +67,7 @@ const NoPrayList = styled.div`
   min-height: 150px;
   font-size: 14px;
   font-weight: 400;
-  background-color: #e5e5e5;
+  background-color: var(--color-set02);
   color: var(--color-set07);
   
 `

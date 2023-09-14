@@ -252,15 +252,6 @@ function PrayComponent() {
   const { refetch: getPrayShareListRefetch } = useQuery(`getPrayShareList`, getPrayShareList, {
     retry: false,
     onSuccess: res => {
-
-      // if (res.data.message === "success") {
-      //   setPrayListForCount((prevState) => {
-      //     return {
-      //       ...prevState,
-      //       prayList: res.data.prayList
-      //     }
-      //   })
-
       setPrayCount(countPrayList(res.data.prayList));
 
     },
@@ -268,26 +259,26 @@ function PrayComponent() {
       console.error("Error Occured : ", error)
     }
   })
-  const getUserInfo = async () => {
-    return await axios({
-      method: "GET",
-      withCredentials: true,
-      url: `${process.env.NEXT_PUBLIC_API_SERVER}/user/info`,
-    })
-  }
+  // const getUserInfo = async () => {
+  //   return await axios({
+  //     method: "GET",
+  //     withCredentials: true,
+  //     url: `${process.env.NEXT_PUBLIC_API_SERVER}/user/info`,
+  //   })
+  // }
 
-  const { refetch: getUserInfoRefetch } = useQuery(`getUserInfo`, getUserInfo, {
-    retry: false,
-    onSuccess: res => {
-      if (res.data.status === "success") {
-        const { userName, userToken } = res.data;
-        setUserInfo({ userName, userToken });
-      }
-    },
-    onError: error => {
-      console.error("Error Occured : ", error)
-    }
-  })
+  // const { refetch: getUserInfoRefetch } = useQuery(`getUserInfo`, getUserInfo, {
+  //   retry: false,
+  //   onSuccess: res => {
+  //     if (res.data.status === "success") {
+  //       const { userName, userToken } = res.data;
+  //       setUserInfo({ userName, userToken });
+  //     }
+  //   },
+  //   onError: error => {
+  //     console.error("Error Occured : ", error)
+  //   }
+  // })
 
 
 

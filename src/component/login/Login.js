@@ -21,13 +21,34 @@ const LoginContainer = styled.div`
 `;
 
 const LoginTitle = styled.h2`
-  font-size: 18px;
-  font-weight: bold;
-  margin-bottom: 24px;
+  text-align: center;
+  span{
+    display: block;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 24px;
+    color:var(--color-set07);
+  }
+  div{
+    margin-bottom: 8px;
+  }
+  p{
+    font-size: 16px;
+    font-weight: 400;
+    color:var(--color-set07);
+    margin-bottom: 24px;
+
+  }
+
 `;
+
+const ImageContainer = styled.div`
+  margin-bottom: 24px;
+`
 
 const LoginForm = styled.form`
   display: flex;
+  align-items: center;
   flex-direction: column;
   gap: 1rem;
   max-width: 300px;
@@ -39,6 +60,9 @@ const Input = styled(CommonInput)``;
 const LoginButton = styled(CommonButton)`
  font-size:16px;
  height: 40px;
+ border-radius: 5px;
+ margin-top: 24px;
+ /* margin:24px 0; */
 
 `;
 const SignUpButton = styled.div`
@@ -58,7 +82,8 @@ const KakaoLogin = styled(CommonButton)`
  border : none;
  font-size:16px;
  height: 40px;
-
+ /* margin-bottom: 24px; */
+ border-radius: 5px;
  img{
   margin-right: 12px;
  }
@@ -139,11 +164,20 @@ const Login = () => {
 
   return (
     <LoginContainer>
-      <LoginTitle>로그인</LoginTitle>
       <LoginForm onSubmit={handleSubmit}>
+        <LoginTitle>
+          <span>로그인</span>
+          {/* <ImageContainer>
+          <Image width={200} height={110} src="/img/logo/logo_text05.png" alt="루야"></Image>
+        </ImageContainer> */}
+
+          <div>당신의 신앙 생활은 언제나!</div>
+          <p>할렐Luya! 루야는 당신의 신앙 생활을 돕습니다.</p>
+        </LoginTitle>
+
         <Input
           type="email"
-          placeholder="사용자명"
+          placeholder="이메일"
           value={useremail}
           onChange={(e) => setuseremail(e.target.value)}
         />
@@ -155,6 +189,7 @@ const Login = () => {
           onKeyPress={handlePasswordKeyPress}
         />
         <LoginButton type="submit">로그인</LoginButton>
+
         <KakaoLogin
           type='button'
           onClick={handleKakaoLogin}

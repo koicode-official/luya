@@ -76,7 +76,7 @@ const SingUpButtonContainer = styled.div`
 
 const Notice = styled.p`
   width: 320px;
-  font-size: 14px;
+  font-size: 12px;
   font-weight: 500;
   margin-top: 8px;
   color:var(--color-set05);
@@ -89,9 +89,9 @@ const SignUpForm = () => {
   const alertHook = useAlert();
   const router = useRouter();
   const [formData, setFormData] = useState({
-    name: { value: '', validation: '' },
+    // name: { value: '', validation: '' },
     email: { value: '', validation: '', duplication: '' },
-    birthday: { value: '', validation: '' },
+    // birthday: { value: '', validation: '' },
     gender: { value: '', validation: '' },
     phoneNumber: { value: '', validation: '' },
     password: { value: '', validation: '' },
@@ -161,9 +161,9 @@ const SignUpForm = () => {
         alertHook.alert("비밀번호가 일치하지 않습니다.", () => router.replace('/signup'));
       } else {
         setFormData({
-          name: { value: '', validation: '' },
+          // name: { value: '', validation: '' },
           email: { value: '', validation: '' },
-          birthday: { value: '', validation: '' },
+          // birthday: { value: '', validation: '' },
           gender: { value: '', validation: '' },
           phoneNumber: { value: '', validation: '' },
           password: { value: '', validation: '' },
@@ -251,9 +251,9 @@ const SignUpForm = () => {
 
     // 유효성 검사
     const validations = {
-      name: {
-        required: '이름을 입력해주세요.',
-      },
+      // name: {
+      //   required: '이름을 입력해주세요.',
+      // },
       email: {
         required: '이메일을 입력해주세요.',
         duplication: '이미 존재하는 아이디(이메일)입니다.',
@@ -276,9 +276,9 @@ const SignUpForm = () => {
           message: '비밀번호가 일치하지 않습니다.',
         }
       },
-      birthday: {
-        required: '생년월일을 입력해주세요.',
-      },
+      // birthday: {
+      //   required: '생년월일을 입력해주세요.',
+      // },
       gender: {
         required: '성별을 선택해주세요.',
       },
@@ -328,7 +328,7 @@ const SignUpForm = () => {
   return (
     <SignUpFormContainer>
       <form onSubmit={handleSubmit}>
-        <SignUpLabel>
+        {/* <SignUpLabel>
           <p>성함</p>
           <SignUpInput
             type="text"
@@ -338,7 +338,7 @@ const SignUpForm = () => {
             placeholder="성함을 입력해주세요"
 
           />
-        </SignUpLabel>
+        </SignUpLabel> */}
         <SignUpLabel>
           <p>아이디(이메일)</p>
           <IdInputContainer>
@@ -375,7 +375,7 @@ const SignUpForm = () => {
           />
           {passwordConfirmAlert && <Notice>{passwordConfirmAlert}</Notice>}
         </SignUpLabel>
-        <SignUpLabel>
+        {/* <SignUpLabel>
           <p>생년월일</p>
           <SignUpInput
             type="date"
@@ -384,7 +384,7 @@ const SignUpForm = () => {
             onChange={handleChange}
             placeholder="생년월일을 입력해주세요"
           />
-        </SignUpLabel>
+        </SignUpLabel> */}
         <SignUpLabel>
           <p>핸드폰 번호</p>
           <AuthPhoneNumber></AuthPhoneNumber>

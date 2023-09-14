@@ -6,6 +6,8 @@ import { useSetRecoilState, useRecoilValue } from 'recoil'
 import { CommonInput, CommonButton } from "../common/CommonComponent";
 import Timer from "../common/Timer";
 import { authPhoneState } from '../../state/auth.js'
+import useAlert from '@/utils/useAlert/UseAlert';
+
 
 const AuthPhoneWrapper = styled.div`
 `;
@@ -23,6 +25,7 @@ const InputWrapper = styled.div`
 `;
 
 const AuthInput = styled(CommonInput)`
+width: 230px;
 :focus{
     background-color: #FEF8F3;
   }
@@ -105,6 +108,7 @@ const Button = styled(CommonButton)`
 
 function AuthPhoneNumber({ duplicate, text }) {
   const axios = useCustomAxios();
+  const alertHook = useAlert();
   const authRequestRef = useRef();
   const setAuthPhone = useSetRecoilState(authPhoneState)
   const authDonePhone = useRecoilValue(authPhoneState);
@@ -150,7 +154,6 @@ function AuthPhoneNumber({ duplicate, text }) {
               isExistPhoneNumber: true,
             }
           })
-          alert("이미 등록된 핸드폰번호 입니다.")
           return false
         } else {
           requestAuthPhone()
@@ -170,7 +173,6 @@ function AuthPhoneNumber({ duplicate, text }) {
         url: `${process.env.NEXT_PUBLIC_API_SERVER}/authphone/verify`,
       }).then((res) => {
         if (res.data.status === "success") {
-          alert("인증이 완료되었습니다.");
           setAuthPhone((oldAuth) => {
             return {
               ...oldAuth,
@@ -182,11 +184,11 @@ function AuthPhoneNumber({ duplicate, text }) {
           })
           authRequestRef.current.disable = "true";
         } else if (res.data.status === "fail") {
-          alert("인증번호가 일치하지않습니다.");
+          alertHook.alert("인증번호가 일치하지않습니다.");
         }
       });
     } else {
-      alert("인증번호를 입력해주세요.");
+      alertHook.alert("인증번호를 입력해주세요.");
     }
   };
 
@@ -196,7 +198,7 @@ function AuthPhoneNumber({ duplicate, text }) {
     // const phoneRegex = /^01([0|1|6|7|8|9]?)?([0-9]{3,4})?([0-9]{4})$/
     setPhoneNumber(e.target.value)
   });
-  
+
 
   useEffect(() => {
     setAuthPhone((oldAuth) => {
@@ -204,12 +206,12 @@ function AuthPhoneNumber({ duplicate, text }) {
         inAuth: false,
         authDone: false,
         authNumber: null,
-        phoneNumber:null,
+        phoneNumber: null,
         isExistPhoneNumber: null,
       }
     })
   }, [])
-  
+
 
   return (
     <AuthPhoneWrapper>

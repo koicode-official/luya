@@ -191,13 +191,20 @@ const VideoWrapper = styled.div`
 `
 
 
+const TmpContainer = styled.div`
+background-color: #a9a9a9;
+width: 100%;
+height: 200px;
+`
+
+
 function VideoEmbed() {
   return (
     <VideoWrapper>
       <iframe
         width="100%"
         height="100%"
-        src="https://www.youtube.com/embed/SBH5tCVQKSs?si=DYCZa5Us1RSBMqhO"
+        // src="https://www.youtube.com/embed/SBH5tCVQKSs?si=DYCZa5Us1RSBMqhO"
         title="YouTube video player"
         frameBorder="0"
         allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
@@ -435,7 +442,7 @@ function AskComponent() {
           {resultAdvice && resultAdvice.advice && isLogin == true &&
 
             <ResultButtonContainer>
-              <VideoEmbed  ></VideoEmbed>
+              <TmpContainer  ></TmpContainer>
 
               <SaveAdviceButton SaveAdviceButton onClick={handleSaveAdvice}>저장하기</SaveAdviceButton>
               <ResultButtonGroup>
@@ -450,7 +457,7 @@ function AskComponent() {
           }
           {resultAdvice && resultAdvice.advice && isLogin == false &&
             <SignupButtonContainer>
-              <VideoEmbed  ></VideoEmbed>
+              <TmpContainer  ></TmpContainer>
               <p>회원가입하면 답변을 저장하고 공유 할 수 있어요!</p>
               <RetryButton onClick={() => { router.push("/login") }}>회원가입 하러가기</RetryButton>
             </SignupButtonContainer>
