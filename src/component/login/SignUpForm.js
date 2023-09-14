@@ -89,7 +89,7 @@ const SignUpForm = () => {
   const alertHook = useAlert();
   const router = useRouter();
   const [formData, setFormData] = useState({
-    // name: { value: '', validation: '' },
+    name: { value: '', validation: '' },
     email: { value: '', validation: '', duplication: '' },
     // birthday: { value: '', validation: '' },
     gender: { value: '', validation: '' },
