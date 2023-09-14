@@ -6,6 +6,7 @@ import { useMutation, useQuery } from 'react-query';
 import { useEffect, useState } from "react";
 import useCustomAxios from "@/utils/UseCustomAxios";
 import useLoginInfo from "@/utils/useLoginInfo/useLoginInfo";
+import useAlert from "@/utils/useAlert/UseAlert";
 import { useRouter } from "next/navigation";
 
 const AppleLoginWrapper = styled.div`
@@ -20,7 +21,7 @@ function AppleLogin() {
   const [loginInfo, setLoginInfo] = useState(null);
   const loginHook = useLoginInfo();
   const router = useRouter();
-
+  const alertHook = useAlert();
 
   const login = async (authorization) => {
     return await axios({
