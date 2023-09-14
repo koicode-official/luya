@@ -161,7 +161,7 @@ const SignUpForm = () => {
         alertHook.alert("비밀번호가 일치하지 않습니다.", () => router.replace('/signup'));
       } else {
         setFormData({
-          // name: { value: '', validation: '' },
+          name: { value: '', validation: '' },
           email: { value: '', validation: '' },
           // birthday: { value: '', validation: '' },
           gender: { value: '', validation: '' },
@@ -251,9 +251,9 @@ const SignUpForm = () => {
 
     // 유효성 검사
     const validations = {
-      // name: {
-      //   required: '이름을 입력해주세요.',
-      // },
+      name: {
+        required: '이름을 입력해주세요.',
+      },
       email: {
         required: '이메일을 입력해주세요.',
         duplication: '이미 존재하는 아이디(이메일)입니다.',
@@ -328,7 +328,7 @@ const SignUpForm = () => {
   return (
     <SignUpFormContainer>
       <form onSubmit={handleSubmit}>
-        {/* <SignUpLabel>
+        <SignUpLabel>
           <p>성함</p>
           <SignUpInput
             type="text"
@@ -338,7 +338,7 @@ const SignUpForm = () => {
             placeholder="성함을 입력해주세요"
 
           />
-        </SignUpLabel> */}
+        </SignUpLabel>
         <SignUpLabel>
           <p>아이디(이메일)</p>
           <IdInputContainer>
