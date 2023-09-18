@@ -73,9 +73,9 @@ function CommonLayout({ children }) {
       {confirmStateInfo.active === true &&
         <CommonConfirm></CommonConfirm>
       }
-      <CommonHeader></CommonHeader>
       <NavigationEvents>
         <ChildrenContainer>
+          <CommonHeader></CommonHeader>
           {
             loadingStateInfo.active == true &&
             <LoadingSpinner></LoadingSpinner>

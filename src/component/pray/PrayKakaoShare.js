@@ -50,9 +50,41 @@ function PrayKakaoShare({ shareList, userInfo }) {
 
 
   const handleShareClick = () => {
+    console.log("userInfo", userInfo)
     if (shareContents.length === 0) {
       alertHook.alert("공유할 기도제목이 없습니다.");
       return; // 공유할 내용이 없으므로 여기서 종료
+    } else {
+      if ( shareContents.length > 0 && userInfo) {
+        const url = `${process.env.NEXT_PUBLIC_DOMAIN}/pray/share?userToken=${userInfo.userToken}`;
+        Kakao.Share.sendDefault({
+          objectType: 'feed',
+          content: {
+            title: '',
+            description: `${userInfo.userName}님께서 기도제목을 공유했어요!`,
+            imageUrl:
+              'https://luya.co.kr/img/logo/logo_text05.png',
+            imageWidth: 400,
+            imageHeight: 250,
+            link: {
+              mobileWebUrl: `${process.env.NEXT_PUBLIC_DOMAIN}`,
+              webUrl: `${process.env.NEXT_PUBLIC_DOMAIN}`,
+            },
+          },
+          itemContent: {
+            items: shareContents,
+          },
+          buttons: [
+            {
+              title: '기도제목 더보기',
+              link: {
+                mobileWebUrl: url,
+                webUrl: url,
+              },
+            },
+          ],
+        });
+      }
     }
 
   };
@@ -64,40 +96,9 @@ function PrayKakaoShare({ shareList, userInfo }) {
       Kakao.init(process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY);
     }
 
-
-
-    if (!isInitialized && shareContents.length > 0 && userInfo) {
-      const url = `${process.env.NEXT_PUBLIC_DOMAIN}/pray/share?userToken=${userInfo.userToken}`;
-      Kakao.Share.createDefaultButton({
-        container: '#kakaotalk-sharing-btn',
-        objectType: 'feed',
-        content: {
-          title: '',
-          description: `${userInfo.userName}님께서 기도제목을 공유했어요!`,
-          imageUrl:
-            'https://luya.co.kr/img/logo/logo_text05.png',
-          imageWidth: 400,
-          imageHeight: 250,
-          link: {
-            mobileWebUrl: `${process.env.NEXT_PUBLIC_DOMAIN}`,
-            webUrl: `${process.env.NEXT_PUBLIC_DOMAI}`,
-          },
-        },
-        itemContent: {
-          items: shareContents,
-        },
-        buttons: [
-          {
-            title: '기도제목 더보기',
-            link: {
-              mobileWebUrl: url,
-              webUrl: url,
-            },
-          },
-        ],
-      });
-      setIsInitialized(true);
-    }
+    // if (!isInitialized && shareContents.length > 0 && userInfo) {
+    //   setIsInitialized(true);
+    // }
 
   }, [shareContents, userInfo, isInitialized])
 
