@@ -38,9 +38,9 @@ function AppleLogin() {
     onSuccess: (res) => {
       const data = res.data;
       if (data.status === "not exist") {
-        alertHook.alert("아이디가 존재하지 않습니다.", () =>
-          router.replace('/signup')
-        );
+        // alertHook.alert("아이디가 존재하지 않습니다.", () =>
+        //   router.replace('/signup')
+        // );
       } else if (data.status === "success") {
         loginHook.saveLoginInfo(true, 12960000);
         router.replace("/");
@@ -69,6 +69,7 @@ function AppleLogin() {
   useEffect(() => {
     // 성공한 인증 응답을 처리하기 위한 이벤트 리스너 추가
     const successHandler = (event) => {
+      console.log('event', event)
       setLoginInfo(event.detail.authorization);
       if (loginInfo) {
         mutate();
