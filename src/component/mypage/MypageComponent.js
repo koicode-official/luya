@@ -72,8 +72,7 @@ function MypageComponent() {
   const { refetch: getUserInfoRefetch } = useQuery(`getUserInfo`, getUserInfo, {
     onSuccess: res => {
       if (res.data.status === "success") {
-        const { userEmail } = res.data;
-        setUserInfo({ userEmail });
+        setUserInfo(res.data);
       }
     },
     onError: error => {
