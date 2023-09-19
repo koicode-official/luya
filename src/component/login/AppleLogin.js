@@ -23,7 +23,7 @@ function AppleLogin() {
   const router = useRouter();
   const alertHook = useAlert();
 
-  const login = async (authorization) => {
+  const login = async () => {
     return await axios({
       method: "GET",
       withCredentials: true,
@@ -33,7 +33,7 @@ function AppleLogin() {
 
   };
 
-  const { mutate } = useMutation((authorization) => login(authorization), {
+  const { mutate } = useMutation(() => login(), {
     enabled: false,
     onSuccess: (res) => {
       const data = res.data;
@@ -70,7 +70,7 @@ function AppleLogin() {
     // 성공한 인증 응답을 처리하기 위한 이벤트 리스너 추가
     const successHandler = (event) => {
       console.log('event', event)
-      setLoginInfo(event.detail.authorization);
+      setLoginInfo(event.detail);
       if (loginInfo) {
         mutate();
       }
