@@ -121,7 +121,7 @@ function MypageComponent() {
       if (response.data.status === "success") {
         alertHook.alert("정상적으로 탈퇴되었습니다.", () => {
           loginHook.saveLoginInfo(false, 0);
-          router.replace("/");
+          router.replace("/login");
         })
       }
     },
