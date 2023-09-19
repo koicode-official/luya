@@ -54,7 +54,7 @@ function PrayShare() {
   const getPrayList = async () => {
     return await axios({
       method: "GET",
-      params: { userToken: userToken },
+      params: { userToken: userToken, done: false },
       url: `${process.env.NEXT_PUBLIC_API_SERVER}/share/list`,
     })
   }
