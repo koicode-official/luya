@@ -442,7 +442,7 @@ function AskComponent() {
           {resultAdvice && resultAdvice.advice && isLogin == true &&
 
             <ResultButtonContainer>
-              <TmpContainer  ></TmpContainer>
+              {/* <TmpContainer  ></TmpContainer> */}
 
               <SaveAdviceButton SaveAdviceButton onClick={handleSaveAdvice}>저장하기</SaveAdviceButton>
               <ResultButtonGroup>
@@ -457,7 +457,7 @@ function AskComponent() {
           }
           {resultAdvice && resultAdvice.advice && isLogin == false &&
             <SignupButtonContainer>
-              <TmpContainer  ></TmpContainer>
+              {/* <TmpContainer  ></TmpContainer> */}
               <p>회원가입하면 답변을 저장하고 공유 할 수 있어요!</p>
               <RetryButton onClick={() => { router.push("/login") }}>회원가입 하러가기</RetryButton>
             </SignupButtonContainer>
