@@ -143,7 +143,7 @@ function MypageComponent() {
           <MypageTitle>계정정보</MypageTitle>
           {userInfo?.userEmail &&
             <MenuContainer>
-              ghddmlgus3@naver.com
+              {setUserInfo.userEmail}
             </MenuContainer>
           }
         </MypageGroup>
