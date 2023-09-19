@@ -142,7 +142,7 @@ function MypageComponent() {
           <MypageTitle>계정정보</MypageTitle>
           {userInfo?.userEmail &&
             <MenuContainer>
-              {setUserInfo.userEmail}
+              {userInfo.userEmail}
             </MenuContainer>
           }
         </MypageGroup>
