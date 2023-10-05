@@ -50,12 +50,15 @@ const LoginForm = styled.form`
   display: flex;
   align-items: center;
   flex-direction: column;
-  gap: 1rem;
+  justify-content: space-between;
+  /* gap: 1rem; */
   max-width: 300px;
   width: 100%;
 `;
 
-const Input = styled(CommonInput)``;
+const Input = styled(CommonInput)`
+  margin-bottom: 12px;
+`;
 
 const LoginButton = styled(CommonButton)`
  font-size:16px;
@@ -63,6 +66,8 @@ const LoginButton = styled(CommonButton)`
  border-radius: 5px;
  margin-top: 24px;
  /* margin:24px 0; */
+ margin-bottom: 12px;
+
 
 `;
 const SignUpButton = styled.div`
@@ -70,6 +75,8 @@ const SignUpButton = styled.div`
   text-align: right;
   font-size:16px;
   height: 40px;
+ margin-top: 12px;
+
 
 `;
 
@@ -83,6 +90,8 @@ const KakaoLogin = styled(CommonButton)`
  font-size:16px;
  height: 40px;
  /* margin-bottom: 24px; */
+ margin-bottom: 12px;
+
  border-radius: 5px;
  img{
   margin-right: 12px;
