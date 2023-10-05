@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import { AiFillCloseCircle } from "react-icons/ai";
 import { HiOutlineDocumentText ,HiMenuAlt3 } from "react-icons/hi";
 import { useRouter } from "next/navigation";
+import { useQuery } from "react-query";
 import useLoginInfo from "@/utils/useLoginInfo/useLoginInfo";
 
 
@@ -178,6 +179,35 @@ function CommonHeader() {
 
     handelClose();
   }, [pathName])
+
+
+
+  const logOut = async () => {
+    return await axios({
+      method: "GET",
+      withCredentials: true,
+      url: `${process.env.NEXT_PUBLIC_API_SERVER}/login/logout`,
+    })
+  }
+
+  const { refetch: logOutRefetch } = useQuery("logOut", logOut, {
+    enabled: false,
+    onSuccess: response => {
+      if (response.data.status === "success") {
+        loginHook.saveLoginInfo(false, 0);
+
+        document.cookie = "_actk" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        document.cookie = "_rftk" + "=; expires=Thu, 01 Jan 1970 00:00:01 GMT;";
+        logOutRefetch();
+        // common.setItemWithExpireTime("loggedIn", false, 0);
+        router.push("/");
+      }
+    },
+    onError: error => {
+      console.log("Error Occured : ", error);
+    }
+  });
+
 
 
   const handleProfile = () => {

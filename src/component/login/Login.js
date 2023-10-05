@@ -95,6 +95,7 @@ const Login = () => {
   const [useremail, setuseremail] = useState('');
   const [password, setPassword] = useState('');
   const loginHook = useLoginInfo();
+  const [deviceType, setDeviceType] = useState(null);
 
 
   const login = async () => {
@@ -159,6 +160,16 @@ const Login = () => {
       Kakao.init(process.env.NEXT_PUBLIC_KAKAO_RESTAPI_KEY);
     }
 
+    const userAgent = window.navigator.userAgent.toLowerCase();
+
+    if (userAgent.includes('android')) {
+      setDeviceType('android');
+    } else if (userAgent.includes('iphone') || userAgent.includes('ipad')) {
+      setDeviceType('ios');
+    } else {
+      setDeviceType('web');
+    }
+
   }, [])
 
 
@@ -197,7 +208,9 @@ const Login = () => {
           <Image width={20} height={20} src="/img/kakaoLogin.png" alt="카카오 로그인"></Image>
           카카오로 시작하기
         </KakaoLogin>
-        <AppleLogin></AppleLogin>
+        {deviceType && deviceType !== 'android' &&
+          <AppleLogin></AppleLogin>
+        }
         <SignUpButton onClick={() => router.push("/signup")}>
           회원가입
         </SignUpButton>
